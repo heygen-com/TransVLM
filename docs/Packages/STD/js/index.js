@@ -352,10 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const target = document.getElementById(link.getAttribute('href').slice(1));
       if (!target) return;
+      /* Place section heading at ~30% from viewport top (upper-center). */
       const r = target.getBoundingClientRect();
       const scrollY = window.scrollY || window.pageYOffset;
-      const targetCenter = scrollY + r.top + r.height / 2;
-      const dest = Math.max(0, targetCenter - window.innerHeight / 2);
+      const targetTop = scrollY + r.top;
+      const dest = Math.max(0, targetTop - window.innerHeight * 0.3);
       window.scrollTo({ top: dest, behavior: 'smooth' });
     });
   });
