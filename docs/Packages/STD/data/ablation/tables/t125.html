@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;padding:6px}
+table{border-collapse:collapse;width:max-content;margin:0 auto}
+thead th{background:#f5f5f5;position:sticky;top:0;z-index:1}
+th,td{padding:3px 10px;text-align:center;border-bottom:1px solid #eee;white-space:nowrap}
+th.m,td.m{text-align:left}
+.ch{border-bottom:2px solid #999}
+tr.grp td{text-align:left;font-weight:600;background:#fafafa;padding-top:6px}
+tr.sep td{border-bottom:2px solid #ccc}
+b{color:#c41230} u{text-decoration-color:#0762a8}
+</style></head><body>
+<table>
+<thead>
+<tr><th rowspan="2" class="m">Methods</th><th colspan="3" class="ch">Segment</th><th colspan="3" class="ch">Frame</th><th rowspan="2" class="c">ABE</th></tr>
+<tr><th class="c">P</th><th class="c">R</th><th class="c">F1</th><th class="c">P</th><th class="c">R</th><th class="c">F1</th></tr>
+</thead><tbody>
+<tr class="d sep"><td class="m">w/o training</td><td class="c">0.806</td><td class="c">0.505</td><td class="c">0.621</td><td class="c">0.266</td><td class="c">0.621</td><td class="c">0.373</td><td class="c">3.77</td></tr>
+<tr class="d sep"><td class="m">w/o real-world data</td><td class="c">0.911</td><td class="c">0.317</td><td class="c">0.471</td><td class="c">0.420</td><td class="c">0.338</td><td class="c">0.374</td><td class="c">0.51</td></tr>
+<tr class="d sep"><td class="m">w/o synthetic data</td><td class="c">0.993</td><td class="c">0.966</td><td class="c">0.980</td><td class="c">0.871</td><td class="c"><u>0.921</u></td><td class="c"><u>0.895</u></td><td class="c">0.06</td></tr>
+<tr class="d sep"><td class="m">w/o optical flow</td><td class="c"><b>0.997</b></td><td class="c">0.725</td><td class="c">0.839</td><td class="c"><b>0.912</b></td><td class="c">0.703</td><td class="c">0.794</td><td class="c"><b>0.04</b></td></tr>
+<tr class="d sep"><td class="m">w/o feature fusion</td><td class="c">0.979</td><td class="c"><u>0.985</u></td><td class="c"><u>0.982</u></td><td class="c">0.870</td><td class="c">0.909</td><td class="c">0.889</td><td class="c">0.06</td></tr>
+<tr class="d sep"><td class="m">duplicate weight</td><td class="c"><u>0.994</u></td><td class="c">0.962</td><td class="c">0.977</td><td class="c">0.836</td><td class="c">0.902</td><td class="c">0.867</td><td class="c">0.09</td></tr>
+<tr class="d"><td class="m"><b>TransVLM(Ours)</b></td><td class="c">0.992</td><td class="c"><b>0.986</b></td><td class="c"><b>0.989</b></td><td class="c"><u>0.887</u></td><td class="c"><b>0.958</b></td><td class="c"><b>0.921</b></td><td class="c"><u>0.05</u></td></tr>
+</tbody></table>
+</body></html>

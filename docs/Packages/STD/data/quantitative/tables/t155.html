@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;padding:6px}
+table{border-collapse:collapse;width:max-content;margin:0 auto}
+thead th{background:#f5f5f5;position:sticky;top:0;z-index:1}
+th,td{padding:3px 10px;text-align:center;border-bottom:1px solid #eee;white-space:nowrap}
+th.m,td.m{text-align:left}
+.ch{border-bottom:2px solid #999}
+tr.grp td{text-align:left;font-weight:600;background:#fafafa;padding-top:6px}
+tr.sep td{border-bottom:2px solid #ccc}
+b{color:#c41230} u{text-decoration-color:#0762a8}
+</style></head><body>
+<table>
+<thead>
+<tr><th rowspan="2" class="m">Methods</th><th colspan="3" class="ch">Segment</th><th colspan="3" class="ch">Frame</th><th rowspan="2" class="c">ABE</th></tr>
+<tr><th class="c">P</th><th class="c">R</th><th class="c">F1</th><th class="c">P</th><th class="c">R</th><th class="c">F1</th></tr>
+</thead><tbody>
+<tr class="grp sep"><td colspan="8">PySceneDetect</td></tr>
+<tr class="d"><td class="m">  - Adaptive</td><td class="c"><b>0.974</b></td><td class="c">0.378</td><td class="c"><u>0.544</u></td><td class="c"><b>0.964</b></td><td class="c">0.375</td><td class="c"><u>0.541</u></td><td class="c"><u>0.01</u></td></tr>
+<tr class="d"><td class="m">  - Content</td><td class="c">0.939</td><td class="c">0.062</td><td class="c">0.116</td><td class="c"><u>0.927</u></td><td class="c">0.061</td><td class="c">0.115</td><td class="c"><b>0.00</b></td></tr>
+<tr class="d"><td class="m">  - Hash</td><td class="c"><u>0.940</u></td><td class="c">0.071</td><td class="c">0.132</td><td class="c">0.917</td><td class="c">0.070</td><td class="c">0.130</td><td class="c">0.02</td></tr>
+<tr class="d"><td class="m">  - Hist</td><td class="c">0.686</td><td class="c">0.222</td><td class="c">0.335</td><td class="c">0.554</td><td class="c">0.218</td><td class="c">0.313</td><td class="c">0.21</td></tr>
+<tr class="d sep"><td class="m">  - Threshold</td><td class="c">0.276</td><td class="c">0.002</td><td class="c">0.005</td><td class="c">0.112</td><td class="c">0.001</td><td class="c">0.003</td><td class="c">0.93</td></tr>
+<tr class="d sep"><td class="m">TransNetV2</td><td class="c">0.161</td><td class="c">0.054</td><td class="c">0.081</td><td class="c">0.259</td><td class="c">0.054</td><td class="c">0.089</td><td class="c">0.02</td></tr>
+<tr class="d sep"><td class="m">AutoShot</td><td class="c">0.442</td><td class="c">0.224</td><td class="c">0.297</td><td class="c">0.579</td><td class="c">0.224</td><td class="c">0.323</td><td class="c">0.02</td></tr>
+<tr class="grp sep"><td colspan="8">Gemini Series</td></tr>
+<tr class="d"><td class="m">  - 2.5 Pro</td><td class="c">0.719</td><td class="c">0.346</td><td class="c">0.467</td><td class="c">0.144</td><td class="c"><b>0.815</b></td><td class="c">0.245</td><td class="c">12.30</td></tr>
+<tr class="d sep"><td class="m">  - 3 Pro</td><td class="c">0.402</td><td class="c"><u>0.438</u></td><td class="c">0.419</td><td class="c">0.172</td><td class="c">0.395</td><td class="c">0.240</td><td class="c">3.22</td></tr>
+<tr class="grp sep"><td colspan="8">Qwen3-VL Instruct Series</td></tr>
+<tr class="d"><td class="m">  - 4B</td><td class="c">0.417</td><td class="c">0.001</td><td class="c">0.003</td><td class="c">0.160</td><td class="c">0.002</td><td class="c">0.003</td><td class="c">3.38</td></tr>
+<tr class="d"><td class="m">  - 8B</td><td class="c">0.011</td><td class="c">0.003</td><td class="c">0.005</td><td class="c">0.016</td><td class="c">0.002</td><td class="c">0.004</td><td class="c">0.31</td></tr>
+<tr class="d"><td class="m">  - 32B</td><td class="c">0.424</td><td class="c">0.004</td><td class="c">0.008</td><td class="c">0.217</td><td class="c">0.003</td><td class="c">0.005</td><td class="c">0.71</td></tr>
+<tr class="d sep"><td class="m">  - 30B-A3B(MoE)</td><td class="c">0.889</td><td class="c">0.011</td><td class="c">0.022</td><td class="c">0.147</td><td class="c">0.035</td><td class="c">0.056</td><td class="c">13.20</td></tr>
+<tr class="grp sep"><td colspan="8">Qwen3-VL Thinking Series</td></tr>
+<tr class="d"><td class="m">  - 4B</td><td class="c">0.420</td><td class="c">0.008</td><td class="c">0.016</td><td class="c">0.139</td><td class="c">0.021</td><td class="c">0.036</td><td class="c">14.37</td></tr>
+<tr class="d"><td class="m">  - 8B</td><td class="c">0.359</td><td class="c">0.004</td><td class="c">0.008</td><td class="c">0.212</td><td class="c">0.003</td><td class="c">0.005</td><td class="c">0.44</td></tr>
+<tr class="d"><td class="m">  - 32B</td><td class="c">0.412</td><td class="c">0.002</td><td class="c">0.004</td><td class="c">0.226</td><td class="c">0.002</td><td class="c">0.005</td><td class="c">4.09</td></tr>
+<tr class="d sep"><td class="m">  - 30B-A3B(MoE)</td><td class="c">0.786</td><td class="c">0.003</td><td class="c">0.006</td><td class="c">0.154</td><td class="c">0.006</td><td class="c">0.011</td><td class="c">10.70</td></tr>
+<tr class="d"><td class="m"><b>TransVLM(Ours)</b></td><td class="c">0.828</td><td class="c"><b>0.732</b></td><td class="c"><b>0.777</b></td><td class="c">0.780</td><td class="c"><u>0.695</u></td><td class="c"><b>0.735</b></td><td class="c">0.06</td></tr>
+</tbody></table>
+</body></html>
