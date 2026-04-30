@@ -351,9 +351,12 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.getElementById(link.getAttribute('href').slice(1));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (!target) return;
+      const r = target.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset;
+      const targetCenter = scrollY + r.top + r.height / 2;
+      const dest = Math.max(0, targetCenter - window.innerHeight / 2);
+      window.scrollTo({ top: dest, behavior: 'smooth' });
     });
   });
 });
