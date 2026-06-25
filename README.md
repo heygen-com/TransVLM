@@ -32,8 +32,10 @@ Code release is in progress.
 }
 ```
 
-## Benchmark Updates and Community Contributions
+## Updates
 
 The STD benchmark is intended as a **living resource**. We are actively exploring **smaller and more efficient VLM backbones** for the STD task, and the resulting checkpoints, training recipes, and evaluation results will be open-sourced here as they become available.
 
-We also **welcome community submissions** of smaller-model baselines on the STD benchmark. If you have a more compact or more efficient method for STD, please open an issue or pull request with: (i) the model description and total parameter count; (ii) per-method evaluation results following the format on the [project page](https://chence17.github.io/TransVLM/); and (iii) reproduction instructions. Approved submissions will be added to the leaderboard on the project page.
+## Community Contributions
+
+We **welcome community submissions** of smaller-model baselines on the STD benchmark. If you have a more compact or more efficient method for STD, please open an issue or pull request with: (i) the model description and total parameter count; (ii) per-method evaluation results following the format on the [project page](https://chence17.github.io/TransVLM/); and (iii) reproduction instructions. Approved submissions will be added to the leaderboard on the project page.
