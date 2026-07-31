@@ -44,6 +44,11 @@ it lands an unused package while torch keeps loading the other family. That is w
 prints a number rather than trusting the install to have worked. Re-run this after every
 `uv sync`, because a sync resolves cuDNN back down.
 
+**`uv pip` needs the venv activated.** Unlike `uv sync`, it ignores `UV_PROJECT_ENVIRONMENT` and
+installs into whatever environment is active -- with none active, that can be an ambient conda env,
+silently, while the venv keeps its old cuDNN. Either activate first (as above) or pass
+`--python .venv/bin/python`.
+
 ### Optional: vLLM or SGLang
 
 These two cannot share a venv. vLLM 0.14.1 pins `flashinfer-python==0.5.3`, SGLang 0.5.8 pins
@@ -119,6 +124,11 @@ hf download HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct --local-dir ./pretrained/Tran
 
 There is no default checkpoint path: `--ckpt-dir` is required. A default pointing at a directory you
 do not have fails in a much more confusing way than a missing argument.
+
+**A second model is fetched on first use.** Optical flow comes from NeuFlow v2
+(`Study-is-happy/neuflow-v2`, ~30 MB), pulled from the Hub the first time flow is computed rather
+than shipped here. On a machine without Hub access the run gets as far as loading TransVLM and then
+fails at the flow step; pre-fetch it, or point `FlowConfig.neuflow_weights` at a local copy.
 
 ## Run
 
