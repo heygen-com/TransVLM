@@ -1,0 +1,74 @@
+TransVLM
+Copyright 2026 The TransVLM Authors
+
+This product includes software developed by the TransVLM authors, licensed under the
+Apache License, Version 2.0. See the LICENSE file.
+
+
+THIRD-PARTY COMPONENTS
+======================
+
+Portions of this repository are copied from other projects. Every one of them is Apache
+License 2.0, which is why this repository carries a single license rather than a per-directory
+mix. Their copyright and attribution notices are retained below as Apache-2.0 section 4
+requires, and where a copy was modified the change is stated.
+
+
+1. NeuFlow v2
+   Location: inference/transvlm/data/_neuflow/
+   License:  Apache License 2.0 (a copy ships in that directory)
+   Copied verbatim. Used to compute the optical flow that TransVLM takes as input.
+
+
+2. qwen_vl_utils (Alibaba Cloud / Qwen team)
+   Location: inference/transvlm/data/_vision_process_of.py
+   License:  Apache License 2.0
+   Modified. Forked to accept a pair of videos and concatenate them on the channel axis, so
+   RGB and optical flow arrive as a single 6-channel tensor. The upstream version handles
+   3-channel video only.
+
+
+3. Hugging Face Transformers
+   Location: inference/transvlm/models/_vllm_patches/qwen3vl_processor_ours.py
+   License:  Apache License 2.0
+   Modified. Subclasses Qwen3VLProcessor to change prompt timestamp formatting. The rest of
+   the processor behaviour is inherited unchanged.
+
+
+4. vLLM
+   Location: inference/transvlm/models/_vllm_patches/sitecustomize.py
+   License:  Apache License 2.0
+   Modified. Replaces vLLM's Qwen3-VL dummy-video builder during memory profiling so it emits
+   6 channels instead of 3. Without this the profiling pass feeds a 3-channel tensor to a
+   6-channel patch embed and the engine dies before the weights finish loading.
+
+
+5. SGLang
+   Location: inference/transvlm/models/_sglang_patches/
+   License:  Apache License 2.0
+   Modified. Overrides the multimodal processor for 6-channel input, and corrects the M-RoPE
+   position calculation for this input shape. The M-RoPE fix is our contribution and is
+   offered back to SGLang upstream.
+
+
+6. Segment matching and shot-boundary types
+   Location: evaluation/transvlm_eval/_vendored/
+   License:  Apache License 2.0
+   Copied verbatim, with one exception. These three files are the matcher, the non-maximum
+   suppression merge, and the shot-boundary value types used to produce the published
+   evaluation numbers. They are copied rather than reimplemented because they decide which
+   prediction counts as matching which ground truth, and a reimplementation that rounds or
+   orders differently yields numbers that look correct and are not.
+
+   The exception: list_match.py had "from tqdm import tqdm" at module scope. Every call on
+   this path disables progress reporting, so the import moved into the three unreachable
+   branches, removing tqdm as a dependency of the scorer. Nothing else changed; the file
+   hashes are pinned by evaluation/tests/test_vendored_integrity.py.
+
+
+MODEL WEIGHTS
+=============
+
+The released checkpoint is a fine-tune of Qwen3-VL-4B-Instruct (Alibaba Cloud / Qwen team,
+Apache License 2.0), with the vision patch embedding widened from 3 to 6 input channels. The
+weights are distributed separately; see inference/README.md.

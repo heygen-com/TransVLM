@@ -1,0 +1,95 @@
+[project]
+name = "transvlm-inference"
+version = "1.0.0"
+description = "TransVLM: shot transition detection with optical flow injected at the input stage"
+requires-python = "==3.12.*"
+license = "Apache-2.0"
+
+# transformers is held to the 4.57 patch line on purpose. The released checkpoint was saved with
+# 4.57.3, and while that metadata is not enforced at load time, tokenizer and processor internals
+# do move between minor versions. Do not widen past <4.58 without re-checking the numbers.
+# The lower bound is 4.57.1 because sglang 0.5.8 pins exactly that; without the range the solver
+# cannot satisfy both this file and the sglang group.
+dependencies = [
+    "transformers>=4.57.1,<4.58",
+    "accelerate>=0.34",
+    "qwen-vl-utils>=0.0.14",
+    "safetensors",
+    "huggingface_hub>=0.24",
+    # 0.9.1 is preferred; 0.8.0 is what sglang 0.5.8 pins, so the range covers both venvs.
+    "torchcodec>=0.8.0,<0.10",
+    # decord is a fallback decoder, reached only if torchcodec fails to open a file.
+    "decord>=0.6.0",
+    "av>=13.0",
+    "pillow",
+    "opencv-python-headless",
+    "ffmpeg-python",
+    "numpy",
+    "einops",
+]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+# One CUDA flavour per venv. cu130 needs driver >= 570; use cu128 on older drivers.
+# nvidia-npp is listed only for cu130 because torchcodec needs libnppicc.so.13 and its wheel
+# metadata does not declare it.
+cu128 = ["torch==2.9.1", "torchvision==0.24.1", "torchaudio==2.9.1"]
+cu130 = ["torch==2.9.1", "torchvision==0.24.1", "torchaudio==2.9.1", "nvidia-npp>=13,<14"]
+
+# Optional backends. Neither is installed by default: the HuggingFace backend needs no extra
+# package and is the default at runtime.
+vllm = ["vllm==0.14.1"]
+sglang = ["sglang==0.5.8"]
+
+[tool.uv]
+# These groups cannot share a venv.
+#   CUDA flavours differ in which wheel index torch comes from.
+#   vllm 0.14.1 pins flashinfer-python==0.5.3 while sglang 0.5.8 pins ==0.6.1, so installing the
+#   second silently breaks the first. Use two venvs; see README.
+conflicts = [
+    [{ group = "cu128" }, { group = "cu130" }],
+    [{ group = "vllm" }, { group = "sglang" }],
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu128", group = "cu128" },
+    { index = "pytorch-cu130", group = "cu130" },
+]
+torchvision = [
+    { index = "pytorch-cu128", group = "cu128" },
+    { index = "pytorch-cu130", group = "cu130" },
+]
+torchaudio = [
+    { index = "pytorch-cu128", group = "cu128" },
+    { index = "pytorch-cu130", group = "cu130" },
+]
+
+[tool.setuptools.packages.find]
+include = ["transvlm*"]
+
+[tool.setuptools.package-data]
+transvlm = ["assets/prompts/*.txt", "models/_vllm_patches/*.py", "models/_sglang_patches/*.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
