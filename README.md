@@ -1,13 +1,13 @@
-<h1 align="left">TransVLM</h1>
-
-<p align="center">
+<h1 align="left">TransVLM
   <a href="https://www.heygen.com/research">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/heygen-full-white-color-logo.svg">
-      <img src="assets/heygen-full-black-color-logo.svg" width="240" alt="HeyGen Research">
+      <img align="right" src="assets/heygen-full-black-color-logo.svg" width="120" alt="HeyGen Research">
     </picture>
   </a>
-</p>
+</h1>
+
+<br clear="all">
 
 <p align="center">
   <a href="https://arxiv.org/abs/2604.27975"><img src="https://img.shields.io/badge/arXiv-2604.27975-b31b1b.svg" alt="arXiv"></a>
