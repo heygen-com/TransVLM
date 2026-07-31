@@ -2,7 +2,7 @@
   <a href="https://www.heygen.com/research">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="assets/heygen-logo-white.png">
-      <img height="44" src="assets/heygen-logo-black.png" alt="HeyGen Research">
+      <img align="right" height="44" src="assets/heygen-logo-black.png" alt="HeyGen Research">
     </picture>
   </a>
 </h1>
