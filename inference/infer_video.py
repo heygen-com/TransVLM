@@ -384,7 +384,16 @@ def _process_video(
     # 5. per-window inference, as time ranges
     half_frame = 0.5 / engine.fps
     all_segments = []
+    # Progress is logged rather than drawn: cost is linear in duration, so a long video spends
+    # all of its time in this loop, and a silent loop is indistinguishable from a hung one. A
+    # log line also survives being piped to a file, which a redrawing progress bar does not --
+    # which is why this does not pull in tqdm for it.
+    windows_started = time.perf_counter()
     for idx, (w_start, w_end) in enumerate(windows):
+        if idx == 0 or (idx + 1) % 10 == 0 or idx + 1 == len(windows):
+            done = time.perf_counter() - windows_started
+            eta = f', eta {done / idx * (len(windows) - idx):.0f} s' if idx else ''
+            logger.info('[window %d/%d] %.1f-%.1f s%s', idx + 1, len(windows), w_start, w_end, eta)
         requested_end = min(w_end - half_frame, duration)
         result = engine.infer(
             model_rgb,
