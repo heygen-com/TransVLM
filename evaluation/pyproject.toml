@@ -1,0 +1,29 @@
+[project]
+name = "transvlm-eval"
+version = "1.0.0"
+description = "Segment-level shot transition metrics, swept over 11 time tolerances"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+
+# Deliberately empty, and verified so: the scorer is pure Python with no torch, no GPU and
+# nothing to compile. A test imports it with duckdb, pandas and pyarrow blocked to keep this
+# claim from quietly becoming false.
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+include = ["transvlm_eval*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

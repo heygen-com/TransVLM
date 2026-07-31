@@ -1,0 +1,5 @@
+{
+  "clip_a": {"segments": [{"start_time": 2.0, "end_time": 2.04}, {"start_time": 7.6, "end_time": 8.0}]},
+  "clip_b": {"segments": [{"start_time": 5.0, "end_time": 5.04}]},
+  "clip_c": {"segments": [{"start_time": 11.0, "end_time": 11.04}]}
+}
