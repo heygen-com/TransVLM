@@ -1,3 +1,5 @@
+<h1 align="left">TransVLM</h1>
+
 <p align="center">
   <a href="https://www.heygen.com/research">
     <picture>
@@ -7,26 +9,15 @@
   </a>
 </p>
 
-<h1 align="center">TransVLM</h1>
-
-<p align="center">
-  <b>A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions</b>
-</p>
-
-<p align="center">
-  Ce Chen &nbsp;·&nbsp; Yi Ren &nbsp;·&nbsp; Yuanming Li &nbsp;·&nbsp; Viktor Goriachko &nbsp;·&nbsp;
-  Zhenhui Ye &nbsp;·&nbsp; Zujin Guo &nbsp;·&nbsp; Zhibin Hong &nbsp;·&nbsp; Mingming Gong
-</p>
-
-<p align="center">
-  University of Melbourne &nbsp;·&nbsp; HeyGen Research &nbsp;·&nbsp; Nanyang Technological University
-</p>
-
 <p align="center">
   <a href="https://arxiv.org/abs/2604.27975"><img src="https://img.shields.io/badge/arXiv-2604.27975-b31b1b.svg" alt="arXiv"></a>
   <a href="https://heygen-com.github.io/TransVLM/"><img src="https://img.shields.io/badge/Project-Page-1f6feb.svg" alt="Project Page"></a>
   <a href="https://huggingface.co/HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model-TransVLM-ffce1c.svg" alt="Hugging Face Model"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-3da639.svg" alt="License"></a>
+</p>
+
+<p align="center">
+  <b>A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions</b>
 </p>
 
 <p align="center">
