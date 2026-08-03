@@ -128,15 +128,18 @@ whole scoring path. The expected counts (2 TP / 2 FP / 1 FN at `tt0.00`) are der
 the inputs -- see `examples/README.md` -- so a diff there can be reasoned about instead of just
 re-blessed.
 
-## Vendored code
+## `_vendored/` is our own code, not third-party
 
-`transvlm_eval/_vendored/` holds three files copied byte-for-byte from the toolbox used to produce the published
-numbers were computed with: the matcher, the NMS merge, and the shot-boundary value types. They are
-vendored rather than reimplemented because they decide which prediction counts as matching which
-ground truth, and a lookalike that rounds or orders differently produces numbers that look right
-and are not. Their hashes are pinned by `tests/test_vendored_integrity.py`.
+Despite the directory name, `transvlm_eval/_vendored/` is HeyGen's own work: three files --
+the matcher, the NMS merge, and the shot-boundary value types -- copied byte-for-byte from an
+internal shared library rather than written for this repository. They are covered by this
+repository's LICENSE like everything else; no third-party attribution applies.
 
-One intentional change is documented there: `tqdm` moved from a module-level import into the
-progress branches this path never takes, so the scorer does not depend on it.
+They are copied rather than reimplemented because they decide which prediction counts as
+matching which ground truth, and a lookalike that rounds or orders differently produces numbers
+that look right and are not. Their hashes are pinned by `tests/test_vendored_integrity.py`.
+
+One intentional change: `tqdm` moved from a module-level import into the progress branches this
+path never takes, so the scorer does not depend on it.
 
 See `../NOTICE`.

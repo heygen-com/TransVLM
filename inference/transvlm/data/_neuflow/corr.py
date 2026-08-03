@@ -1,3 +1,9 @@
+# Vendored from NeuFlow v2 -- https://github.com/neufieldrobotics/NeuFlow_v2
+# Licensed under the Apache License, Version 2.0; see the LICENSE file in this directory.
+# Modified by HeyGen, Inc. in 2026: the upstream `from NeuFlow import X` imports were
+# rewritten as package-relative `from . import X` so this copy is self-contained.
+# No functional change.
+
 import torch
 import torch.nn.functional as F
 import math

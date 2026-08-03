@@ -1,3 +1,7 @@
+# Vendored from NeuFlow v2 -- https://github.com/neufieldrobotics/NeuFlow_v2
+# Licensed under the Apache License, Version 2.0; see the LICENSE file in this directory.
+# This file is the upstream implementation, used unmodified.
+
 import torch
 import torch.nn.functional as F
 

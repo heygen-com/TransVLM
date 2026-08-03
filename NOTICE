@@ -11,13 +11,25 @@ THIRD-PARTY COMPONENTS
 Portions of this repository are copied from other projects. Every one of them is Apache
 License 2.0, which is why this repository carries a single license rather than a per-directory
 mix. Their copyright and attribution notices are retained below as Apache-2.0 section 4
-requires, and where a copy was modified the change is stated.
+requires, and where a copy was modified the change is stated. Each modified file also carries
+that statement in its own header, as section 4(b) requires.
+
+Not everything under a directory named _vendored/ is third-party: see the first-party section
+after this one.
 
 
 1. NeuFlow v2
+   Upstream: https://github.com/neufieldrobotics/NeuFlow_v2
    Location: inference/transvlm/data/_neuflow/
    License:  Apache License 2.0 (a copy ships in that directory)
-   Copied verbatim. Used to compute the optical flow that TransVLM takes as input.
+   Used to compute the optical flow that TransVLM takes as input.
+
+   Five files are the upstream implementation unmodified: backbone_v7.py, config.py,
+   transformer.py, upsample.py, utils.py. Four were modified -- corr.py, matching.py,
+   neuflow.py, refine.py -- where the upstream "from NeuFlow import X" imports were rewritten
+   as package-relative "from . import X" so the copy is self-contained. No functional change.
+   Each of the nine carries this statement in its own header. __init__.py is HeyGen's own and
+   is not upstream code.
 
 
 2. qwen_vl_utils (Alibaba Cloud / Qwen team)
@@ -51,19 +63,23 @@ requires, and where a copy was modified the change is stated.
    offered back to SGLang upstream.
 
 
-6. Segment matching and shot-boundary types
-   Location: evaluation/transvlm_eval/_vendored/
-   License:  Apache License 2.0
-   Copied verbatim, with one exception. These three files are the matcher, the non-maximum
-   suppression merge, and the shot-boundary value types used to produce the published
-   evaluation numbers. They are copied rather than reimplemented because they decide which
-   prediction counts as matching which ground truth, and a reimplementation that rounds or
-   orders differently yields numbers that look correct and are not.
+FIRST-PARTY CODE COPIED FROM ANOTHER HEYGEN REPOSITORY
+======================================================
 
-   The exception: list_match.py had "from tqdm import tqdm" at module scope. Every call on
-   this path disables progress reporting, so the import moved into the three unreachable
-   branches, removing tqdm as a dependency of the scorer. Nothing else changed; the file
-   hashes are pinned by evaluation/tests/test_vendored_integrity.py.
+evaluation/transvlm_eval/_vendored/ holds three files -- the segment matcher, the
+non-maximum suppression merge, and the shot-boundary value types -- that produced the
+published evaluation numbers. They are HeyGen's own work, copied from an internal shared
+library rather than written for this repository, and they are covered by this repository's
+LICENSE like the rest of the code. No third-party attribution applies to them.
+
+They are copied rather than reimplemented because they decide which prediction counts as
+matching which ground truth, and a reimplementation that rounds or orders differently
+yields numbers that look correct and are not.
+
+One change was made during the copy: list_match.py had "from tqdm import tqdm" at module
+scope. Every call on this path disables progress reporting, so the import moved into the
+three unreachable branches, removing tqdm as a dependency of the scorer. Nothing else
+changed; the file hashes are pinned by evaluation/tests/test_vendored_integrity.py.
 
 
 MODEL WEIGHTS
