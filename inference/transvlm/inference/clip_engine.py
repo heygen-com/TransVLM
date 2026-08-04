@@ -278,9 +278,17 @@ class ClipInferenceEngine:
         activate_6ch_patch(self.timestamp_format)
 
         from transformers import AutoProcessor  # noqa: PLC0415
-        from vllm import LLM, SamplingParams  # noqa: PLC0415
+        try:
+            from vllm import LLM, SamplingParams  # noqa: PLC0415
+        except ImportError as exc:
+            from transvlm.inference.backends import missing_backend_exit  # noqa: PLC0415
+
+            raise missing_backend_exit('vllm', 'vllm', exc) from exc
 
         started = time.perf_counter()
+        from transvlm.inference.backends import validate_ckpt_dir  # noqa: PLC0415
+
+        validate_ckpt_dir(self.ckpt_dir)
         self._processor = AutoProcessor.from_pretrained(str(self.ckpt_dir))
         self._llm = LLM(**self.engine_kwargs)
         self._sampling = SamplingParams(**self.sampling_kwargs)

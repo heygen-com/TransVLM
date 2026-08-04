@@ -199,6 +199,9 @@ def _read_pairs(args: argparse.Namespace) -> list[tuple[Path, Path | None]]:
 
     if args.flow is not None:
         raise SystemExit('--flow goes with --video, not --video-list; use --flow-list')
+    for label, listing in (('--video-list', args.video_list), ('--flow-list', args.flow_list)):
+        if listing is not None and not listing.exists():
+            raise SystemExit(f'{label} does not exist: {listing}')
     rgb = [Path(x) for x in args.video_list.read_text().split()]
     if not rgb:
         raise SystemExit(f'{args.video_list} is empty')

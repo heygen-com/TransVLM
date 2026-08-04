@@ -110,6 +110,9 @@ class HFClipInferenceEngine:
         apply_timestamp_format(self.timestamp_format, include_vllm=False)
 
         started = time.perf_counter()
+        from transvlm.inference.backends import validate_ckpt_dir  # noqa: PLC0415
+
+        validate_ckpt_dir(self.ckpt_dir)
         self._processor = AutoProcessor.from_pretrained(str(self.ckpt_dir))
         self._model = AutoModelForImageTextToText.from_pretrained(
             str(self.ckpt_dir),

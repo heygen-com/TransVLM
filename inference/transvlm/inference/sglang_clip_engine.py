@@ -286,11 +286,19 @@ class SGLangClipInferenceEngine:
         from transformers import AutoProcessor  # noqa: PLC0415
 
         started = time.perf_counter()
+        from transvlm.inference.backends import validate_ckpt_dir  # noqa: PLC0415
+
+        validate_ckpt_dir(self.ckpt_dir)
         self._processor = AutoProcessor.from_pretrained(str(self.ckpt_dir))
 
         # Imported only after the env vars are set, so tokenizer_manager picks up the
         # external mm-processor override.
-        import sglang  # noqa: PLC0415
+        try:
+            import sglang  # noqa: PLC0415
+        except ImportError as exc:
+            from transvlm.inference.backends import missing_backend_exit  # noqa: PLC0415
+
+            raise missing_backend_exit('sglang', 'sglang', exc) from exc
 
         logger.info('sglang engine kwargs: %s', self.engine_kwargs)
         self._engine = sglang.Engine(**self.engine_kwargs)

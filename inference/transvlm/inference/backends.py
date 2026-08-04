@@ -23,6 +23,53 @@ from typing import Any
 BACKENDS = ('vllm', 'sglang', 'hf')
 
 
+def validate_ckpt_dir(ckpt_dir: Any) -> Any:
+    """Fail at load time, in the user's terms, when ``--ckpt-dir`` is not a checkpoint.
+
+    Called from each engine's ``load()`` rather than its ``__init__`` so that constructing an
+    engine stays free of filesystem requirements: tests build one against a path that will never
+    exist, and a caller may legitimately construct before fetching weights.
+
+    Without this the first thing to touch the path is ``AutoProcessor.from_pretrained``, which
+    treats anything that is not an existing directory as a Hub repo id and reports "Repo id must
+    be in the form 'repo_name' or 'namespace/repo_name'". For someone who passed a local path
+    that message points at the wrong problem entirely.
+
+    Raises:
+        SystemExit: if the path is missing, is not a directory, or has no ``config.json``.
+    """
+    from pathlib import Path  # noqa: PLC0415
+
+    path = Path(ckpt_dir)
+    if not path.exists():
+        raise SystemExit(f'--ckpt-dir does not exist: {path}')
+    if not path.is_dir():
+        raise SystemExit(f'--ckpt-dir is not a directory: {path}')
+    if not (path / 'config.json').exists():
+        raise SystemExit(
+            f'--ckpt-dir has no config.json, so it is not a checkpoint directory: {path}\n'
+            'Download one with: hf download HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct '
+            '--local-dir ./pretrained/TransVLM-v1'
+        )
+    return path
+
+
+def missing_backend_exit(backend: str, package: str, exc: ImportError) -> SystemExit:
+    """Turn a bare ImportError for an optional backend into an actionable message.
+
+    vLLM and SGLang are optional extras that cannot share a venv, so "not installed" is an
+    ordinary state rather than a broken install, and it deserves an instruction instead of a
+    traceback.
+    """
+    return SystemExit(
+        f'--backend {backend} needs the {package!r} package, which is not installed in this '
+        f'environment ({exc}).\n'
+        'vLLM and SGLang pin incompatible flashinfer versions and need separate venvs; see the '
+        '"Optional: vLLM or SGLang" section of inference/README.md. The default --backend hf '
+        'needs no extra install.'
+    )
+
+
 def resolve_engine_cls(backend: str) -> Any:
     """Return the engine class for ``backend``, importing only that backend's module.
 
