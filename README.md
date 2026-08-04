@@ -126,7 +126,7 @@ upstream attribution are listed in [`NOTICE`](NOTICE). All of them are Apache-2.
 this repository carries a single license. The released weights derive from Qwen3-VL-4B-Instruct
 and are distributed under Apache-2.0 as well.
 
-TransVLM is a research model, released for research use. It is not used in any HeyGen product;
-HeyGen's production system for this task is a different model. The training data behind these
+TransVLM was developed as academic research and is published at ECCV 2026. It is not used in any
+HeyGen product; HeyGen's production system for this task is a different model. The training data behind these
 weights, and the licences of the public datasets in it, are listed on the
 [model card](https://huggingface.co/HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct).
