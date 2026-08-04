@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """One SGLang engine, reused across many clips or windows — the vLLM engine's sibling.
 
 Mirrors :class:`transvlm.inference.clip_engine.ClipInferenceEngine`'s public

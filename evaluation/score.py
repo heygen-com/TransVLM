@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Score shot-transition predictions with the metric the TransVLM paper reports.
 
 Reads two JSON files keyed by video id and writes one CSV per time tolerance plus a ``ttmean``

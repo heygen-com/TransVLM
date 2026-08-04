@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the exact-rate flow write that fixes the RGB/flow `sample_fps` assertion.
 
 Two whole videos failed the pinned `_vision_process_of.py` assertion

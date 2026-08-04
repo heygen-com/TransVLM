@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the vendored files so an edit cannot pass unnoticed.
 
 These three files decide which predictions count as matching which ground truth. An edit that

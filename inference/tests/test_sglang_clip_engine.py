@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the SGLang engine's contract and the parity-critical metadata handling.
 
 Split by import cost: the pure-helper tests run in any venv (the module imports no sglang at

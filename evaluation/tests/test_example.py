@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Re-run the shipped example and compare against its committed output.
 
 This is the end-to-end regression for the whole scoring path: loader, tolerance expansion, NMS

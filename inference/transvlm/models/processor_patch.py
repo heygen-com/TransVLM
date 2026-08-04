@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Install the ``.2f`` prompt-timestamp behaviour that training used, reliably.
 
 Training expanded per-frame timestamps as ``<x.xx seconds>`` (two decimals). The vendored

@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Merge overlap-produced duplicate segments from adjacent sliding windows.
 
 Uses the same semantics as the training pipeline: ``merge_segments(mode='ss', eps=0.02)``.

@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Shared client-side processor input construction.
 
 Both the SGLang and HuggingFace backends run the HF processor client-side (vLLM runs it

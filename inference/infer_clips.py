@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """TransVLM v1 inference over clips: one clip or a list, flow given or computed.
 
 A faithful port of the reference implementation the published numbers came from. Only the

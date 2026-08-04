@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Cross-video micro aggregation, the ttmean average, and the paper's CSV layout.
 
 Ported from the reference implementation the published numbers were computed with

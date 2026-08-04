@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the backend registry and the cross-backend contract.
 
 These tests must pass in **either** venv, so nothing here imports vllm or sglang: the whole

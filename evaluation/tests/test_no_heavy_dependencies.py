@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Keep ``dependencies = []`` honest.
 
 `pyproject.toml` declares no runtime dependencies. That is easy to state and easy to break: one

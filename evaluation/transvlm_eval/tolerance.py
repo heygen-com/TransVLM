@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Tolerance expansion and NMS, as the paper applies them to GT and predictions alike.
 
 Ported from the reference implementation the published numbers were computed with.

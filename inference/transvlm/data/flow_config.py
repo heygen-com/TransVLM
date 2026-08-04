@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Optical-flow generation policy.
 
 A plain dataclass rather than a pydantic model. The original was a ``BaseModel``, but nothing

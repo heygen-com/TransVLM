@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the flow-timing split.
 
 The split exists so this project's optical-flow cost can be compared against the paper's

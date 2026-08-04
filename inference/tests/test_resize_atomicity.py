@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Cover the atomic-rename resize and the `overwrite=False` contract it nearly broke.
 
 `resize_video_ffmpeg` now encodes to a temp sibling and `os.replace`s it into position, so a

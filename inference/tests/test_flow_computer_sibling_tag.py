@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Sibling filename tagging when max_pixels_override is set.
 
 The heavy NeuFlow load is skipped by not calling ``__init__``; we exercise

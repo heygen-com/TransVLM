@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """SGLang 6-channel adapter patches — external multimodal processor package.
 
 When SGLang boots with the environment variable

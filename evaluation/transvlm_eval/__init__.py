@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """The scoring pipeline the published TransVLM numbers were computed with.
 
 Two ways in:

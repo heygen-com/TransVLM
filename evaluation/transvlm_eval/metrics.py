@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Per-video v3 metrics: case-level, time-level and mean absolute boundary error.
 
 Ported from the reference implementation the published numbers were computed with:

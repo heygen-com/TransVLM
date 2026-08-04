@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the two timestamp patches. Training used .2f; both layers must deliver it.
 
 There are two because vLLM does not route timestamp expansion through the HF processor at

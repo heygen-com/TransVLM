@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """One vLLM engine, reused across many clips or windows.
 
 Shared by both entry points so the clip script and the whole-video script take exactly one

@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the tolerance expansion and the NMS dilation semantics.
 
 The numbers the paper reports depend on these edges, so each test names the behaviour it

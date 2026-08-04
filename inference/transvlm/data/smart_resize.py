@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Frame resolution helper — mirrors Qwen3-VL smart_resize behavior.
 
 Ported verbatim (down to constants) from

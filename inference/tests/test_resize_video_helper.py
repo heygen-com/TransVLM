@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Tests for the training-side smart_resize wrapper + ffmpeg helpers.
 
 Focus is the ``max_pixels_override`` ablation flag added for the post-Plan-A

@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Lift per-clip predictions into video time, the way the paper assembles them.
 
 Ported from the reference implementation

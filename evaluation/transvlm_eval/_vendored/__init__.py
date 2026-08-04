@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Three functions vendored from the toolbox the published numbers were computed with.
 
 Vendored rather than reimplemented on purpose. These are the matcher, the NMS merge and the

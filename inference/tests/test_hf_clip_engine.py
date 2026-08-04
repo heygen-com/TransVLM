@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the HF engine's contract. No model is loaded, so this runs anywhere.
 
 The HF backend is a correctness reference (~145x slower than vLLM), so what matters is that

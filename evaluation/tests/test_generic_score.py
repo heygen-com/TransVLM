@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Cover the public :func:`transvlm_eval.score` entry point.
 
 The scoring internals are already covered elsewhere; what is new here is the dataset-agnostic

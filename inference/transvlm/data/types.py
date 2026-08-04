@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Frozen dataclasses passed between pipeline stages.
 
 Kept intentionally minimal — no methods, just data. Downstream code that needs

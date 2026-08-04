@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """ffmpeg-based video resize + full training-side smart_resize formula.
 
 Mirrors the training pipeline's ``resize_video_for_qwen3vl`` step

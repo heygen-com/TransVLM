@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Split a video duration into overlapping sliding windows.
 
 Same semantics as the helper the training pipeline used, kept self-contained here rather than

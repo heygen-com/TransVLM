@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """End-to-end scoring: raw per-clip model text in, paper-format aggregate rows out.
 
 Shared by every scoring entry point so that all reported numbers are produced by one

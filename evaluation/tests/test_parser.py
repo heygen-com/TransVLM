@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the parser's four tiers, including the fallbacks that fail silently by design.
 
 These tests exist to stop a well-meaning cleanup from changing how many segments a clip

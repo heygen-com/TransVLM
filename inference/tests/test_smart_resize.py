@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Unit tests for ``smart_resize`` + ``smart_nframes``."""
 
 from __future__ import annotations

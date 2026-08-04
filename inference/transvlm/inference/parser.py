@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Parse the model's raw JSON output into per-window ``SegmentPrediction`` lists.
 
 Ports the 4-level fallback from the training pipeline's output parser, so a reply this

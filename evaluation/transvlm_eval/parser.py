@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """The paper's model-output parser: a four-tier ladder with deliberate silent fallbacks.
 
 Ported from the reference implementation the published numbers were computed with: the

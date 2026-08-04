@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Backend registry: map a ``--backend`` name to its engine class.
 
 Lives in the package because both entry scripts need it, and entry scripts must never import

@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """The mistakes a first-time user makes, and the messages they get for them.
 
 Each of these produced a raw traceback or a message pointing at the wrong problem before these

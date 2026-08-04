@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Where the package's own files live.
 
 Single source of truth, anchored on the package directory rather than a repo root.

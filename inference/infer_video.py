@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """TransVLM v1 inference over whole videos: resample -> resize -> flow -> sliding windows.
 
 Companion to `infer_clips.py`, sharing its engine (`transvlm/inference/clip_engine.py`) so

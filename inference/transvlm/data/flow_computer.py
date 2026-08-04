@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """NeuFlow v2 optical-flow computer with sibling-file caching.
 
 Reproduces the FULL flow-generation pipeline of

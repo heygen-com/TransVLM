@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Runtime patches applied when running the vLLM backend.
 
 Two patches, vendored from the reference implementation:

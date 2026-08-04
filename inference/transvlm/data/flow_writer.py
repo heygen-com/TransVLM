@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Encode flow-visualization frames to an H.264-encoded MP4.
 
 Matches the training pipeline ``save_tensor_as_video`` semantics used to produce the

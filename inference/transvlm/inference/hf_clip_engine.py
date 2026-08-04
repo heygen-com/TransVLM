@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Plain-``transformers`` engine — a correctness reference, not a serving path.
 
 Same public surface as the vLLM and SGLang engines (``load`` / ``infer`` -> ``ClipResult`` /

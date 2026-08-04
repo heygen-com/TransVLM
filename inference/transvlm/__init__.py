@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """TransVLM inference: shot transition detection with optical flow injected at the input stage.
 
 Two entry points sit beside this package rather than inside it, because they are commands rather

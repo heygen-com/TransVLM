@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the decoder-choice behaviour: torchcodec by default, decord as the announced fallback.
 
 The vendored ``_vision_process_of`` cannot be edited (sha256-pinned, "DO NOT EDIT"), so the

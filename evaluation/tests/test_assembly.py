@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the clip -> video lifting behaviour.
 
 None of this was covered before, which meant the ``"end"`` key fallback or the string-to-float

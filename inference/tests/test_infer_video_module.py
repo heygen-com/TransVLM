@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Guard `infer_video.py` against the name-resolution bug that broke every video.
 
 The `selected_video_backend` import was placed inside

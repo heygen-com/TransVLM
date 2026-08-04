@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Choose the video decoder, and make the fallback chain say what it does.
 
 The vendored ``_vision_process_of`` already prefers torchcodec, but its fallback behaviour is

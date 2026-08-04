@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the metric definitions and the aggregation conventions.
 
 Most of these lock down behaviour that a reviewer would reasonably want to "fix". Each test

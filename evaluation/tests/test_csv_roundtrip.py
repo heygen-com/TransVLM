@@ -1,3 +1,6 @@
+# Copyright © 2026 HeyGen
+# SPDX-License-Identifier: Apache-2.0
+
 """Pin the CSV shape: column order, and None becoming an empty cell.
 
 The committed reference values are read back through `read_metrics_csv`, so a change in either
