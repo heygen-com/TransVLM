@@ -34,8 +34,8 @@ dev = ["pytest>=8.0"]
 # One CUDA flavour per venv. cu130 needs driver >= 570; use cu128 on older drivers.
 # nvidia-npp is listed only for cu130 because torchcodec needs libnppicc.so.13 and its wheel
 # metadata does not declare it.
-cu128 = ["torch==2.9.1", "torchvision==0.24.1", "torchaudio==2.9.1"]
-cu130 = ["torch==2.9.1", "torchvision==0.24.1", "torchaudio==2.9.1", "nvidia-npp>=13,<14"]
+cu128 = ["torch==2.13.0", "torchvision==0.24.1", "torchaudio==2.9.1"]
+cu130 = ["torch==2.13.0", "torchvision==0.24.1", "torchaudio==2.9.1", "nvidia-npp>=13,<14"]
 
 # Optional backends. Neither is installed by default: the HuggingFace backend needs no extra
 # package and is the default at runtime.
