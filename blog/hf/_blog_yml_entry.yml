@@ -1,0 +1,8 @@
+# 追加到 huggingface/blog 仓库根目录的 _blog.yml 末尾
+# （title / thumbnail / authors 只写在文章 front matter 里，这里不重复）
+- local: transvlm
+  date: March 1, 2026
+  tags:
+    - research
+    - cv
+    - multimodal

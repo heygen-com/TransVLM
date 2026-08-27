@@ -28,6 +28,7 @@
 
 - *TransVLM* was accepted to **ECCV 2026** as a Poster.
 - Model weights, inference code and evaluation code are released. See [Release Progress](#-release-progress).
+- A write-up of the method for a general audience is in [`blog/hf/transvlm.md`](blog/hf/transvlm.md).
 
 ## Abstract
 
@@ -89,6 +90,7 @@ Every option, the output format and the three backends are documented here:
 | `inference/` | Inference pipeline and its two entry points, plus the vendored NeuFlow v2 optical-flow code |
 | `evaluation/` | Evaluation code for the STD benchmark |
 | `docs/` | Project page sources (figures, videos, interactive comparison widgets) |
+| `blog/` | Blog write-ups of the method, with the figures they ship with |
 | `assets/` | Logos used by this README |
 | `NOTICE` | Vendored third-party components and their upstream attribution |
 
