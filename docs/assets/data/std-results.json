@@ -1,0 +1,1016 @@
+{
+ "source": "main_tables/tab3_v2.tex + main_tables/tab4_v2.tex",
+ "note": "Reduced from assets/data/leaderboard.json, which is parsed out of the camera-ready tables named in `source`. The published project page is a rendering of those tables, not an authority over them.",
+ "halves": [
+  {
+   "id": "public",
+   "label": "Public data"
+  },
+  {
+   "id": "synthetic",
+   "label": "Synthetic data"
+  }
+ ],
+ "levels": [
+  {
+   "id": "seg",
+   "label": "Segment"
+  },
+  {
+   "id": "frm",
+   "label": "Frame"
+  }
+ ],
+ "stats": [
+  {
+   "id": "p",
+   "label": "Precision",
+   "inline": "precision"
+  },
+  {
+   "id": "r",
+   "label": "Recall",
+   "inline": "recall"
+  },
+  {
+   "id": "f1",
+   "label": "F1",
+   "inline": "F1"
+  }
+ ],
+ "extras": [
+  {
+   "id": "abe",
+   "label": "Boundary error",
+   "unit": " s",
+   "dir": "asc",
+   "dp": 2
+  },
+  {
+   "id": "rtf",
+   "label": "Real-time factor",
+   "unit": "",
+   "dir": "asc",
+   "dp": 2
+  }
+ ],
+ "defaults": {
+  "half": "public",
+  "level": "seg",
+  "stat": "f1"
+ },
+ "groups": {
+  "quant": {
+   "rows": [
+    {
+     "method": "PySceneDetect Adaptive",
+     "family": "Heuristic",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.656,
+       "seg_r": 0.716,
+       "seg_f1": 0.684,
+       "frm_p": 0.645,
+       "frm_r": 0.372,
+       "frm_f1": 0.457,
+       "abe": 1.93
+      },
+      "synthetic": {
+       "seg_p": 0.924,
+       "seg_r": 0.172,
+       "seg_f1": 0.29,
+       "frm_p": 0.922,
+       "frm_r": 0.036,
+       "frm_f1": 0.069,
+       "abe": 0.28
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {
+       "seg_p": "best",
+       "abe": "second"
+      }
+     },
+     "rtf": 0.09
+    },
+    {
+     "method": "PySceneDetect Content",
+     "family": "Heuristic",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.627,
+       "seg_r": 0.759,
+       "seg_f1": 0.686,
+       "frm_p": 0.603,
+       "frm_r": 0.383,
+       "frm_f1": 0.453,
+       "abe": 1.08
+      },
+      "synthetic": {
+       "seg_p": 0.909,
+       "seg_r": 0.128,
+       "seg_f1": 0.225,
+       "frm_p": 0.968,
+       "frm_r": 0.029,
+       "frm_f1": 0.056,
+       "abe": 0.61
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {
+       "seg_p": "second",
+       "frm_p": "best"
+      }
+     },
+     "rtf": 0.09
+    },
+    {
+     "method": "PySceneDetect Hash",
+     "family": "Heuristic",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.566,
+       "seg_r": 0.778,
+       "seg_f1": 0.654,
+       "frm_p": 0.549,
+       "frm_r": 0.416,
+       "frm_f1": 0.457,
+       "abe": 2.11
+      },
+      "synthetic": {
+       "seg_p": 0.88,
+       "seg_r": 0.118,
+       "seg_f1": 0.208,
+       "frm_p": 0.94,
+       "frm_r": 0.027,
+       "frm_f1": 0.052,
+       "abe": 0.85
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.09
+    },
+    {
+     "method": "PySceneDetect Hist",
+     "family": "Heuristic",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.452,
+       "seg_r": 0.741,
+       "seg_f1": 0.559,
+       "frm_p": 0.419,
+       "frm_r": 0.398,
+       "frm_f1": 0.394,
+       "abe": 1.19
+      },
+      "synthetic": {
+       "seg_p": 0.577,
+       "seg_r": 0.379,
+       "seg_f1": 0.455,
+       "frm_p": 0.762,
+       "frm_r": 0.117,
+       "frm_f1": 0.197,
+       "abe": 1.04
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.09
+    },
+    {
+     "method": "PySceneDetect Threshold",
+     "family": "Heuristic",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.364,
+       "seg_r": 0.031,
+       "seg_f1": 0.057,
+       "frm_p": 0.306,
+       "frm_r": 0.014,
+       "frm_f1": 0.027,
+       "abe": 3.08
+      },
+      "synthetic": {
+       "seg_p": 0.773,
+       "seg_r": 0.039,
+       "seg_f1": 0.074,
+       "frm_p": 0.749,
+       "frm_r": 0.008,
+       "frm_f1": 0.016,
+       "abe": 1.46
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.09
+    },
+    {
+     "method": "TransNetV2 Official",
+     "family": "SBD",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.727,
+       "seg_r": 0.78,
+       "seg_f1": 0.752,
+       "frm_p": 0.731,
+       "frm_r": 0.427,
+       "frm_f1": 0.528,
+       "abe": 1.87
+      },
+      "synthetic": {
+       "seg_p": 0.275,
+       "seg_r": 0.149,
+       "seg_f1": 0.194,
+       "frm_p": 0.417,
+       "frm_r": 0.034,
+       "frm_f1": 0.063,
+       "abe": 0.61
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_p": "second",
+       "seg_f1": "second",
+       "frm_p": "best"
+      },
+      "synthetic": {}
+     },
+     "rtf": 0.07
+    },
+    {
+     "method": "TransNetV2 w/ DH",
+     "family": "SBD",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.251,
+       "seg_r": 0.865,
+       "seg_f1": 0.389,
+       "frm_p": 0.227,
+       "frm_r": 0.625,
+       "frm_f1": 0.333,
+       "abe": 1.63
+      },
+      "synthetic": {
+       "seg_p": 0.487,
+       "seg_r": 0.862,
+       "seg_f1": 0.622,
+       "frm_p": 0.61,
+       "frm_r": 0.589,
+       "frm_f1": 0.598,
+       "abe": 1.0
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_r": "best",
+       "frm_r": "second"
+      },
+      "synthetic": {
+       "seg_r": "second"
+      }
+     },
+     "rtf": 0.07
+    },
+    {
+     "method": "AutoShot",
+     "family": "SBD",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.707,
+       "seg_r": 0.804,
+       "seg_f1": 0.751,
+       "frm_p": 0.709,
+       "frm_r": 0.44,
+       "frm_f1": 0.532,
+       "abe": 1.78
+      },
+      "synthetic": {
+       "seg_p": 0.379,
+       "seg_r": 0.248,
+       "seg_f1": 0.299,
+       "frm_p": 0.53,
+       "frm_r": 0.058,
+       "frm_f1": 0.102,
+       "abe": 0.51
+      }
+     },
+     "marks": {
+      "public": {
+       "frm_p": "second",
+       "frm_f1": "second"
+      },
+      "synthetic": {}
+     },
+     "rtf": 0.03
+    },
+    {
+     "method": "ActionFormer",
+     "family": "TAL",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.39,
+       "seg_r": 0.568,
+       "seg_f1": 0.462,
+       "frm_p": 0.368,
+       "frm_r": 0.795,
+       "frm_f1": 0.498,
+       "abe": 0.34
+      },
+      "synthetic": {
+       "seg_p": 0.36,
+       "seg_r": 0.758,
+       "seg_f1": 0.488,
+       "frm_p": 0.619,
+       "frm_r": 0.986,
+       "frm_f1": 0.76,
+       "abe": 0.99
+      }
+     },
+     "marks": {
+      "public": {
+       "frm_r": "best",
+       "abe": "best"
+      },
+      "synthetic": {
+       "frm_r": "best"
+      }
+     },
+     "rtf": 0.02
+    },
+    {
+     "method": "Gemini 2.5 Pro",
+     "family": "API VLM",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.558,
+       "seg_r": 0.527,
+       "seg_f1": 0.542,
+       "frm_p": 0.453,
+       "frm_r": 0.361,
+       "frm_f1": 0.401,
+       "abe": 3.62
+      },
+      "synthetic": {
+       "seg_p": 0.338,
+       "seg_r": 0.851,
+       "seg_f1": 0.465,
+       "frm_p": 0.638,
+       "frm_r": 0.76,
+       "frm_f1": 0.686,
+       "abe": 0.82
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.81
+    },
+    {
+     "method": "Gemini 3 Pro",
+     "family": "API VLM",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.527,
+       "seg_r": 0.573,
+       "seg_f1": 0.549,
+       "frm_p": 0.469,
+       "frm_r": 0.343,
+       "frm_f1": 0.393,
+       "abe": 2.18
+      },
+      "synthetic": {
+       "seg_p": 0.479,
+       "seg_r": 0.768,
+       "seg_f1": 0.588,
+       "frm_p": 0.711,
+       "frm_r": 0.482,
+       "frm_f1": 0.568,
+       "abe": 0.88
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 1.32
+    },
+    {
+     "method": "Qwen3-VL Instruct 4B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.235,
+       "seg_r": 0.088,
+       "seg_f1": 0.124,
+       "frm_p": 0.134,
+       "frm_r": 0.174,
+       "frm_f1": 0.148,
+       "abe": 55.0
+      },
+      "synthetic": {
+       "seg_p": 0.717,
+       "seg_r": 0.306,
+       "seg_f1": 0.428,
+       "frm_p": 0.458,
+       "frm_r": 0.618,
+       "frm_f1": 0.525,
+       "abe": 8.88
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.31
+    },
+    {
+     "method": "Qwen3-VL Instruct 8B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.222,
+       "seg_r": 0.297,
+       "seg_f1": 0.246,
+       "frm_p": 0.132,
+       "frm_r": 0.307,
+       "frm_f1": 0.184,
+       "abe": 34.39
+      },
+      "synthetic": {
+       "seg_p": 0.586,
+       "seg_r": 0.597,
+       "seg_f1": 0.591,
+       "frm_p": 0.741,
+       "frm_r": 0.204,
+       "frm_f1": 0.315,
+       "abe": 1.6
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.34
+    },
+    {
+     "method": "Qwen3-VL Instruct 32B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.309,
+       "seg_r": 0.473,
+       "seg_f1": 0.37,
+       "frm_p": 0.214,
+       "frm_r": 0.279,
+       "frm_f1": 0.241,
+       "abe": 3.96
+      },
+      "synthetic": {
+       "seg_p": 0.895,
+       "seg_r": 0.623,
+       "seg_f1": 0.735,
+       "frm_p": 0.911,
+       "frm_r": 0.361,
+       "frm_f1": 0.516,
+       "abe": 1.35
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.98
+    },
+    {
+     "method": "Qwen3-VL Instruct 30B-A3B(MoE)",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.218,
+       "seg_r": 0.3,
+       "seg_f1": 0.242,
+       "frm_p": 0.171,
+       "frm_r": 0.222,
+       "frm_f1": 0.192,
+       "abe": 9.61
+      },
+      "synthetic": {
+       "seg_p": 0.806,
+       "seg_r": 0.593,
+       "seg_f1": 0.683,
+       "frm_p": 0.749,
+       "frm_r": 0.355,
+       "frm_f1": 0.482,
+       "abe": 1.86
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 0.35
+    },
+    {
+     "method": "Qwen3-VL Thinking 4B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.449,
+       "seg_r": 0.079,
+       "seg_f1": 0.134,
+       "frm_p": 0.265,
+       "frm_r": 0.051,
+       "frm_f1": 0.086,
+       "abe": 1.5
+      },
+      "synthetic": {
+       "seg_p": 0.839,
+       "seg_r": 0.218,
+       "seg_f1": 0.346,
+       "frm_p": 0.748,
+       "frm_r": 0.087,
+       "frm_f1": 0.156,
+       "abe": 1.68
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 1.03
+    },
+    {
+     "method": "Qwen3-VL Thinking 8B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.45,
+       "seg_r": 0.144,
+       "seg_f1": 0.217,
+       "frm_p": 0.297,
+       "frm_r": 0.094,
+       "frm_f1": 0.143,
+       "abe": 4.25
+      },
+      "synthetic": {
+       "seg_p": 0.854,
+       "seg_r": 0.389,
+       "seg_f1": 0.534,
+       "frm_p": 0.923,
+       "frm_r": 0.147,
+       "frm_f1": 0.252,
+       "abe": 1.29
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 1.31
+    },
+    {
+     "method": "Qwen3-VL Thinking 32B",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.403,
+       "seg_r": 0.26,
+       "seg_f1": 0.315,
+       "frm_p": 0.308,
+       "frm_r": 0.16,
+       "frm_f1": 0.209,
+       "abe": 1.09
+      },
+      "synthetic": {
+       "seg_p": 0.9,
+       "seg_r": 0.608,
+       "seg_f1": 0.726,
+       "frm_p": 0.943,
+       "frm_r": 0.323,
+       "frm_f1": 0.479,
+       "abe": 1.16
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     },
+     "rtf": 3.3
+    },
+    {
+     "method": "Qwen3-VL Thinking 30B-A3B(MoE)",
+     "family": "Open VLM (zero-shot)",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.374,
+       "seg_r": 0.217,
+       "seg_f1": 0.275,
+       "frm_p": 0.291,
+       "frm_r": 0.127,
+       "frm_f1": 0.175,
+       "abe": 0.98
+      },
+      "synthetic": {
+       "seg_p": 0.89,
+       "seg_r": 0.61,
+       "seg_f1": 0.724,
+       "frm_p": 0.915,
+       "frm_r": 0.331,
+       "frm_f1": 0.485,
+       "abe": 1.18
+      }
+     },
+     "marks": {
+      "public": {
+       "abe": "second"
+      },
+      "synthetic": {}
+     },
+     "rtf": 0.92
+    },
+    {
+     "method": "TransVLM @ 5 fps",
+     "family": "Ours",
+     "ours": true,
+     "values": {
+      "public": {
+       "seg_p": 0.454,
+       "seg_r": 0.692,
+       "seg_f1": 0.548,
+       "frm_p": 0.478,
+       "frm_r": 0.613,
+       "frm_f1": 0.527,
+       "abe": 1.97
+      },
+      "synthetic": {
+       "seg_p": 0.783,
+       "seg_r": 0.704,
+       "seg_f1": 0.741,
+       "frm_p": 0.86,
+       "frm_r": 0.838,
+       "frm_f1": 0.849,
+       "abe": 0.34
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {
+       "seg_f1": "second",
+       "frm_f1": "second"
+      }
+     },
+     "rtf": 0.36
+    },
+    {
+     "method": "TransVLM",
+     "family": "Ours",
+     "ours": true,
+     "values": {
+      "public": {
+       "seg_p": 0.762,
+       "seg_r": 0.806,
+       "seg_f1": 0.783,
+       "frm_p": 0.574,
+       "frm_r": 0.562,
+       "frm_f1": 0.568,
+       "abe": 1.58
+      },
+      "synthetic": {
+       "seg_p": 0.908,
+       "seg_r": 0.882,
+       "seg_f1": 0.895,
+       "frm_p": 0.946,
+       "frm_r": 0.93,
+       "frm_f1": 0.938,
+       "abe": 0.11
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_p": "best",
+       "seg_r": "second",
+       "seg_f1": "best",
+       "frm_f1": "best"
+      },
+      "synthetic": {
+       "seg_r": "best",
+       "seg_f1": "best",
+       "frm_p": "second",
+       "frm_r": "second",
+       "frm_f1": "best",
+       "abe": "best"
+      }
+     },
+     "rtf": 0.72
+    }
+   ]
+  },
+  "abla": {
+   "rows": [
+    {
+     "method": "w/o sliding window",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.45,
+       "seg_r": 0.676,
+       "seg_f1": 0.54,
+       "frm_p": 0.443,
+       "frm_r": 0.589,
+       "frm_f1": 0.502,
+       "abe": 3.31
+      },
+      "synthetic": {
+       "seg_p": 0.883,
+       "seg_r": 0.846,
+       "seg_f1": 0.864,
+       "frm_p": 0.883,
+       "frm_r": 0.924,
+       "frm_f1": 0.903,
+       "abe": 0.63
+      }
+     },
+     "marks": {
+      "public": {
+       "frm_r": "best"
+      },
+      "synthetic": {}
+     }
+    },
+    {
+     "method": "w/o training",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.545,
+       "seg_r": 0.448,
+       "seg_f1": 0.487,
+       "frm_p": 0.265,
+       "frm_r": 0.501,
+       "frm_f1": 0.343,
+       "abe": 7.63
+      },
+      "synthetic": {
+       "seg_p": 0.809,
+       "seg_r": 0.478,
+       "seg_f1": 0.599,
+       "frm_p": 0.701,
+       "frm_r": 0.304,
+       "frm_f1": 0.424,
+       "abe": 2.08
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {}
+     }
+    },
+    {
+     "method": "w/o public data",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.756,
+       "seg_r": 0.287,
+       "seg_f1": 0.416,
+       "frm_p": 0.33,
+       "frm_r": 0.223,
+       "frm_f1": 0.264,
+       "abe": 1.7
+      },
+      "synthetic": {
+       "seg_p": 0.962,
+       "seg_r": 0.894,
+       "seg_f1": 0.927,
+       "frm_p": 0.957,
+       "frm_r": 0.926,
+       "frm_f1": 0.941,
+       "abe": 0.11
+      }
+     },
+     "marks": {
+      "public": {},
+      "synthetic": {
+       "seg_p": "second",
+       "seg_r": "second",
+       "seg_f1": "second",
+       "frm_p": "best",
+       "frm_r": "second",
+       "frm_f1": "best",
+       "abe": "best"
+      }
+     }
+    },
+    {
+     "method": "w/o synthetic data",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.755,
+       "seg_r": 0.706,
+       "seg_f1": 0.73,
+       "frm_p": 0.587,
+       "frm_r": 0.483,
+       "frm_f1": 0.53,
+       "abe": 1.85
+      },
+      "synthetic": {
+       "seg_p": 0.972,
+       "seg_r": 0.572,
+       "seg_f1": 0.72,
+       "frm_p": 0.857,
+       "frm_r": 0.656,
+       "frm_f1": 0.743,
+       "abe": 0.46
+      }
+     },
+     "marks": {
+      "public": {
+       "frm_p": "second"
+      },
+      "synthetic": {
+       "seg_p": "best"
+      }
+     }
+    },
+    {
+     "method": "w/o optical flow",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.793,
+       "seg_r": 0.617,
+       "seg_f1": 0.694,
+       "frm_p": 0.574,
+       "frm_r": 0.435,
+       "frm_f1": 0.495,
+       "abe": 1.3
+      },
+      "synthetic": {
+       "seg_p": 0.946,
+       "seg_r": 0.783,
+       "seg_f1": 0.857,
+       "frm_p": 0.954,
+       "frm_r": 0.838,
+       "frm_f1": 0.892,
+       "abe": 0.14
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_p": "best",
+       "abe": "best"
+      },
+      "synthetic": {
+       "frm_p": "second"
+      }
+     }
+    },
+    {
+     "method": "w/o feature fusion",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.7,
+       "seg_r": 0.782,
+       "seg_f1": 0.739,
+       "frm_p": 0.609,
+       "frm_r": 0.518,
+       "frm_f1": 0.557,
+       "abe": 1.92
+      },
+      "synthetic": {
+       "seg_p": 0.931,
+       "seg_r": 0.931,
+       "seg_f1": 0.931,
+       "frm_p": 0.957,
+       "frm_r": 0.925,
+       "frm_f1": 0.941,
+       "abe": 0.12
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_r": "second",
+       "seg_f1": "second",
+       "frm_p": "best",
+       "frm_r": "second",
+       "frm_f1": "second"
+      },
+      "synthetic": {
+       "seg_r": "best",
+       "seg_f1": "best",
+       "frm_p": "best",
+       "frm_f1": "best",
+       "abe": "second"
+      }
+     }
+    },
+    {
+     "method": "duplicate weight",
+     "family": "Ablation",
+     "ours": false,
+     "values": {
+      "public": {
+       "seg_p": 0.767,
+       "seg_r": 0.575,
+       "seg_f1": 0.655,
+       "frm_p": 0.573,
+       "frm_r": 0.419,
+       "frm_f1": 0.484,
+       "abe": 1.79
+      },
+      "synthetic": {
+       "seg_p": 0.958,
+       "seg_r": 0.83,
+       "seg_f1": 0.889,
+       "frm_p": 0.949,
+       "frm_r": 0.909,
+       "frm_f1": 0.928,
+       "abe": 0.14
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_p": "second"
+      },
+      "synthetic": {}
+     }
+    },
+    {
+     "method": "TransVLM",
+     "family": "Ablation",
+     "ours": true,
+     "values": {
+      "public": {
+       "seg_p": 0.762,
+       "seg_r": 0.806,
+       "seg_f1": 0.783,
+       "frm_p": 0.574,
+       "frm_r": 0.562,
+       "frm_f1": 0.568,
+       "abe": 1.58
+      },
+      "synthetic": {
+       "seg_p": 0.908,
+       "seg_r": 0.882,
+       "seg_f1": 0.895,
+       "frm_p": 0.946,
+       "frm_r": 0.93,
+       "frm_f1": 0.938,
+       "abe": 0.11
+      }
+     },
+     "marks": {
+      "public": {
+       "seg_r": "best",
+       "seg_f1": "best",
+       "frm_f1": "best",
+       "abe": "second"
+      },
+      "synthetic": {
+       "frm_r": "best",
+       "frm_f1": "second",
+       "abe": "best"
+      }
+     }
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,96 @@
+/* TVCollage — the hero's background, and nothing but geometry.
+ *
+ * NOTHING HERE ANIMATES. The other components' stylesheets carry a motion
+ * vocabulary because the things they move merely CHANGE -- a fade, a dim, a
+ * ring. Every moving quantity in a collage is continuous and interruptible, so
+ * all of it is one `transform` written by the component; a transition on that
+ * property would fight the frame loop for the same value and lose. What is
+ * left for CSS is the tile's frame and the scrim.
+ *
+ * THE STAGE IS A STACKING CONTEXT, and that is load-bearing rather than tidy.
+ * Tiles carry a z-index drawn from their size, so bigger reads as nearer. A
+ * positioned element at `z-index: auto` does not contain its children's
+ * z-indices: the tiles would then compete with the hero's own text and its
+ * scrim, and a 400 px clip would land on top of the h1. `z-index: 0` costs
+ * nothing and keeps the depth sort inside the component.
+ *
+ * Every token has a fallback, so this renders in a page with no palette of its
+ * own. Values are site.css's light theme.
+ */
+
+.cl-stage,
+.cl-scrim {
+  --cl-bg: var(--bg, #faf9f7);
+  --cl-line: rgba(0, 0, 0, .06);
+  --cl-shadow: var(--shadow, 0 1px 2px rgba(20, 20, 15, .04), 0 8px 24px -12px rgba(20, 20, 15, .10));
+}
+
+:root[data-theme="dark"] .cl-stage,
+:root[data-theme="dark"] .cl-scrim {
+  --cl-line: rgba(255, 255, 255, .08);
+  --cl-shadow: var(--shadow, 0 1px 2px rgba(0, 0, 0, .5), 0 10px 30px -14px rgba(0, 0, 0, .8));
+}
+
+.cl-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  /* A background that could be clicked would eat the hero's own links, and a
+     tile under the cursor would take a text selection with it. */
+  pointer-events: none;
+}
+
+.cl-tile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--cl-line);
+  box-shadow: var(--cl-shadow);
+  /* The component writes the opacity every frame from the tile's own state;
+     starting at 0 is what stops a pooled tile flashing at its last position
+     between mount and its first birth. */
+  opacity: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  /* The tile is promoted for its whole life, so `backface-visibility` is what
+     keeps a rotated, scaled video off the fractional-pixel resampling path
+     Safari otherwise takes on a non-composited layer. */
+  backface-visibility: hidden;
+  /* Nine of these overlap, and each one is a full repaint candidate. `paint`
+     alone -- not `strict` -- because the tile's own size is written as inline
+     px and there is nothing inside it to lay out. */
+  contain: paint;
+}
+
+.cl-tile > video,
+.cl-tile > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The caller's, not the component's: TVCollage appends the stage and stops
+   there. Laid over the stage, this is only the stage's two edges: a long fade
+   up from the bottom, so the collage dissolves into the section below rather
+   than ending on a line, and a short one down from the top under the bar.
+   Transparent stops interpolate premultiplied, so neither fades through grey.
+
+   Legibility of whatever text sits over the stage is NOT this element's job
+   any more. It used to carry an ellipse of --bg centred on the text column,
+   and that painted out a third of the collage to protect a paragraph; the
+   page now puts a frosted panel behind the text itself (see .hero::before in
+   site.css), which covers exactly the text and nothing else. */
+.cl-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--cl-scrim, 1);
+  background:
+    linear-gradient(0deg, var(--cl-bg) 0%, rgba(0, 0, 0, 0) 30%),
+    linear-gradient(180deg, var(--cl-bg) 0%, rgba(0, 0, 0, 0) 16%);
+}

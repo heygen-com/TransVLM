@@ -1,0 +1,177 @@
+/* TVMosaic — the honeycomb and the one cell that is awake.
+ *
+ * Every token carries a fallback. The component is meant to be dropped into a
+ * page that has its own palette, and one that has none at all should still get
+ * something legible rather than a black card on a black plate. The fallbacks
+ * are site.css's light values.
+ *
+ * Motion vocabulary, ported from gpumon/web/src/index.css and its DESIGN.md
+ * §4. Three durations and three curves, kept LOCAL to this component so the
+ * shared stylesheet keeps one owner. The split it encodes: springs (in
+ * spring.js) carry things that move a distance; these curves carry things
+ * that merely change -- a fade, a dim, a colour. Arriving settles, leaving
+ * accelerates away and is shorter, because doors swing shut faster than they
+ * swing open.
+ *
+ * Reduced motion is honoured by emptying the vocabulary -- the durations go to
+ * zero -- rather than by annotating every use of it, so nothing can be left
+ * un-annotated by accident. The springs make the same promise in JS.
+ */
+
+.mosaic {
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 0.85, 0.3, 1);
+  --ease-settle: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.9, 0.4);
+  margin-top: 1.7rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mosaic { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+}
+
+/* ---------------------------------------------------------------- the grid */
+
+.mo-grid {
+  position: relative;
+  /* The height is written by the layout: the cells are absolutely positioned
+     off one lattice, so nothing here can reflow them. */
+  touch-action: manipulation;
+}
+
+.mo-cell {
+  position: absolute; top: 0; left: 0;
+  padding: 0; border: 0; background: var(--bg-sunk, #f2f0ec);
+  cursor: pointer; overflow: hidden;
+  transition: opacity var(--dur-base) var(--ease-out);
+  /* transform and clip-path are written by the layout, per shape. */
+}
+.mo-cell img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; background: #000;
+}
+/* Focus cannot be an outline: an outline is drawn outside the clip and would
+   be the only rectangle on a honeycomb. An inset ring, drawn on top, is. */
+.mo-cell::after {
+  content: ''; position: absolute; inset: 0;
+  box-shadow: inset 0 0 0 2px var(--accent, #17651a);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.mo-cell:focus-visible { outline: none; }
+.mo-cell:focus-visible::after { opacity: 1; }
+
+/* The name is imagery at rest and a taxonomy once engaged: 59 labels always on
+   turn the panel into a table of contents, and none at all leave the reader
+   with nothing to hold. It arrives when the pointer does. */
+.mo-cell-n {
+  position: absolute; left: 0; right: 0; bottom: 6%;
+  font: 400 .62rem/1 var(--mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  color: #fff; text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .85);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding-inline: 8%;
+}
+.mosaic.hot .mo-cell-n { opacity: .82; }
+
+/* While one cell is awake the rest step back. The card is what is being
+   looked at; 58 competing stills at full contrast is why the shipped wall
+   reads as wallpaper. */
+.mosaic.awake .mo-cell:not(.on) { opacity: .5; }
+.mosaic.awake .mo-cell:not(.on):hover { opacity: .85; }
+/* Dimming means "toward the page", and the page is white here: at .5 the tiles
+   bleach out and the honeycomb stops being made of anything. Light needs less
+   of it than dark to say the same thing. */
+:root[data-theme="light"] .mosaic.awake .mo-cell:not(.on) { opacity: .72; }
+:root[data-theme="light"] .mosaic.awake .mo-cell:not(.on):hover { opacity: .92; }
+
+/* ----------------------------------------------------------- the spotlight */
+
+.mo-spot {
+  position: absolute; top: 0; left: 0; z-index: 5;
+  /* Never a hit target. The open card covers cells other than the one it grew
+     out of, and a card that catches the pointer takes the hover away from the
+     cell underneath -- which closes the card, which gives the hover back, at
+     about 30 Hz. The hit grid is what the pointer talks to; this is only ever
+     looked at. */
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, width, height;
+}
+
+/* The solid panel. Its box, radius and opacity are written per frame from the
+   same `open` the frame grows on, so at rest there is no panel at all -- the
+   cell is just a cell -- and at full open the frame and its prose sit on one
+   surface with one border and one shadow.
+
+   It is a sibling of the clipped frame rather than its parent because a
+   clip-path applies to the element's own border and shadow too: a hexagonal
+   card would cast a hexagonal shadow through most of the animation and lose
+   its border entirely. */
+.mo-plate {
+  position: absolute;
+  background: var(--bg-elev, #ffffff);
+  /* On a near-black page --bg-elev is a few steps off the background, which is
+     right for a panel sitting IN the layout and not enough for one lifted over
+     it. The separation has to come from the edge and the shadow: a brighter
+     hairline on top where the light would catch, --line-2 elsewhere, and a
+     shadow deep enough to read against #0e0e0c. */
+  border: 1px solid var(--line-2, #cfcbc1);
+  border-top-color: var(--fg-3, #8a877e);
+  border-radius: 12px;
+  box-shadow:
+    0 18px 44px -12px rgba(0, 0, 0, .72),
+    0 4px 12px -2px rgba(0, 0, 0, .4);
+  will-change: width, height, opacity;
+}
+:root[data-theme="light"] .mo-plate {
+  border-top-color: var(--line-2, #cfcbc1);
+  box-shadow:
+    0 16px 40px -14px rgba(20, 20, 15, .28),
+    0 3px 10px -2px rgba(20, 20, 15, .12);
+}
+
+.mo-spot-shape {
+  position: absolute; inset: 0; overflow: hidden;
+  background: #000;
+  border-radius: 2px;
+  /* clip-path is written per frame, interpolated between the cell's polygon
+     and its rectangle. */
+}
+.mo-spot-poster, .mo-spot video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.mo-spot video {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.mo-spot.rolling video { opacity: 1; }
+
+/* ------------------------------------------------------------- the caption */
+
+/* Inside the panel, under the frame. Its width is written by the layout from
+   the same number the frame opens to, so the card is one rectangle. */
+.mo-cap {
+  position: absolute; top: 100%; left: 0;
+  /* The bottom padding is the panel's inner margin: the plate reserves exactly
+     offsetHeight, so anything the text needs below it has to be inside the
+     caption's own box or the border lands on the descenders. */
+  padding: .6rem .15rem .5rem;
+}
+.mo-cap-n { font: 500 .82rem/1.2 var(--mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace); color: var(--fg, #14140f); }
+.mo-cap-d {
+  margin-top: .28rem;
+  font-size: .8rem; line-height: 1.5; color: var(--fg-2, #55534c);
+}
+
+/* The tour's own announcement. Visible to a screen reader, not to the page --
+   the caption already says it, and saying it twice is not accessibility. */
+.mo-live {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}

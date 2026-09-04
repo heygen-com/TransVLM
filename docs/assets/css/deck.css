@@ -1,0 +1,325 @@
+/* TVDeck — the stacked deck. Reads site.css tokens, adds none of its own colours.
+ *
+ * Geometry lives in two custom properties the script sets per resize:
+ *   --deck-slot   the carriage step (what one card-change travels)
+ *   --deck-card   the visible card, deliberately wider than the slot
+ * The card overflows its slot, which is what makes the cards overlap. Slot and
+ * card are independent so the overlap can be tuned without changing the gesture.
+ */
+
+.deck { position: relative; }
+
+.deck-view {
+  overflow: hidden;
+  padding-block: 1.4rem;          /* room for the active card's shadow */
+  /* The stack runs past both edges; a hard cut at the window edge reads as a
+     rendering bug, so the tail dissolves instead. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  /* Vertical panning must stay with the page; horizontal is the deck's. */
+  touch-action: pan-y pinch-zoom;
+  cursor: grab;
+}
+.deck-view:active { cursor: grabbing; }
+.deck-view:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
+
+/* No margin or padding here: Embla's align:'center' does the centring, and any
+   inline margin is counted into its loop geometry and strands the wrapped
+   slides off the left edge. */
+.deck-track {
+  display: flex;
+  align-items: center;
+  backface-visibility: hidden;
+}
+
+.deck-slot {
+  position: relative;             /* so the painted z-index has an effect */
+  flex: 0 0 var(--deck-slot);
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.deck-card {
+  position: relative;
+  flex: 0 0 var(--deck-card);
+  width: var(--deck-card);
+  transform-origin: 50% 50%;
+  will-change: transform;
+  /* Everything animates from the scroll position, never from a CSS transition:
+     a transition here would fight the carriage and lag the finger. */
+}
+/* Depth is a scrim, not opacity. Fading a card makes it translucent, and a
+   translucent card in a stack shows the card behind it straight through its own
+   picture -- with these clips that means reading one video through another. The
+   scrim keeps every card opaque and pushes the neighbours back visually. */
+.deck-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: var(--card-radius, 14px);
+  background: var(--bg);
+  opacity: var(--dim, 0);
+  pointer-events: none;
+  z-index: 2;
+}
+.deck-card > * { pointer-events: none; }
+.deck-card.is-active > * { pointer-events: auto; }
+
+/* ------------------------------------------------------------ media card */
+/* One card shape, whatever is inside it. .deck-media is the fixed slot the
+   content is fitted into; .deck-foot is the label strip under it. */
+
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius, 14px);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  user-select: none;
+  /* is-active flips at the half-step, in the same frame as the stacking order.
+     Everything else about a card is a function of its position and therefore
+     already continuous; these two are booleans, so they get a transition of
+     their own rather than snapping while the card is still sliding. */
+  transition: border-color .25s ease;
+}
+.deck-card.is-active .card { border-color: var(--line-2); }
+
+/* One ratio for every card in a deck, set per deck via --card-ar. The media is
+   absolutely positioned rather than laid out, because a <video> with a loaded
+   source imposes its own intrinsic ratio on an auto-height box and silently wins
+   over aspect-ratio. These clips run from 0.48 to 1.52, so that is not academic. */
+.card-media {
+  position: relative;
+  aspect-ratio: var(--card-ar, 16 / 9);
+  background: #000;
+}
+.card-media > video,
+.card-media > img,
+.card-media > a.zoom > img {
+  position: absolute; inset: 0;
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: contain;            /* the status grid is burnt into the frame:
+                                     cover would crop the thing being shown */
+}
+/* A picture that is a link to its own full-size asset. The anchor takes over the
+   media box rather than sitting inside it, so the image keeps filling the card
+   and the "open full size" hint positions against the whole picture. */
+.card-media > a.zoom { position: absolute; inset: 0; }
+/* The white ground the paper's light-native figures need in both themes -- what
+   .plate used to do on the page, now that they are cards. */
+.card-media.pad { background: #fff; }
+.card-media.pad > img,
+.card-media.pad > a.zoom > img { padding: 8px; }
+
+.card-body { padding: .7rem .85rem .8rem; }
+/* A figure caption used as a card body keeps the caption's type and drops the
+   margin it has when it stands under a figure: the padding is the spacing here. */
+.card-body.fig-cap { margin: 0; }
+.card-foot {
+  display: flex; align-items: baseline; gap: .5rem;
+  padding: .6rem .85rem .7rem;
+  font: 400 var(--fs-label)/1.3 var(--mono);
+  color: var(--fg-3);
+  border-top: 1px solid var(--line);
+}
+.card-foot .name {
+  color: var(--fg-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  transition: color .25s ease;
+}
+.deck-card.is-active .card-foot .name { color: var(--fg); }
+/* Shrinkable, with an ellipsis: at max-content the card's own overflow:hidden
+   cut the tail off five of the twenty-two feet at 320px, which loses the end of
+   a dataset name rather than shortening it. */
+.card-foot .grp {
+  margin-left: auto; flex: 0 1 auto; min-width: 0; opacity: .85;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* A quiet counter under the deck, so the loop does not feel like a treadmill.
+   Short grey ticks, and one accent bar that travels between them. It is also
+   the deck's scrubber: a press anywhere on it drags the deck -- see "the
+   scrubber" in deck.js.
+
+   EVERYTHING IS A BAR. The version this replaced turned a 6 px dot green and
+   scaled it to nine, which at a glance reads as a dot slightly nearer the
+   reader rather than as the one they are on. Ticks and bar share the same
+   height and the same radius, so only length and colour tell them apart.
+
+   THE BAR IS ONE ELEMENT, positioned by deck.js off Embla's scroll position --
+   see "the counter" there for why it tracks rather than transitions. It is
+   absolutely positioned, so it is out of the flex flow and the row of ticks
+   never re-flows underneath it, and a transform is the only thing written per
+   frame, which keeps the whole counter on the compositor.
+
+   IT PAINTS OVER THE TICKS. It is opaque, so a tick it reaches is covered, and
+   that is the whole of it. Painting it underneath and hiding "the tick the bar
+   is over" -- which is what this did while the gap was 8 px and the row was as
+   wide as the card -- cannot survive the tighter row below: the bar stretches
+   as it travels, at a 10 px gap it spans the tick it left AND the one it is
+   reaching, and only one of the two was ever hidden. The other lay across the
+   accent in grey.
+
+   TWO THIRDS OF THE CARD, NOT THE WHOLE PANEL. The counter is a mark on a
+   scale, and a scale as wide as the 990 px panel it sits in puts the first and
+   the last tick so far apart that they read as two counters -- on a two-card
+   deck, as one tick in each corner. So deck.js sizes the row against the card
+   the deck published, not against the column the counter happens to live in:
+   n ticks plus n-1 gaps at --dd-gap-max, capped at --dd-share of the active
+   card. justify-content then spends whatever the cap left as the gap, so the
+   gap floats down from --dd-gap-max as the card narrows or the count grows,
+   and is-dense takes over below --dd-gap-min. */
+.deck-dots {
+  --dd-h: 3px;         /* every mark's height and radius; hover doubles it */
+  --dd-tick: 8px;      /* a tick's width, and its minimum */
+  --dd-bar: 20px;      /* the travelling accent */
+  --dd-gap-max: 10px;  /* deck.js reads these, and --dd-share, to size the row */
+  --dd-gap-min: 3px;   /* and to decide is-dense; see measureDots */
+  --dd-share: .6667;   /* two thirds, of the active card's width */
+
+  /* z-index, so that this is a stacking context: the hit band below is a
+     negative z-index child, and with no stacking context here it is not scoped
+     to the row at all -- it lands in whatever ancestor stacking context there
+     is, behind that ancestor's own in-flow boxes, and the section swallows every
+     press meant for the band. 0, not more: the deck's cards go up to 1000 and
+     stay over the counter. */
+  position: relative; z-index: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  margin: 1rem auto 0;   /* auto: deck.js caps the width, this centres it */
+  /* The whole row is a scrubber, so a horizontal drag on it is the deck moving
+     and never the page scrolling. */
+  touch-action: none;
+  cursor: ew-resize;
+}
+
+/* THE HIT BAND. Pointing at a 3 px line was never realistic and 16 px is not
+   realistic for a finger, so a 44 px band carries the real target, out of flow
+   where its height costs the row nothing. ONE band on the host, not one per
+   tick as before: the row is a scrubber now, so all of it is live, and at
+   eighty-four ticks a 28 px box each could only overlap its neighbours. Behind
+   the ticks -- z-index: -1, in the row's own stacking context: above its
+   background, below its in-flow children -- so a tick keeps its own hover and
+   its own click, and the band takes everything else. */
+.deck-dots::before {
+  content: '';
+  position: absolute; z-index: -1;
+  left: 0; right: 0; top: 50%;
+  height: 44px; transform: translateY(-50%);
+}
+
+/* The tick is the mark and now also the whole button: the hit target moved to
+   the band above, so a wider box here has nothing left to do. cursor: inherit,
+   because over a tick the gesture is still the scrub. */
+.deck-dots button {
+  flex: 0 0 auto;
+  width: var(--dd-tick); height: 16px;
+  padding: 0; border: 0; background: none; cursor: inherit;
+  display: grid; place-items: center;
+}
+.deck-dots button::after {
+  content: '';
+  display: block;
+  width: var(--dd-tick); height: var(--dd-h);
+  border-radius: var(--dd-h);
+  background: var(--line-2);
+  transition: width .18s ease, height .18s ease, background-color .18s ease;
+}
+.deck-dots button:hover::after {
+  width: calc(var(--dd-tick) + 5px);
+  background: var(--fg-3);
+}
+
+.deck-dots .dd-bar {
+  position: absolute; z-index: 1; left: 0; top: 50%;
+  width: var(--dd-bar); height: var(--dd-h);
+  margin-top: calc(var(--dd-h) / -2);
+  border-radius: var(--dd-h);
+  background: var(--accent);
+  transform-origin: 50% 50%;
+  will-change: transform;
+  pointer-events: none;
+  /* Height, margin and filter -- not transform, not opacity. The transform is
+     written every frame off Embla's position and has to stay the only thing
+     animating it; these three change twice a hover instead of sixty times a
+     second, so being off the compositor costs nothing. */
+  transition: height .18s ease, margin-top .18s ease, filter .18s ease;
+}
+
+/* HOVER ENLARGES THE WHOLE COUNTER. A 3 px mark is deliberately quiet, and a
+   quiet mark is a poor handle: pointing at the row doubles every mark in it, so
+   what you are about to grab is obvious before you press. focus-within too --
+   a tick reached by keyboard is being pointed at just as much.
+
+   A TOKEN SWITCH, not a scaleY on a wrapper: --dd-h is already the height and
+   the radius of the ticks and of the bar, so switching it here is the entire
+   gesture, and it leaves the bar's per-frame write exactly one transform. A
+   wrapper scaled on hover would put a transition on the same pixels the bar is
+   tracking Embla with, and the two would read as two animations of one mark.
+
+   The accent brightens with a filter rather than a second colour token:
+   --accent is a different green in each theme, and brightness() is the only
+   thing that means "that green, brighter" in both. */
+.deck-dots:hover, .deck-dots:focus-within { --dd-h: 6px; }
+.deck-dots:hover .dd-bar,
+.deck-dots:focus-within .dd-bar { filter: brightness(1.18); }
+
+/* Dense: too many cards for separate ticks, so the ticks become one line. Each
+   button takes an equal share of the row and its tick fills it -- with the
+   shares adding up to the whole row, space-between has nothing left to spend
+   and the gaps close on their own -- so eighty-four of them read as a single
+   rule with rounded ends. Hover changes only the colour: a tick that grew here
+   would grow into the next one. deck.js sets the class from the width it
+   computed and the tokens, not from what flex did, so the switch is a step and
+   not a shrink; see measureDots. */
+.deck-dots.is-dense button { flex: 1 1 0; width: auto; min-width: 0; }
+.deck-dots.is-dense button::after { width: 100%; border-radius: 0; }
+/* -of-type, not -child: the bar is the host's first child. */
+.deck-dots.is-dense button:first-of-type::after { border-radius: var(--dd-h) 0 0 var(--dd-h); }
+.deck-dots.is-dense button:last-of-type::after { border-radius: 0 var(--dd-h) var(--dd-h) 0; }
+.deck-dots.is-dense button:hover::after { width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Still enlarges -- the token switch above is not an animation. */
+  .deck-dots button::after, .deck-dots .dd-bar { transition: none; }
+  .card, .card-foot .name { transition: none; }
+}
+
+/* Whatever sits under a deck -- a timeline, a caption, controls -- lines up with
+   the active card, not with the page. A full-width strip under a 683 px card
+   reads as two unrelated things. The deck writes --deck-card onto this element
+   itself, via its publishTo option, because the strip lives outside the deck. */
+.deck-under {
+  width: var(--deck-card, 100%);
+  max-width: 100%;
+  margin: 1.4rem auto 0;
+}
+
+/* Click-to-pause. The card in front takes the click -- the deck claims clicks on
+   the others to mean "bring me here" -- and the caller decides what pausing
+   covers. On the comparison deck it stops every clip at once: five cards playing
+   is one exhibit, and stopping only the front one leaves four still moving. */
+.deck-card.is-active .card-media { cursor: pointer; }
+
+.deck.is-paused .deck-card.is-active .card-media::before,
+.deck.is-paused .deck-card.is-active .card-media::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+.deck.is-paused .deck-card.is-active .card-media::before {
+  width: 3.6rem; height: 3.6rem;
+  margin: -1.8rem 0 0 -1.8rem;
+  border-radius: 50%;
+  background: rgba(10, 10, 8, .5);
+  border: 1px solid rgba(255, 255, 255, .28);
+}
+.deck.is-paused .deck-card.is-active .card-media::after {
+  width: 0; height: 0;
+  margin: -.62rem 0 0 -.36rem;
+  border: .62rem solid transparent;
+  border-left: 1rem solid rgba(255, 255, 255, .92);
+  border-right: 0;
+}

@@ -1,0 +1,222 @@
+/* lab/samples.html only — the extraction review page.
+ *
+ * Everything structural is borrowed from site.css: .wrap, .eyebrow, .note,
+ * .measure, .tbl, and the whole four-method strip (.tracks / .trk / .rail-t /
+ * .seg / .head / .win / .readout). What is here is the three things that page
+ * adds — the rules line, the verdict table's scoring cells, and the card grid —
+ * plus the two local adjustments the strip needs to survive inside a 340px card.
+ *
+ * Only tokens already declared in site.css are used. No new colour is invented:
+ * the four method hues come out of samples.json's legend, which is locked to the
+ * pixels burnt into the clips.
+ */
+
+body { padding: 2.6rem 0 7rem; }
+.lab-h { margin-bottom: .4rem; }
+
+/* The grid and the verdict table both want the middle tier; the prose does not.
+   Same axis, one step out — see site.css's three widths. */
+.wrap.sm-w { max-width: var(--tier); }
+
+/* ------------------------------------------------------------- rules line */
+/* Rendered from samples.json's `rules`, never typed into the markup: a page that
+   states a threshold the generator no longer uses is worse than one that states
+   none. An unknown key still renders, under its own raw name. */
+.sm-rules {
+  display: flex; flex-wrap: wrap; gap: .4rem .5rem;
+  margin-top: 1.5rem;
+}
+.sm-chip {
+  display: inline-flex; align-items: baseline; gap: .4rem;
+  padding: .2rem .5rem; border-radius: 5px;
+  border: 1px solid var(--line); background: var(--bg-sunk);
+  font: 400 .68rem/1.5 var(--mono); color: var(--fg-3);
+}
+.sm-chip b { color: var(--fg-2); font-weight: 500; }
+
+/* ----------------------------------------------------------------- index */
+/* Static, and it was meant to be sticky.
+ *
+ * position: sticky cannot work anywhere inside this site's body. site.css sets
+ * `body { overflow-x: hidden }`, which makes body a scroll container -- computed
+ * overflow-y goes from visible to auto -- so a sticky element's nearest
+ * scrollport is body, and body never scrolls: the document scroller is html.
+ * Measured, not assumed: at scrollY 1970 the sticky version sat at viewport
+ * top -1507, exactly where a static block would be. Fixing it belongs in
+ * site.css and affects every page, so it is reported rather than done here, and
+ * this stays a plain block that wraps.
+ *
+ * Wrapping is then the right behaviour anyway: html's scroll-padding-top is 4rem
+ * and a sticky index taller than that would hide the heading it just jumped to. */
+.sm-index {
+  margin-top: 2.2rem;
+  padding: .5rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.sm-index ul {
+  display: flex; flex-wrap: wrap; gap: .2rem 1rem; list-style: none;
+  font: 400 .69rem/1.7 var(--mono);
+}
+
+/* The verdict table's own scroll axis is the first scroll container this site
+   puts inside its content, and nothing here declares `color-scheme` -- so in the
+   dark theme Chrome drew it a light grey bar, a 15px stripe of near-white across
+   a near-black page. Declared on this page's container rather than on :root,
+   because :root is site.css's and every scrollbar on the site is its call, not
+   this harness's. Reported rather than fixed there. */
+:root[data-theme="dark"] .sm-scroll { color-scheme: dark; }
+.sm-index li { white-space: nowrap; }
+.sm-index a { color: var(--fg-3); text-decoration: none; }
+.sm-index a:hover { color: var(--fg); }
+.sm-index i { color: var(--fg-2); font-style: normal; }
+
+/* --------------------------------------------------------- video heading */
+.sm-meta {
+  font: 400 .74rem/1.6 var(--mono); color: var(--fg-3);
+  margin-top: .2rem;
+}
+.sm-meta .id { color: var(--fg); }
+.sm-counts {
+  display: flex; flex-wrap: wrap; gap: .3rem 1.1rem;
+  margin-top: .9rem;
+  font: 400 .72rem/1 var(--mono); color: var(--fg-2);
+}
+.sm-counts span { display: inline-flex; align-items: center; gap: .4rem; }
+.sm-counts b { color: var(--fg); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.sm-sub {
+  display: flex; align-items: baseline; gap: .7rem;
+  margin: 2.6rem 0 0;
+  font: 500 .7rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--fg-3);
+}
+.sm-sub em {
+  font-style: normal; letter-spacing: 0; text-transform: none; color: var(--fg-3);
+}
+
+/* -------------------------------------------------------------- the media */
+/* One rule for every clip in the page, at whatever size it was distributed.
+ *
+ * site.css caps ClipShots' 128x128 case at 2x by hand, for the reason given
+ * there: fitting it to the column would upscale it four times over and invite
+ * the reader to read detail that is not in the file. The same cap written
+ * against the clip's own width is the general form of that -- --nat-w comes
+ * from the JSON's `out`, so 2x is 2x for a 128px clip and never binds at all
+ * for a 1280px one, and no threshold has to be guessed. */
+.sm-media {
+  display: flex; justify-content: center;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line); border-radius: 8px;
+  overflow: hidden;
+}
+.sm-media > video {
+  display: block; height: auto;
+  width: min(100%, calc(var(--nat-w) * 2px));
+}
+/* Only the originals answer a click, so only they claim the cursor. */
+.sm-media.tap > video { cursor: pointer; }
+/* Only where the pixels really are the limit. Smoothing a 128px clip stretched
+   to 256 hides that it is a 128px clip. */
+.sm-media.low > video { image-rendering: pixelated; }
+
+/* The original is click-driven, so it says so rather than looking broken. */
+.sm-hint { font: 400 .7rem/1.5 var(--mono); color: var(--fg-3); margin-top: .6rem; }
+
+/* --------------------------------------------- sample frames, on the rails */
+/* Appended to the same .tracks host that TVTracks.strip() built, positioned off
+   the same --w0 / --wd it uses for its own single window. The tag hangs above
+   the frame's top-left corner: inside the box it would sit on the ground-truth
+   rail, which is the one rail this frame exists to be read against. */
+.tracks .win > .wtag {
+  position: absolute; left: -1px; bottom: 100%; margin-bottom: 3px;
+  padding: 0 .2rem;
+  font: 500 .6rem/1.4 var(--mono); color: var(--fg-2);
+  background: var(--bg); border-radius: 3px;
+}
+/* Room for the tags, which stand outside the frame and so outside the strip. */
+.tracks.has-wins { margin-top: 1.7rem; }
+
+/* --------------------------------------------------------- verdict table */
+/* Wide by construction -- eleven columns, one of them a sentence -- so it gets
+   its own scroll axis. The page body must never be the thing that scrolls
+   sideways. */
+.sm-scroll { overflow-x: auto; margin-top: 1rem; }
+.vtbl { font: 400 .74rem/1.45 var(--mono); }
+.vtbl th, .vtbl td { padding: .38rem .55rem; }
+.vtbl tbody td { color: var(--fg-2); }
+.vtbl td.n, .vtbl td.sc { font-variant-numeric: tabular-nums; }
+.vtbl td.why {
+  white-space: normal; min-width: 15rem; max-width: 22rem;
+  text-align: left; color: var(--fg-3); font-size: .7rem;
+}
+.vtbl td.eff, .vtbl td.kind, .vtbl td.vd { text-align: left; }
+.vtbl a { color: var(--accent); text-decoration: none; }
+.vtbl a:hover { text-decoration: underline; }
+
+/* A score at or above the rule's floor is tinted with the method's own colour,
+   at an alpha computed in JS from the legend hex. So "who fired here" is one
+   glance down three columns rather than eleven numbers read in order. */
+.vtbl td.sc.hot { color: var(--fg); font-weight: 500; }
+
+/* Rejected transitions stay on the page. The whole point of the table is seeing
+   what the rule skipped, so they are dimmed rather than dropped -- and the
+   dimming is on the row, so its scoring tints go with it. */
+.vtbl tr.rej td { opacity: .55; }
+.vtbl tr.rej td.vd { color: var(--fg-3); }
+
+/* --------------------------------------------------------- extraction grid */
+/* auto-fill at 320px: three across the middle tier, two around 1000px, one
+   below about 700. No breakpoint list to keep in step with the column count. */
+.sm-grid {
+  display: grid; gap: 1.6rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  align-items: start;
+  margin-top: 1.1rem;
+}
+.s-card {
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--bg-elev);
+  padding: .7rem .8rem .9rem;
+}
+.s-card > .sm-media { border-radius: 6px; }
+.s-card .tracks { margin-top: .8rem; }
+.s-card .readout { margin-top: .6rem; font-size: .7rem; }
+/* The strip's label column is sized for the page column, and 8.6rem out of a
+   340px card leaves the rails 195px wide. Narrower labels and a smaller face
+   give the data the room; the swatch carries the identity where the name
+   ellipsises.
+   Above 520px only. Below it site.css zeroes --lbl and puts each label above
+   its own rail, for the reason it gives there -- and a 5.4rem override written
+   without this bound wins on specificity in every media query, so the card was
+   still spending 86px of a 328px card on labels at phone widths. */
+@media (min-width: 521px) {
+  .s-card .tracks { --lbl: 5.4rem; --gap: .45rem; }
+  .s-card .trk .lbl { font-size: .64rem; }
+}
+
+.s-foot { margin-top: .7rem; font: 400 .7rem/1.6 var(--mono); color: var(--fg-3); }
+.s-foot .id { color: var(--fg); }
+.s-foot .trs { display: grid; gap: .1rem; margin-top: .35rem; }
+.s-foot .tr { color: var(--fg-2); }
+.s-foot .sc { font-variant-numeric: tabular-nums; }
+/* A rejected transition inside an accepted sample's window is the one thing a
+   reviewer must not miss: the clip shows a transition the table says was
+   skipped. */
+.s-warn {
+  display: inline-block; margin-top: .5rem;
+  padding: .15rem .45rem; border-radius: 4px;
+  border: 1px solid var(--as); color: var(--fg-2);
+  font: 400 .65rem/1.5 var(--mono);
+}
+.sm-none { font: 400 .78rem/1.6 var(--mono); color: var(--fg-3); margin-top: 1rem; }
+
+/* Loading and failure both say so on the page. A blank page under a heading
+   that promises ten videos is indistinguishable from a broken fetch. */
+.sm-status { font: 400 .8rem/1.6 var(--mono); color: var(--fg-3); margin-top: 2.5rem; }
+.sm-status.bad { color: var(--tn); }
+
+@media (max-width: 640px) {
+  .vtbl td.why { min-width: 12rem; }
+  .sm-grid { grid-template-columns: minmax(0, 1fr); }
+}

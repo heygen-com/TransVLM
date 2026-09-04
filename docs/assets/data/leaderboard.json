@@ -1,0 +1,4953 @@
+{
+ "meta": {
+  "generated": "2026-09-01",
+  "videos": 5215,
+  "hours": 100.26,
+  "transitions": 45239,
+  "methods": 21,
+  "families": 6,
+  "sources": [
+   "main_tables/tab3_v2.tex",
+   "main_tables/tab4_v2.tex",
+   "Reviewer_01_AeVU22_MinorW2_response.md",
+   "Reviewer_01_AeVU22_MW4_response.md",
+   "Reviewer_02_9sGa21_MajorW5_response.md",
+   "Reviewer_03_kUdK19_MajorW2_response.md"
+  ]
+ },
+ "subsetLabels": {
+  "all": "All",
+  "public": "Public",
+  "synthetic": "Synthetic",
+  "pblc": "Public",
+  "synthtc": "Synthetic"
+ },
+ "rowSets": {
+  "tab3": [
+   {
+    "method": "PySceneDetect Adaptive",
+    "family": "Heuristic",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.656
+     },
+     "pub_seg_r": {
+      "v": 0.716
+     },
+     "pub_seg_f1": {
+      "v": 0.684
+     },
+     "pub_frm_p": {
+      "v": 0.645
+     },
+     "pub_frm_r": {
+      "v": 0.372
+     },
+     "pub_frm_f1": {
+      "v": 0.457
+     },
+     "pub_iou_p": {
+      "v": 0.174,
+      "mark": "best"
+     },
+     "pub_iou_r": {
+      "v": 0.191
+     },
+     "pub_iou_f1": {
+      "v": 0.182
+     },
+     "pub_abe": {
+      "v": 1.93
+     },
+     "syn_seg_p": {
+      "v": 0.924,
+      "mark": "best"
+     },
+     "syn_seg_r": {
+      "v": 0.172
+     },
+     "syn_seg_f1": {
+      "v": 0.29
+     },
+     "syn_frm_p": {
+      "v": 0.922
+     },
+     "syn_frm_r": {
+      "v": 0.036
+     },
+     "syn_frm_f1": {
+      "v": 0.069
+     },
+     "syn_iou_p": {
+      "v": 0.684,
+      "mark": "best"
+     },
+     "syn_iou_r": {
+      "v": 0.126
+     },
+     "syn_iou_f1": {
+      "v": 0.213
+     },
+     "syn_abe": {
+      "v": 0.28,
+      "mark": "second"
+     },
+     "rtf": {
+      "v": 0.09
+     },
+     "params": {},
+     "mjson": {}
+    }
+   },
+   {
+    "method": "PySceneDetect Content",
+    "family": "Heuristic",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.627
+     },
+     "pub_seg_r": {
+      "v": 0.759
+     },
+     "pub_seg_f1": {
+      "v": 0.686
+     },
+     "pub_frm_p": {
+      "v": 0.603
+     },
+     "pub_frm_r": {
+      "v": 0.383
+     },
+     "pub_frm_f1": {
+      "v": 0.453
+     },
+     "pub_iou_p": {
+      "v": 0.159
+     },
+     "pub_iou_r": {
+      "v": 0.191
+     },
+     "pub_iou_f1": {
+      "v": 0.173
+     },
+     "pub_abe": {
+      "v": 1.08
+     },
+     "syn_seg_p": {
+      "v": 0.909,
+      "mark": "second"
+     },
+     "syn_seg_r": {
+      "v": 0.128
+     },
+     "syn_seg_f1": {
+      "v": 0.225
+     },
+     "syn_frm_p": {
+      "v": 0.968,
+      "mark": "best"
+     },
+     "syn_frm_r": {
+      "v": 0.029
+     },
+     "syn_frm_f1": {
+      "v": 0.056
+     },
+     "syn_iou_p": {
+      "v": 0.234
+     },
+     "syn_iou_r": {
+      "v": 0.033
+     },
+     "syn_iou_f1": {
+      "v": 0.058
+     },
+     "syn_abe": {
+      "v": 0.61
+     },
+     "rtf": {
+      "v": 0.09
+     },
+     "params": {},
+     "mjson": {}
+    }
+   },
+   {
+    "method": "PySceneDetect Hash",
+    "family": "Heuristic",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.566
+     },
+     "pub_seg_r": {
+      "v": 0.778
+     },
+     "pub_seg_f1": {
+      "v": 0.654
+     },
+     "pub_frm_p": {
+      "v": 0.549
+     },
+     "pub_frm_r": {
+      "v": 0.416
+     },
+     "pub_frm_f1": {
+      "v": 0.457
+     },
+     "pub_iou_p": {
+      "v": 0.133
+     },
+     "pub_iou_r": {
+      "v": 0.194
+     },
+     "pub_iou_f1": {
+      "v": 0.158
+     },
+     "pub_abe": {
+      "v": 2.11
+     },
+     "syn_seg_p": {
+      "v": 0.88
+     },
+     "syn_seg_r": {
+      "v": 0.118
+     },
+     "syn_seg_f1": {
+      "v": 0.208
+     },
+     "syn_frm_p": {
+      "v": 0.94
+     },
+     "syn_frm_r": {
+      "v": 0.027
+     },
+     "syn_frm_f1": {
+      "v": 0.052
+     },
+     "syn_iou_p": {
+      "v": 0.237
+     },
+     "syn_iou_r": {
+      "v": 0.032
+     },
+     "syn_iou_f1": {
+      "v": 0.057
+     },
+     "syn_abe": {
+      "v": 0.85
+     },
+     "rtf": {
+      "v": 0.09
+     },
+     "params": {},
+     "mjson": {}
+    }
+   },
+   {
+    "method": "PySceneDetect Hist",
+    "family": "Heuristic",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.452
+     },
+     "pub_seg_r": {
+      "v": 0.741
+     },
+     "pub_seg_f1": {
+      "v": 0.559
+     },
+     "pub_frm_p": {
+      "v": 0.419
+     },
+     "pub_frm_r": {
+      "v": 0.398
+     },
+     "pub_frm_f1": {
+      "v": 0.394
+     },
+     "pub_iou_p": {
+      "v": 0.099
+     },
+     "pub_iou_r": {
+      "v": 0.183
+     },
+     "pub_iou_f1": {
+      "v": 0.129
+     },
+     "pub_abe": {
+      "v": 1.19
+     },
+     "syn_seg_p": {
+      "v": 0.577
+     },
+     "syn_seg_r": {
+      "v": 0.379
+     },
+     "syn_seg_f1": {
+      "v": 0.455
+     },
+     "syn_frm_p": {
+      "v": 0.762
+     },
+     "syn_frm_r": {
+      "v": 0.117
+     },
+     "syn_frm_f1": {
+      "v": 0.197
+     },
+     "syn_iou_p": {
+      "v": 0.108
+     },
+     "syn_iou_r": {
+      "v": 0.082
+     },
+     "syn_iou_f1": {
+      "v": 0.093
+     },
+     "syn_abe": {
+      "v": 1.04
+     },
+     "rtf": {
+      "v": 0.09
+     },
+     "params": {},
+     "mjson": {}
+    }
+   },
+   {
+    "method": "PySceneDetect Threshold",
+    "family": "Heuristic",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.364
+     },
+     "pub_seg_r": {
+      "v": 0.031
+     },
+     "pub_seg_f1": {
+      "v": 0.057
+     },
+     "pub_frm_p": {
+      "v": 0.306
+     },
+     "pub_frm_r": {
+      "v": 0.014
+     },
+     "pub_frm_f1": {
+      "v": 0.027
+     },
+     "pub_iou_p": {
+      "v": 0.014
+     },
+     "pub_iou_r": {
+      "v": 0.001
+     },
+     "pub_iou_f1": {
+      "v": 0.002
+     },
+     "pub_abe": {
+      "v": 3.08
+     },
+     "syn_seg_p": {
+      "v": 0.773
+     },
+     "syn_seg_r": {
+      "v": 0.039
+     },
+     "syn_seg_f1": {
+      "v": 0.074
+     },
+     "syn_frm_p": {
+      "v": 0.749
+     },
+     "syn_frm_r": {
+      "v": 0.008
+     },
+     "syn_frm_f1": {
+      "v": 0.016
+     },
+     "syn_iou_p": {
+      "v": 0.013
+     },
+     "syn_iou_r": {
+      "v": 0.0
+     },
+     "syn_iou_f1": {
+      "v": 0.001
+     },
+     "syn_abe": {
+      "v": 1.46
+     },
+     "rtf": {
+      "v": 0.09
+     },
+     "params": {},
+     "mjson": {}
+    }
+   },
+   {
+    "method": "TransNetV2 Official",
+    "family": "SBD",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.727,
+      "mark": "second"
+     },
+     "pub_seg_r": {
+      "v": 0.78
+     },
+     "pub_seg_f1": {
+      "v": 0.752,
+      "mark": "second"
+     },
+     "pub_frm_p": {
+      "v": 0.731,
+      "mark": "best"
+     },
+     "pub_frm_r": {
+      "v": 0.427
+     },
+     "pub_frm_f1": {
+      "v": 0.528
+     },
+     "pub_iou_p": {
+      "v": 0.173,
+      "mark": "second"
+     },
+     "pub_iou_r": {
+      "v": 0.2
+     },
+     "pub_iou_f1": {
+      "v": 0.186,
+      "mark": "second"
+     },
+     "pub_abe": {
+      "v": 1.87
+     },
+     "syn_seg_p": {
+      "v": 0.275
+     },
+     "syn_seg_r": {
+      "v": 0.149
+     },
+     "syn_seg_f1": {
+      "v": 0.194
+     },
+     "syn_frm_p": {
+      "v": 0.417
+     },
+     "syn_frm_r": {
+      "v": 0.034
+     },
+     "syn_frm_f1": {
+      "v": 0.063
+     },
+     "syn_iou_p": {
+      "v": 0.044
+     },
+     "syn_iou_r": {
+      "v": 0.028
+     },
+     "syn_iou_f1": {
+      "v": 0.034
+     },
+     "syn_abe": {
+      "v": 0.61
+     },
+     "rtf": {
+      "v": 0.07
+     },
+     "params": {
+      "v": 7.6,
+      "unit": "M",
+      "raw": "7.6M",
+      "norm": 7.6
+     },
+     "mjson": {}
+    }
+   },
+   {
+    "method": "TransNetV2 w/ DH",
+    "family": "SBD",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.251
+     },
+     "pub_seg_r": {
+      "v": 0.865,
+      "mark": "best"
+     },
+     "pub_seg_f1": {
+      "v": 0.389
+     },
+     "pub_frm_p": {
+      "v": 0.227
+     },
+     "pub_frm_r": {
+      "v": 0.625,
+      "mark": "second"
+     },
+     "pub_frm_f1": {
+      "v": 0.333
+     },
+     "pub_iou_p": {
+      "v": 0.066
+     },
+     "pub_iou_r": {
+      "v": 0.282,
+      "mark": "best"
+     },
+     "pub_iou_f1": {
+      "v": 0.106
+     },
+     "pub_abe": {
+      "v": 1.63
+     },
+     "syn_seg_p": {
+      "v": 0.487
+     },
+     "syn_seg_r": {
+      "v": 0.862,
+      "mark": "second"
+     },
+     "syn_seg_f1": {
+      "v": 0.622
+     },
+     "syn_frm_p": {
+      "v": 0.61
+     },
+     "syn_frm_r": {
+      "v": 0.589
+     },
+     "syn_frm_f1": {
+      "v": 0.598
+     },
+     "syn_iou_p": {
+      "v": 0.131
+     },
+     "syn_iou_r": {
+      "v": 0.34
+     },
+     "syn_iou_f1": {
+      "v": 0.189
+     },
+     "syn_abe": {
+      "v": 1.0
+     },
+     "rtf": {
+      "v": 0.07
+     },
+     "params": {
+      "v": 8.1,
+      "unit": "M",
+      "raw": "8.1M",
+      "norm": 8.1
+     },
+     "mjson": {}
+    }
+   },
+   {
+    "method": "AutoShot",
+    "family": "SBD",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.707
+     },
+     "pub_seg_r": {
+      "v": 0.804
+     },
+     "pub_seg_f1": {
+      "v": 0.751
+     },
+     "pub_frm_p": {
+      "v": 0.709,
+      "mark": "second"
+     },
+     "pub_frm_r": {
+      "v": 0.44
+     },
+     "pub_frm_f1": {
+      "v": 0.532,
+      "mark": "second"
+     },
+     "pub_iou_p": {
+      "v": 0.157
+     },
+     "pub_iou_r": {
+      "v": 0.221,
+      "mark": "second"
+     },
+     "pub_iou_f1": {
+      "v": 0.184
+     },
+     "pub_abe": {
+      "v": 1.78
+     },
+     "syn_seg_p": {
+      "v": 0.379
+     },
+     "syn_seg_r": {
+      "v": 0.248
+     },
+     "syn_seg_f1": {
+      "v": 0.299
+     },
+     "syn_frm_p": {
+      "v": 0.53
+     },
+     "syn_frm_r": {
+      "v": 0.058
+     },
+     "syn_frm_f1": {
+      "v": 0.102
+     },
+     "syn_iou_p": {
+      "v": 0.088
+     },
+     "syn_iou_r": {
+      "v": 0.069
+     },
+     "syn_iou_f1": {
+      "v": 0.077
+     },
+     "syn_abe": {
+      "v": 0.51
+     },
+     "rtf": {
+      "v": 0.03,
+      "mark": "second"
+     },
+     "params": {
+      "v": 14.3,
+      "unit": "M",
+      "raw": "14.3M",
+      "norm": 14.3
+     },
+     "mjson": {}
+    }
+   },
+   {
+    "method": "ActionFormer",
+    "family": "TAL",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.39
+     },
+     "pub_seg_r": {
+      "v": 0.568
+     },
+     "pub_seg_f1": {
+      "v": 0.462
+     },
+     "pub_frm_p": {
+      "v": 0.368
+     },
+     "pub_frm_r": {
+      "v": 0.795,
+      "mark": "best"
+     },
+     "pub_frm_f1": {
+      "v": 0.498
+     },
+     "pub_iou_p": {
+      "v": 0.153
+     },
+     "pub_iou_r": {
+      "v": 0.208
+     },
+     "pub_iou_f1": {
+      "v": 0.176
+     },
+     "pub_abe": {
+      "v": 0.34,
+      "mark": "best"
+     },
+     "syn_seg_p": {
+      "v": 0.36
+     },
+     "syn_seg_r": {
+      "v": 0.758
+     },
+     "syn_seg_f1": {
+      "v": 0.488
+     },
+     "syn_frm_p": {
+      "v": 0.619
+     },
+     "syn_frm_r": {
+      "v": 0.986,
+      "mark": "best"
+     },
+     "syn_frm_f1": {
+      "v": 0.76
+     },
+     "syn_iou_p": {
+      "v": 0.343
+     },
+     "syn_iou_r": {
+      "v": 0.766,
+      "mark": "best"
+     },
+     "syn_iou_f1": {
+      "v": 0.474,
+      "mark": "second"
+     },
+     "syn_abe": {
+      "v": 0.99
+     },
+     "rtf": {
+      "v": 0.02,
+      "mark": "best"
+     },
+     "params": {
+      "v": 29.2,
+      "unit": "M",
+      "raw": "29.2M",
+      "norm": 29.2
+     },
+     "mjson": {}
+    }
+   },
+   {
+    "method": "Gemini 2.5 Pro",
+    "family": "API VLM",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.558
+     },
+     "pub_seg_r": {
+      "v": 0.527
+     },
+     "pub_seg_f1": {
+      "v": 0.542
+     },
+     "pub_frm_p": {
+      "v": 0.453
+     },
+     "pub_frm_r": {
+      "v": 0.361
+     },
+     "pub_frm_f1": {
+      "v": 0.401
+     },
+     "pub_iou_p": {
+      "v": 0.105
+     },
+     "pub_iou_r": {
+      "v": 0.105
+     },
+     "pub_iou_f1": {
+      "v": 0.105
+     },
+     "pub_abe": {
+      "v": 3.62
+     },
+     "syn_seg_p": {
+      "v": 0.338
+     },
+     "syn_seg_r": {
+      "v": 0.851
+     },
+     "syn_seg_f1": {
+      "v": 0.465
+     },
+     "syn_frm_p": {
+      "v": 0.638
+     },
+     "syn_frm_r": {
+      "v": 0.76
+     },
+     "syn_frm_f1": {
+      "v": 0.686
+     },
+     "syn_iou_p": {
+      "v": 0.155
+     },
+     "syn_iou_r": {
+      "v": 0.465
+     },
+     "syn_iou_f1": {
+      "v": 0.233
+     },
+     "syn_abe": {
+      "v": 0.82
+     },
+     "rtf": {
+      "v": 0.81
+     },
+     "params": {},
+     "mjson": {
+      "v": 0.1,
+      "mark": "second"
+     }
+    }
+   },
+   {
+    "method": "Gemini 3 Pro",
+    "family": "API VLM",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.527
+     },
+     "pub_seg_r": {
+      "v": 0.573
+     },
+     "pub_seg_f1": {
+      "v": 0.549
+     },
+     "pub_frm_p": {
+      "v": 0.469
+     },
+     "pub_frm_r": {
+      "v": 0.343
+     },
+     "pub_frm_f1": {
+      "v": 0.393
+     },
+     "pub_iou_p": {
+      "v": 0.091
+     },
+     "pub_iou_r": {
+      "v": 0.1
+     },
+     "pub_iou_f1": {
+      "v": 0.096
+     },
+     "pub_abe": {
+      "v": 2.18
+     },
+     "syn_seg_p": {
+      "v": 0.479
+     },
+     "syn_seg_r": {
+      "v": 0.768
+     },
+     "syn_seg_f1": {
+      "v": 0.588
+     },
+     "syn_frm_p": {
+      "v": 0.711
+     },
+     "syn_frm_r": {
+      "v": 0.482
+     },
+     "syn_frm_f1": {
+      "v": 0.568
+     },
+     "syn_iou_p": {
+      "v": 0.171
+     },
+     "syn_iou_r": {
+      "v": 0.292
+     },
+     "syn_iou_f1": {
+      "v": 0.216
+     },
+     "syn_abe": {
+      "v": 0.88
+     },
+     "rtf": {
+      "v": 1.32
+     },
+     "params": {},
+     "mjson": {
+      "v": 0.29
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Instruct 4B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.235
+     },
+     "pub_seg_r": {
+      "v": 0.088
+     },
+     "pub_seg_f1": {
+      "v": 0.124
+     },
+     "pub_frm_p": {
+      "v": 0.134
+     },
+     "pub_frm_r": {
+      "v": 0.174
+     },
+     "pub_frm_f1": {
+      "v": 0.148
+     },
+     "pub_iou_p": {
+      "v": 0.011
+     },
+     "pub_iou_r": {
+      "v": 0.006
+     },
+     "pub_iou_f1": {
+      "v": 0.008
+     },
+     "pub_abe": {
+      "v": 55.0
+     },
+     "syn_seg_p": {
+      "v": 0.717
+     },
+     "syn_seg_r": {
+      "v": 0.306
+     },
+     "syn_seg_f1": {
+      "v": 0.428
+     },
+     "syn_frm_p": {
+      "v": 0.458
+     },
+     "syn_frm_r": {
+      "v": 0.618
+     },
+     "syn_frm_f1": {
+      "v": 0.525
+     },
+     "syn_iou_p": {
+      "v": 0.083
+     },
+     "syn_iou_r": {
+      "v": 0.06
+     },
+     "syn_iou_f1": {
+      "v": 0.07
+     },
+     "syn_abe": {
+      "v": 8.88
+     },
+     "rtf": {
+      "v": 0.31
+     },
+     "params": {
+      "v": 4.4,
+      "unit": "B",
+      "raw": "4.4B",
+      "norm": 4400.0
+     },
+     "mjson": {
+      "v": 4.96
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Instruct 8B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.222
+     },
+     "pub_seg_r": {
+      "v": 0.297
+     },
+     "pub_seg_f1": {
+      "v": 0.246
+     },
+     "pub_frm_p": {
+      "v": 0.132
+     },
+     "pub_frm_r": {
+      "v": 0.307
+     },
+     "pub_frm_f1": {
+      "v": 0.184
+     },
+     "pub_iou_p": {
+      "v": 0.009
+     },
+     "pub_iou_r": {
+      "v": 0.016
+     },
+     "pub_iou_f1": {
+      "v": 0.012
+     },
+     "pub_abe": {
+      "v": 34.39
+     },
+     "syn_seg_p": {
+      "v": 0.586
+     },
+     "syn_seg_r": {
+      "v": 0.597
+     },
+     "syn_seg_f1": {
+      "v": 0.591
+     },
+     "syn_frm_p": {
+      "v": 0.741
+     },
+     "syn_frm_r": {
+      "v": 0.204
+     },
+     "syn_frm_f1": {
+      "v": 0.315
+     },
+     "syn_iou_p": {
+      "v": 0.032
+     },
+     "syn_iou_r": {
+      "v": 0.035
+     },
+     "syn_iou_f1": {
+      "v": 0.033
+     },
+     "syn_abe": {
+      "v": 1.6
+     },
+     "rtf": {
+      "v": 0.34
+     },
+     "params": {
+      "v": 8.8,
+      "unit": "B",
+      "raw": "8.8B",
+      "norm": 8800.0
+     },
+     "mjson": {
+      "v": 3.1
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Instruct 32B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.309
+     },
+     "pub_seg_r": {
+      "v": 0.473
+     },
+     "pub_seg_f1": {
+      "v": 0.37
+     },
+     "pub_frm_p": {
+      "v": 0.214
+     },
+     "pub_frm_r": {
+      "v": 0.279
+     },
+     "pub_frm_f1": {
+      "v": 0.241
+     },
+     "pub_iou_p": {
+      "v": 0.012
+     },
+     "pub_iou_r": {
+      "v": 0.02
+     },
+     "pub_iou_f1": {
+      "v": 0.015
+     },
+     "pub_abe": {
+      "v": 3.96
+     },
+     "syn_seg_p": {
+      "v": 0.895
+     },
+     "syn_seg_r": {
+      "v": 0.623
+     },
+     "syn_seg_f1": {
+      "v": 0.735
+     },
+     "syn_frm_p": {
+      "v": 0.911
+     },
+     "syn_frm_r": {
+      "v": 0.361
+     },
+     "syn_frm_f1": {
+      "v": 0.516
+     },
+     "syn_iou_p": {
+      "v": 0.243
+     },
+     "syn_iou_r": {
+      "v": 0.197
+     },
+     "syn_iou_f1": {
+      "v": 0.218
+     },
+     "syn_abe": {
+      "v": 1.35
+     },
+     "rtf": {
+      "v": 0.98
+     },
+     "params": {
+      "v": 33.4,
+      "unit": "B",
+      "raw": "33.4B",
+      "norm": 33400.0
+     },
+     "mjson": {
+      "v": 0.38
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Instruct 30B-A3B(MoE)",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.218
+     },
+     "pub_seg_r": {
+      "v": 0.3
+     },
+     "pub_seg_f1": {
+      "v": 0.242
+     },
+     "pub_frm_p": {
+      "v": 0.171
+     },
+     "pub_frm_r": {
+      "v": 0.222
+     },
+     "pub_frm_f1": {
+      "v": 0.192
+     },
+     "pub_iou_p": {
+      "v": 0.009
+     },
+     "pub_iou_r": {
+      "v": 0.017
+     },
+     "pub_iou_f1": {
+      "v": 0.011
+     },
+     "pub_abe": {
+      "v": 9.61
+     },
+     "syn_seg_p": {
+      "v": 0.806
+     },
+     "syn_seg_r": {
+      "v": 0.593
+     },
+     "syn_seg_f1": {
+      "v": 0.683
+     },
+     "syn_frm_p": {
+      "v": 0.749
+     },
+     "syn_frm_r": {
+      "v": 0.355
+     },
+     "syn_frm_f1": {
+      "v": 0.482
+     },
+     "syn_iou_p": {
+      "v": 0.153
+     },
+     "syn_iou_r": {
+      "v": 0.12
+     },
+     "syn_iou_f1": {
+      "v": 0.134
+     },
+     "syn_abe": {
+      "v": 1.86
+     },
+     "rtf": {
+      "v": 0.35
+     },
+     "params": {
+      "v": 31.1,
+      "unit": "B",
+      "raw": "31.1B",
+      "norm": 31100.0
+     },
+     "mjson": {
+      "v": 1.63
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Thinking 4B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.449
+     },
+     "pub_seg_r": {
+      "v": 0.079
+     },
+     "pub_seg_f1": {
+      "v": 0.134
+     },
+     "pub_frm_p": {
+      "v": 0.265
+     },
+     "pub_frm_r": {
+      "v": 0.051
+     },
+     "pub_frm_f1": {
+      "v": 0.086
+     },
+     "pub_iou_p": {
+      "v": 0.018
+     },
+     "pub_iou_r": {
+      "v": 0.004
+     },
+     "pub_iou_f1": {
+      "v": 0.006
+     },
+     "pub_abe": {
+      "v": 1.5
+     },
+     "syn_seg_p": {
+      "v": 0.839
+     },
+     "syn_seg_r": {
+      "v": 0.218
+     },
+     "syn_seg_f1": {
+      "v": 0.346
+     },
+     "syn_frm_p": {
+      "v": 0.748
+     },
+     "syn_frm_r": {
+      "v": 0.087
+     },
+     "syn_frm_f1": {
+      "v": 0.156
+     },
+     "syn_iou_p": {
+      "v": 0.088
+     },
+     "syn_iou_r": {
+      "v": 0.024
+     },
+     "syn_iou_f1": {
+      "v": 0.037
+     },
+     "syn_abe": {
+      "v": 1.68
+     },
+     "rtf": {
+      "v": 1.03
+     },
+     "params": {
+      "v": 4.4,
+      "unit": "B",
+      "raw": "4.4B",
+      "norm": 4400.0
+     },
+     "mjson": {
+      "v": 38.53
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Thinking 8B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.45
+     },
+     "pub_seg_r": {
+      "v": 0.144
+     },
+     "pub_seg_f1": {
+      "v": 0.217
+     },
+     "pub_frm_p": {
+      "v": 0.297
+     },
+     "pub_frm_r": {
+      "v": 0.094
+     },
+     "pub_frm_f1": {
+      "v": 0.143
+     },
+     "pub_iou_p": {
+      "v": 0.02
+     },
+     "pub_iou_r": {
+      "v": 0.008
+     },
+     "pub_iou_f1": {
+      "v": 0.011
+     },
+     "pub_abe": {
+      "v": 4.25
+     },
+     "syn_seg_p": {
+      "v": 0.854
+     },
+     "syn_seg_r": {
+      "v": 0.389
+     },
+     "syn_seg_f1": {
+      "v": 0.534
+     },
+     "syn_frm_p": {
+      "v": 0.923
+     },
+     "syn_frm_r": {
+      "v": 0.147
+     },
+     "syn_frm_f1": {
+      "v": 0.252
+     },
+     "syn_iou_p": {
+      "v": 0.08
+     },
+     "syn_iou_r": {
+      "v": 0.037
+     },
+     "syn_iou_f1": {
+      "v": 0.05
+     },
+     "syn_abe": {
+      "v": 1.29
+     },
+     "rtf": {
+      "v": 1.31
+     },
+     "params": {
+      "v": 8.8,
+      "unit": "B",
+      "raw": "8.8B",
+      "norm": 8800.0
+     },
+     "mjson": {
+      "v": 22.34
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Thinking 32B",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.403
+     },
+     "pub_seg_r": {
+      "v": 0.26
+     },
+     "pub_seg_f1": {
+      "v": 0.315
+     },
+     "pub_frm_p": {
+      "v": 0.308
+     },
+     "pub_frm_r": {
+      "v": 0.16
+     },
+     "pub_frm_f1": {
+      "v": 0.209
+     },
+     "pub_iou_p": {
+      "v": 0.022
+     },
+     "pub_iou_r": {
+      "v": 0.016
+     },
+     "pub_iou_f1": {
+      "v": 0.019
+     },
+     "pub_abe": {
+      "v": 1.09
+     },
+     "syn_seg_p": {
+      "v": 0.9
+     },
+     "syn_seg_r": {
+      "v": 0.608
+     },
+     "syn_seg_f1": {
+      "v": 0.726
+     },
+     "syn_frm_p": {
+      "v": 0.943
+     },
+     "syn_frm_r": {
+      "v": 0.323
+     },
+     "syn_frm_f1": {
+      "v": 0.479
+     },
+     "syn_iou_p": {
+      "v": 0.18
+     },
+     "syn_iou_r": {
+      "v": 0.122
+     },
+     "syn_iou_f1": {
+      "v": 0.146
+     },
+     "syn_abe": {
+      "v": 1.16
+     },
+     "rtf": {
+      "v": 3.3
+     },
+     "params": {
+      "v": 33.4,
+      "unit": "B",
+      "raw": "33.4B",
+      "norm": 33400.0
+     },
+     "mjson": {
+      "v": 4.54
+     }
+    }
+   },
+   {
+    "method": "Qwen3-VL Thinking 30B-A3B(MoE)",
+    "family": "Open VLM (zero-shot)",
+    "ours": false,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.374
+     },
+     "pub_seg_r": {
+      "v": 0.217
+     },
+     "pub_seg_f1": {
+      "v": 0.275
+     },
+     "pub_frm_p": {
+      "v": 0.291
+     },
+     "pub_frm_r": {
+      "v": 0.127
+     },
+     "pub_frm_f1": {
+      "v": 0.175
+     },
+     "pub_iou_p": {
+      "v": 0.019
+     },
+     "pub_iou_r": {
+      "v": 0.012
+     },
+     "pub_iou_f1": {
+      "v": 0.015
+     },
+     "pub_abe": {
+      "v": 0.98,
+      "mark": "second"
+     },
+     "syn_seg_p": {
+      "v": 0.89
+     },
+     "syn_seg_r": {
+      "v": 0.61
+     },
+     "syn_seg_f1": {
+      "v": 0.724
+     },
+     "syn_frm_p": {
+      "v": 0.915
+     },
+     "syn_frm_r": {
+      "v": 0.331
+     },
+     "syn_frm_f1": {
+      "v": 0.485
+     },
+     "syn_iou_p": {
+      "v": 0.168
+     },
+     "syn_iou_r": {
+      "v": 0.115
+     },
+     "syn_iou_f1": {
+      "v": 0.136
+     },
+     "syn_abe": {
+      "v": 1.18
+     },
+     "rtf": {
+      "v": 0.92
+     },
+     "params": {
+      "v": 31.1,
+      "unit": "B",
+      "raw": "31.1B",
+      "norm": 31100.0
+     },
+     "mjson": {
+      "v": 1.23
+     }
+    }
+   },
+   {
+    "method": "TransVLM-4B @ 5 FPS",
+    "family": "Ours",
+    "ours": true,
+    "cells": {
+     "fps": {
+      "v": 5.0
+     },
+     "pub_seg_p": {
+      "v": 0.454
+     },
+     "pub_seg_r": {
+      "v": 0.692
+     },
+     "pub_seg_f1": {
+      "v": 0.548
+     },
+     "pub_frm_p": {
+      "v": 0.478
+     },
+     "pub_frm_r": {
+      "v": 0.613
+     },
+     "pub_frm_f1": {
+      "v": 0.527
+     },
+     "pub_iou_p": {
+      "v": 0.075
+     },
+     "pub_iou_r": {
+      "v": 0.147
+     },
+     "pub_iou_f1": {
+      "v": 0.099
+     },
+     "pub_abe": {
+      "v": 1.97
+     },
+     "syn_seg_p": {
+      "v": 0.783
+     },
+     "syn_seg_r": {
+      "v": 0.704
+     },
+     "syn_seg_f1": {
+      "v": 0.741,
+      "mark": "second"
+     },
+     "syn_frm_p": {
+      "v": 0.86
+     },
+     "syn_frm_r": {
+      "v": 0.838
+     },
+     "syn_frm_f1": {
+      "v": 0.849,
+      "mark": "second"
+     },
+     "syn_iou_p": {
+      "v": 0.473
+     },
+     "syn_iou_r": {
+      "v": 0.434
+     },
+     "syn_iou_f1": {
+      "v": 0.453
+     },
+     "syn_abe": {
+      "v": 0.34
+     },
+     "rtf": {
+      "v": 0.36
+     },
+     "params": {
+      "v": 4.8,
+      "unit": "B",
+      "raw": "4.8B",
+      "norm": 4800.0
+     },
+     "mjson": {
+      "v": 0.59
+     }
+    }
+   },
+   {
+    "method": "TransVLM-4B @ 25 FPS",
+    "family": "Ours",
+    "ours": true,
+    "cells": {
+     "fps": {
+      "v": 25.0
+     },
+     "pub_seg_p": {
+      "v": 0.762,
+      "mark": "best"
+     },
+     "pub_seg_r": {
+      "v": 0.806,
+      "mark": "second"
+     },
+     "pub_seg_f1": {
+      "v": 0.783,
+      "mark": "best"
+     },
+     "pub_frm_p": {
+      "v": 0.574
+     },
+     "pub_frm_r": {
+      "v": 0.562
+     },
+     "pub_frm_f1": {
+      "v": 0.568,
+      "mark": "best"
+     },
+     "pub_iou_p": {
+      "v": 0.166
+     },
+     "pub_iou_r": {
+      "v": 0.221,
+      "mark": "second"
+     },
+     "pub_iou_f1": {
+      "v": 0.189,
+      "mark": "best"
+     },
+     "pub_abe": {
+      "v": 1.58
+     },
+     "syn_seg_p": {
+      "v": 0.908
+     },
+     "syn_seg_r": {
+      "v": 0.882,
+      "mark": "best"
+     },
+     "syn_seg_f1": {
+      "v": 0.895,
+      "mark": "best"
+     },
+     "syn_frm_p": {
+      "v": 0.946,
+      "mark": "second"
+     },
+     "syn_frm_r": {
+      "v": 0.93,
+      "mark": "second"
+     },
+     "syn_frm_f1": {
+      "v": 0.938,
+      "mark": "best"
+     },
+     "syn_iou_p": {
+      "v": 0.67,
+      "mark": "second"
+     },
+     "syn_iou_r": {
+      "v": 0.662,
+      "mark": "second"
+     },
+     "syn_iou_f1": {
+      "v": 0.666,
+      "mark": "best"
+     },
+     "syn_abe": {
+      "v": 0.11,
+      "mark": "best"
+     },
+     "rtf": {
+      "v": 0.72
+     },
+     "params": {
+      "v": 4.8,
+      "unit": "B",
+      "raw": "4.8B",
+      "norm": 4800.0
+     },
+     "mjson": {
+      "v": 0.03,
+      "mark": "best"
+     }
+    }
+   }
+  ]
+ },
+ "dimensions": [
+  {
+   "id": "overall",
+   "label": "Overall",
+   "kind": "table",
+   "rowsRef": "tab3",
+   "blurb": "Segment-, frame- and IoU-level F1 on both halves of the benchmark, averaged over the temporal tolerance sweep.",
+   "columns": [
+    {
+     "id": "fps",
+     "label": "FPS",
+     "dir": "desc",
+     "fmt": "int"
+    },
+    {
+     "id": "pub_seg_f1",
+     "label": "Seg-F1 (public)",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "syn_seg_f1",
+     "label": "Seg-F1 (synth)",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_f1",
+     "label": "Frame-F1 (public)",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_frm_f1",
+     "label": "Frame-F1 (synth)",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_iou_f1",
+     "label": "IoU-F1 (public)",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_iou_f1",
+     "label": "IoU-F1 (synth)",
+     "dir": "desc"
+    },
+    {
+     "id": "rtf",
+     "label": "RTF",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "params",
+     "label": "Params",
+     "dir": "asc",
+     "fmt": "raw"
+    },
+    {
+     "id": "mjson",
+     "label": "M-JSON",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    }
+   ]
+  },
+  {
+   "id": "public",
+   "label": "Public data",
+   "kind": "table",
+   "rowsRef": "tab3",
+   "blurb": "Six re-annotated public datasets: RAI, BBC, AutoShot, ClipShots, MovieShots-2, SportsShot.",
+   "columns": [
+    {
+     "id": "fps",
+     "label": "FPS",
+     "dir": "desc",
+     "fmt": "int"
+    },
+    {
+     "id": "pub_seg_f1",
+     "label": "Seg-F1",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "pub_seg_p",
+     "label": "Seg-P",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_seg_r",
+     "label": "Seg-R",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_f1",
+     "label": "Frame-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_p",
+     "label": "Frame-P",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_r",
+     "label": "Frame-R",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_iou_f1",
+     "label": "IoU-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_abe",
+     "label": "ABE",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "s"
+    },
+    {
+     "id": "rtf",
+     "label": "RTF",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "params",
+     "label": "Params",
+     "dir": "asc",
+     "fmt": "raw"
+    },
+    {
+     "id": "mjson",
+     "label": "M-JSON",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    }
+   ]
+  },
+  {
+   "id": "synthetic",
+   "label": "Synthetic data",
+   "kind": "table",
+   "rowsRef": "tab3",
+   "blurb": "Videos built by the FFmpeg data engine, where every transition has an exact segment-level label by construction.",
+   "columns": [
+    {
+     "id": "fps",
+     "label": "FPS",
+     "dir": "desc",
+     "fmt": "int"
+    },
+    {
+     "id": "syn_seg_f1",
+     "label": "Seg-F1",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "syn_seg_p",
+     "label": "Seg-P",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_seg_r",
+     "label": "Seg-R",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_frm_f1",
+     "label": "Frame-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_frm_p",
+     "label": "Frame-P",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_frm_r",
+     "label": "Frame-R",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_iou_f1",
+     "label": "IoU-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "syn_abe",
+     "label": "ABE",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "s"
+    },
+    {
+     "id": "rtf",
+     "label": "RTF",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "params",
+     "label": "Params",
+     "dir": "asc",
+     "fmt": "raw"
+    },
+    {
+     "id": "mjson",
+     "label": "M-JSON",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    }
+   ]
+  },
+  {
+   "id": "per_tau",
+   "label": "Per-τ",
+   "kind": "widget",
+   "widget": "quantitative",
+   "blurb": "Every method at each temporal tolerance τ, per dataset — 168 tables and 98 curves, generated with the paper."
+  },
+  {
+   "id": "per_type",
+   "label": "Per transition type",
+   "kind": "table",
+   "rows": [
+    {
+     "method": "TransVLM-4B @ 25 FPS",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.506,
+       "mark": "second"
+      },
+      "normal": {
+       "v": 0.984,
+       "mark": "best"
+      },
+      "long": {
+       "v": 0.983,
+       "mark": "second"
+      }
+     },
+     "ours": true,
+     "family": "Ours"
+    },
+    {
+     "method": "TransNetV2 Official",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.079
+      },
+      "normal": {
+       "v": 0.503
+      },
+      "long": {
+       "v": 0.263
+      }
+     },
+     "ours": false,
+     "family": "SBD"
+    },
+    {
+     "method": "AutoShot",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.279
+      },
+      "normal": {
+       "v": 0.619
+      },
+      "long": {
+       "v": 0.342
+      }
+     },
+     "ours": false,
+     "family": "SBD"
+    },
+    {
+     "method": "PySceneDetect Adaptive",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.528,
+       "mark": "best"
+      },
+      "normal": {
+       "v": 0.16
+      },
+      "long": {
+       "v": 0.09
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "PySceneDetect Content",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.113
+      },
+      "normal": {
+       "v": 0.401
+      },
+      "long": {
+       "v": 0.177
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "Gemini 2.5 Pro",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.034
+      },
+      "normal": {
+       "v": 0.933
+      },
+      "long": {
+       "v": 0.95
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Gemini 3 Pro",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.042
+      },
+      "normal": {
+       "v": 0.964,
+       "mark": "second"
+      },
+      "long": {
+       "v": 0.988,
+       "mark": "best"
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Qwen3-VL Instruct 4B",
+     "cells": {
+      "none": {
+       "v": 0.0
+      },
+      "abrupt": {
+       "v": 0.064
+      },
+      "normal": {
+       "v": 0.762
+      },
+      "long": {
+       "v": 0.898
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    }
+   ],
+   "subsets": [
+    "synthetic"
+   ],
+   "blurb": "Seg-F1 split by transition family on the synthetic half, at Δtt = 0. The <code>none</code> column is 1k single-shot negatives: every method scoring 0 is the sanity check, not a failure.",
+   "columns": [
+    {
+     "id": "abrupt",
+     "label": "Abrupt",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "normal",
+     "label": "Normal",
+     "dir": "desc"
+    },
+    {
+     "id": "long",
+     "label": "Long",
+     "dir": "desc"
+    },
+    {
+     "id": "none",
+     "label": "None (neg.)",
+     "dir": "desc"
+    }
+   ]
+  },
+  {
+   "id": "per_duration",
+   "label": "Per duration class",
+   "kind": "table",
+   "rowsBySubset": {
+    "synthetic": [
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "cut": {
+        "v": 0.506,
+        "mark": "second"
+       },
+       "normal": {
+        "v": 0.981,
+        "mark": "best"
+       },
+       "long": {
+        "v": 0.994,
+        "mark": "second"
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     },
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "cut": {
+        "v": 0.067
+       },
+       "normal": {
+        "v": 0.599
+       },
+       "long": {
+        "v": 0.201
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "cut": {
+        "v": 0.195
+       },
+       "normal": {
+        "v": 0.756
+       },
+       "long": {
+        "v": 0.24
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "PySceneDetect Adaptive",
+      "cells": {
+       "cut": {
+        "v": 0.531,
+        "mark": "best"
+       },
+       "normal": {
+        "v": 0.182
+       },
+       "long": {
+        "v": 0.077
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "PySceneDetect Content",
+      "cells": {
+       "cut": {
+        "v": 0.143
+       },
+       "normal": {
+        "v": 0.559
+       },
+       "long": {
+        "v": 0.145
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.032
+       },
+       "normal": {
+        "v": 0.755
+       },
+       "long": {
+        "v": 0.991
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Gemini 3 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.041
+       },
+       "normal": {
+        "v": 0.798
+       },
+       "long": {
+        "v": 0.996,
+        "mark": "best"
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Qwen3-VL Instruct 4B",
+      "cells": {
+       "cut": {
+        "v": 0.054
+       },
+       "normal": {
+        "v": 0.92,
+        "mark": "second"
+       },
+       "long": {
+        "v": 0.933
+       }
+      },
+      "ours": false,
+      "family": "Open VLM (zero-shot)"
+     }
+    ],
+    "public": [
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "cut": {
+        "v": 0.632,
+        "mark": "best"
+       },
+       "normal": {
+        "v": 0.58
+       },
+       "long": {
+        "v": 0.814,
+        "mark": "second"
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     },
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "cut": {
+        "v": 0.57,
+        "mark": "second"
+       },
+       "normal": {
+        "v": 0.754
+       },
+       "long": {
+        "v": 0.759
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "cut": {
+        "v": 0.553
+       },
+       "normal": {
+        "v": 0.829,
+        "mark": "best"
+       },
+       "long": {
+        "v": 0.827,
+        "mark": "best"
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "PySceneDetect Adaptive",
+      "cells": {
+       "cut": {
+        "v": 0.535
+       },
+       "normal": {
+        "v": 0.499
+       },
+       "long": {
+        "v": 0.673
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "PySceneDetect Content",
+      "cells": {
+       "cut": {
+        "v": 0.508
+       },
+       "normal": {
+        "v": 0.659,
+        "mark": "second"
+       },
+       "long": {
+        "v": 0.725
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.223
+       },
+       "normal": {
+        "v": 0.552
+       },
+       "long": {
+        "v": 0.593
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Gemini 3 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.199
+       },
+       "normal": {
+        "v": 0.549
+       },
+       "long": {
+        "v": 0.764
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Qwen3-VL Instruct 4B",
+      "cells": {
+       "cut": {
+        "v": 0.133
+       },
+       "normal": {
+        "v": 0.35
+       },
+       "long": {
+        "v": 0.516
+       }
+      },
+      "ours": false,
+      "family": "Open VLM (zero-shot)"
+     }
+    ],
+    "all": [
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "cut": {
+        "v": 0.618,
+        "mark": "best"
+       },
+       "normal": {
+        "v": 0.649
+       },
+       "long": {
+        "v": 0.954,
+        "mark": "second"
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     },
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "cut": {
+        "v": 0.513,
+        "mark": "second"
+       },
+       "normal": {
+        "v": 0.721
+       },
+       "long": {
+        "v": 0.344
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "cut": {
+        "v": 0.51
+       },
+       "normal": {
+        "v": 0.813,
+        "mark": "best"
+       },
+       "long": {
+        "v": 0.394
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "PySceneDetect Adaptive",
+      "cells": {
+       "cut": {
+        "v": 0.534
+       },
+       "normal": {
+        "v": 0.435
+       },
+       "long": {
+        "v": 0.23
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "PySceneDetect Content",
+      "cells": {
+       "cut": {
+        "v": 0.487
+       },
+       "normal": {
+        "v": 0.637
+       },
+       "long": {
+        "v": 0.294
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.159
+       },
+       "normal": {
+        "v": 0.603
+       },
+       "long": {
+        "v": 0.906
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Gemini 3 Pro",
+      "cells": {
+       "cut": {
+        "v": 0.168
+       },
+       "normal": {
+        "v": 0.612
+       },
+       "long": {
+        "v": 0.954,
+        "mark": "best"
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Qwen3-VL Instruct 4B",
+      "cells": {
+       "cut": {
+        "v": 0.124
+       },
+       "normal": {
+        "v": 0.529
+       },
+       "long": {
+        "v": 0.871
+       }
+      },
+      "ours": false,
+      "family": "Open VLM (zero-shot)"
+     }
+    ]
+   },
+   "subsets": [
+    "all",
+    "public",
+    "synthetic"
+   ],
+   "blurb": "Seg-F1 by transition duration. SBD methods emit ~0.04 s segments that all land in the cut bin, so their normal/long precision of 1.0 is an artefact — compare F1.",
+   "columns": [
+    {
+     "id": "cut",
+     "label": "Cut (<0.1 s)",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "normal",
+     "label": "Normal (≤1 s)",
+     "dir": "desc"
+    },
+    {
+     "id": "long",
+     "label": "Long (>1 s)",
+     "dir": "desc"
+    }
+   ]
+  },
+  {
+   "id": "iou_sweep",
+   "label": "IoU τ-sweep",
+   "kind": "table",
+   "rowsBySubset": {
+    "all": [
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "miou": {
+        "v": 0.183
+       },
+       "f1_00": {
+        "v": 0.475
+       },
+       "f1_03": {
+        "v": 0.306
+       },
+       "f1_05": {
+        "v": 0.089
+       },
+       "f1_07": {
+        "v": 0.014
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "miou": {
+        "v": 0.195,
+        "mark": "second"
+       },
+       "f1_00": {
+        "v": 0.487
+       },
+       "f1_03": {
+        "v": 0.304
+       },
+       "f1_05": {
+        "v": 0.092
+       },
+       "f1_07": {
+        "v": 0.018
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "miou": {
+        "v": 0.187
+       },
+       "f1_00": {
+        "v": 0.295
+       },
+       "f1_03": {
+        "v": 0.214
+       },
+       "f1_05": {
+        "v": 0.156
+       },
+       "f1_07": {
+        "v": 0.102,
+        "mark": "second"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "PySceneDetect Adaptive",
+      "cells": {
+       "miou": {
+        "v": 0.163
+       },
+       "f1_00": {
+        "v": 0.483
+       },
+       "f1_03": {
+        "v": 0.35,
+        "mark": "best"
+       },
+       "f1_05": {
+        "v": 0.075
+       },
+       "f1_07": {
+        "v": 0.053
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "miou": {
+        "v": 0.303,
+        "mark": "best"
+       },
+       "f1_00": {
+        "v": 0.608,
+        "mark": "best"
+       },
+       "f1_03": {
+        "v": 0.346,
+        "mark": "second"
+       },
+       "f1_05": {
+        "v": 0.27,
+        "mark": "best"
+       },
+       "f1_07": {
+        "v": 0.208,
+        "mark": "best"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     }
+    ],
+    "pblc": [
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "miou": {
+        "v": 0.228,
+        "mark": "second"
+       },
+       "f1_00": {
+        "v": 0.537
+       },
+       "f1_03": {
+        "v": 0.36,
+        "mark": "second"
+       },
+       "f1_05": {
+        "v": 0.104
+       },
+       "f1_07": {
+        "v": 0.014
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "miou": {
+        "v": 0.231,
+        "mark": "best"
+       },
+       "f1_00": {
+        "v": 0.535
+       },
+       "f1_03": {
+        "v": 0.349
+       },
+       "f1_05": {
+        "v": 0.101
+       },
+       "f1_07": {
+        "v": 0.014
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "miou": {
+        "v": 0.105
+       },
+       "f1_00": {
+        "v": 0.271
+       },
+       "f1_03": {
+        "v": 0.152
+       },
+       "f1_05": {
+        "v": 0.086
+       },
+       "f1_07": {
+        "v": 0.053,
+        "mark": "second"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "PySceneDetect Adaptive",
+      "cells": {
+       "miou": {
+        "v": 0.174
+       },
+       "f1_00": {
+        "v": 0.519
+       },
+       "f1_03": {
+        "v": 0.374,
+        "mark": "best"
+       },
+       "f1_05": {
+        "v": 0.052
+       },
+       "f1_07": {
+        "v": 0.027
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "Heuristic"
+     },
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "miou": {
+        "v": 0.206
+       },
+       "f1_00": {
+        "v": 0.563,
+        "mark": "best"
+       },
+       "f1_03": {
+        "v": 0.24
+       },
+       "f1_05": {
+        "v": 0.157,
+        "mark": "best"
+       },
+       "f1_07": {
+        "v": 0.097,
+        "mark": "best"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     }
+    ],
+    "synthtc": [
+     {
+      "method": "TransNetV2 Official",
+      "cells": {
+       "miou": {
+        "v": 0.031
+       },
+       "f1_00": {
+        "v": 0.182
+       },
+       "f1_03": {
+        "v": 0.044
+       },
+       "f1_05": {
+        "v": 0.018
+       },
+       "f1_07": {
+        "v": 0.014
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "AutoShot",
+      "cells": {
+       "miou": {
+        "v": 0.076
+       },
+       "f1_00": {
+        "v": 0.274
+       },
+       "f1_03": {
+        "v": 0.104
+       },
+       "f1_05": {
+        "v": 0.048
+       },
+       "f1_07": {
+        "v": 0.04
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "SBD"
+     },
+     {
+      "method": "Gemini 2.5 Pro",
+      "cells": {
+       "miou": {
+        "v": 0.464,
+        "mark": "second"
+       },
+       "f1_00": {
+        "v": 0.336
+       },
+       "f1_03": {
+        "v": 0.318
+       },
+       "f1_05": {
+        "v": 0.273,
+        "mark": "second"
+       },
+       "f1_07": {
+        "v": 0.185,
+        "mark": "second"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "API VLM"
+     },
+     {
+      "method": "Qwen3-VL Instruct 32B",
+      "cells": {
+       "miou": {
+        "v": 0.202
+       },
+       "f1_00": {
+        "v": 0.672,
+        "mark": "second"
+       },
+       "f1_03": {
+        "v": 0.317,
+        "mark": "second"
+       },
+       "f1_05": {
+        "v": 0.201
+       },
+       "f1_07": {
+        "v": 0.112
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": false,
+      "family": "Open VLM (zero-shot)"
+     },
+     {
+      "method": "TransVLM-4B @ 25 FPS",
+      "cells": {
+       "miou": {
+        "v": 0.646,
+        "mark": "best"
+       },
+       "f1_00": {
+        "v": 0.78,
+        "mark": "best"
+       },
+       "f1_03": {
+        "v": 0.751,
+        "mark": "best"
+       },
+       "f1_05": {
+        "v": 0.702,
+        "mark": "best"
+       },
+       "f1_07": {
+        "v": 0.632,
+        "mark": "best"
+       },
+       "f1_10": {
+        "v": 0.0
+       }
+      },
+      "ours": true,
+      "family": "Ours"
+     }
+    ]
+   },
+   "subsets": [
+    "all",
+    "pblc",
+    "synthtc"
+   ],
+   "blurb": "TAL-style strict matching (Δtt = 0, no boundary dilation), following ActionFormer / THUMOS / ActivityNet. F1@1.0 is 0 for everyone by construction — IoU > 1 is impossible, which is what makes it a valid lower bound.",
+   "columns": [
+    {
+     "id": "miou",
+     "label": "mIoU",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "f1_00",
+     "label": "F1@0.0",
+     "dir": "desc"
+    },
+    {
+     "id": "f1_03",
+     "label": "F1@0.3",
+     "dir": "desc"
+    },
+    {
+     "id": "f1_05",
+     "label": "F1@0.5",
+     "dir": "desc"
+    },
+    {
+     "id": "f1_07",
+     "label": "F1@0.7",
+     "dir": "desc"
+    },
+    {
+     "id": "f1_10",
+     "label": "F1@1.0",
+     "dir": "desc"
+    }
+   ]
+  },
+  {
+   "id": "efficiency",
+   "label": "Efficiency",
+   "kind": "scatter",
+   "rows": [
+    {
+     "method": "PySceneDetect Adaptive",
+     "cells": {
+      "params": {},
+      "real_seg_f1": {
+       "v": 0.684
+      },
+      "synth_seg_f1": {
+       "v": 0.29
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.09,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "Heuristic"
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "PySceneDetect Content",
+     "cells": {
+      "params": {},
+      "real_seg_f1": {
+       "v": 0.686
+      },
+      "synth_seg_f1": {
+       "v": 0.225
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.09,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "Heuristic"
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "PySceneDetect Hash",
+     "cells": {
+      "params": {},
+      "real_seg_f1": {
+       "v": 0.654
+      },
+      "synth_seg_f1": {
+       "v": 0.208
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.09,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "Heuristic"
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "PySceneDetect Hist",
+     "cells": {
+      "params": {},
+      "real_seg_f1": {
+       "v": 0.559
+      },
+      "synth_seg_f1": {
+       "v": 0.455
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.09,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "Heuristic"
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "PySceneDetect Threshold",
+     "cells": {
+      "params": {},
+      "real_seg_f1": {
+       "v": 0.057
+      },
+      "synth_seg_f1": {
+       "v": 0.074
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.09,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "Heuristic"
+      }
+     },
+     "ours": false,
+     "family": "Heuristic"
+    },
+    {
+     "method": "TransNetV2 Official",
+     "cells": {
+      "params": {
+       "v": 7.62,
+       "mark": "best",
+       "unit": "M",
+       "raw": "7.62 M",
+       "norm": 7.62
+      },
+      "real_seg_f1": {
+       "v": 0.752
+      },
+      "synth_seg_f1": {
+       "v": 0.194
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.07,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "SBD-CNN"
+      }
+     },
+     "ours": false,
+     "family": "SBD"
+    },
+    {
+     "method": "AutoShot",
+     "cells": {
+      "params": {
+       "v": 14.3,
+       "mark": "best",
+       "unit": "M",
+       "raw": "14.30 M",
+       "norm": 14.3
+      },
+      "real_seg_f1": {
+       "v": 0.751
+      },
+      "synth_seg_f1": {
+       "v": 0.299
+      },
+      "vlm_rtf": {},
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.03,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "SBD-Transformer"
+      }
+     },
+     "ours": false,
+     "family": "SBD"
+    },
+    {
+     "method": "Gemini 2.5 Pro",
+     "cells": {
+      "params": {
+       "raw": "closed"
+      },
+      "real_seg_f1": {
+       "v": 0.542
+      },
+      "synth_seg_f1": {
+       "v": 0.465
+      },
+      "vlm_rtf": {
+       "v": 0.81
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.81,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "API VLM"
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Gemini 3 Pro",
+     "cells": {
+      "params": {
+       "raw": "closed"
+      },
+      "real_seg_f1": {
+       "v": 0.549
+      },
+      "synth_seg_f1": {
+       "v": 0.588
+      },
+      "vlm_rtf": {
+       "v": 1.32
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 1.32,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "API VLM"
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Qwen3-VL Instruct 4B",
+     "cells": {
+      "params": {
+       "v": 4.44,
+       "mark": "best",
+       "unit": "B",
+       "raw": "4.44 B",
+       "norm": 4440.0
+      },
+      "real_seg_f1": {
+       "v": 0.124
+      },
+      "synth_seg_f1": {
+       "v": 0.428
+      },
+      "vlm_rtf": {
+       "v": 0.31
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.31,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 8B",
+     "cells": {
+      "params": {
+       "v": 8.77,
+       "mark": "best",
+       "unit": "B",
+       "raw": "8.77 B",
+       "norm": 8770.0
+      },
+      "real_seg_f1": {
+       "v": 0.246
+      },
+      "synth_seg_f1": {
+       "v": 0.591
+      },
+      "vlm_rtf": {
+       "v": 0.34
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.34,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 32B",
+     "cells": {
+      "params": {
+       "v": 33.36,
+       "mark": "best",
+       "unit": "B",
+       "raw": "33.36 B",
+       "norm": 33360.0
+      },
+      "real_seg_f1": {
+       "v": 0.37
+      },
+      "synth_seg_f1": {
+       "v": 0.735
+      },
+      "vlm_rtf": {
+       "v": 0.98
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.98,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 30B-A3B(MoE)",
+     "cells": {
+      "params": {
+       "v": 31.07,
+       "mark": "best",
+       "unit": "B",
+       "raw": "31.07 B",
+       "norm": 31070.0
+      },
+      "real_seg_f1": {
+       "v": 0.242
+      },
+      "synth_seg_f1": {
+       "v": 0.683
+      },
+      "vlm_rtf": {
+       "v": 0.35
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.35,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot MoE"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 4B",
+     "cells": {
+      "params": {
+       "v": 4.44,
+       "mark": "best",
+       "unit": "B",
+       "raw": "4.44 B",
+       "norm": 4440.0
+      },
+      "real_seg_f1": {
+       "v": 0.134
+      },
+      "synth_seg_f1": {
+       "v": 0.346
+      },
+      "vlm_rtf": {
+       "v": 1.03
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 1.03,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 8B",
+     "cells": {
+      "params": {
+       "v": 8.77,
+       "mark": "best",
+       "unit": "B",
+       "raw": "8.77 B",
+       "norm": 8770.0
+      },
+      "real_seg_f1": {
+       "v": 0.217
+      },
+      "synth_seg_f1": {
+       "v": 0.534
+      },
+      "vlm_rtf": {
+       "v": 1.31
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 1.31,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 32B",
+     "cells": {
+      "params": {
+       "v": 33.36,
+       "mark": "best",
+       "unit": "B",
+       "raw": "33.36 B",
+       "norm": 33360.0
+      },
+      "real_seg_f1": {
+       "v": 0.315
+      },
+      "synth_seg_f1": {
+       "v": 0.726
+      },
+      "vlm_rtf": {
+       "v": 3.3
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 3.3,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 30B-A3B(MoE)",
+     "cells": {
+      "params": {
+       "v": 31.07,
+       "mark": "best",
+       "unit": "B",
+       "raw": "31.07 B",
+       "norm": 31070.0
+      },
+      "real_seg_f1": {
+       "v": 0.275
+      },
+      "synth_seg_f1": {
+       "v": 0.724
+      },
+      "vlm_rtf": {
+       "v": 0.92
+      },
+      "flow_rtf": {},
+      "e2e_rtf": {
+       "v": 0.92,
+       "mark": "best"
+      },
+      "arch": {
+       "raw": "VLM zero-shot MoE"
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "TransVLM-4B @ 25 FPS",
+     "cells": {
+      "params": {
+       "v": 4.4,
+       "mark": "best",
+       "unit": "B",
+       "raw": "≈ 4.4 B",
+       "norm": 4400.0
+      },
+      "real_seg_f1": {
+       "v": 0.783,
+       "mark": "best"
+      },
+      "synth_seg_f1": {
+       "v": 0.895,
+       "mark": "best"
+      },
+      "vlm_rtf": {
+       "v": 0.5,
+       "mark": "best"
+      },
+      "flow_rtf": {
+       "v": 0.22,
+       "mark": "best"
+      },
+      "e2e_rtf": {
+       "v": 0.73,
+       "mark": "best"
+      },
+      "arch": {
+       "mark": "best",
+       "raw": "VLM ft + flow"
+      }
+     },
+     "ours": true,
+     "family": "Ours"
+    }
+   ],
+   "scatter": {
+    "x": "e2e_rtf",
+    "y": "real_seg_f1",
+    "size": "params"
+   },
+   "blurb": "Parameter count against real-time factor. The paper’s Table 3 reports RTF model-forward-only for every method so the numbers stay comparable across papers; this view adds the optical-flow pass and the end-to-end total.",
+   "columns": [
+    {
+     "id": "params",
+     "label": "Params",
+     "dir": "asc",
+     "fmt": "raw"
+    },
+    {
+     "id": "real_seg_f1",
+     "label": "Seg-F1 (public)",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "synth_seg_f1",
+     "label": "Seg-F1 (synth)",
+     "dir": "desc"
+    },
+    {
+     "id": "vlm_rtf",
+     "label": "RTF (VLM)",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "flow_rtf",
+     "label": "RTF (flow)",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "e2e_rtf",
+     "label": "RTF (end-to-end)",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "arch",
+     "label": "Architecture",
+     "dir": "desc",
+     "fmt": "raw"
+    }
+   ],
+   "footnotes": [
+    "Params here is the tied-weight count (≈ 4.4 B). The Overall view reports 4.8 B, the raw checkpoint, whose extra 390 M is <code>lm_head</code> materialised as a byte-identical copy of <code>embed_tokens</code>. The 6-channel patch-embed extension adds under 1 M parameters and no new modules.",
+    "RTF (VLM) is the model forward only — the convention every row of Table 3 uses, decode excluded for all methods alike. RTF (end-to-end) adds the NeuFlow optical-flow pass. Both are shown because only one of them is comparable across papers and only the other one is what you wait for."
+   ]
+  },
+  {
+   "id": "json_reliability",
+   "label": "JSON reliability",
+   "kind": "table",
+   "rows": [
+    {
+     "method": "Gemini 2.5 Pro",
+     "cells": {
+      "n": {
+       "v": 5177.0
+      },
+      "strict": {
+       "v": 85.67
+      },
+      "lenient": {
+       "v": 0.02
+      },
+      "a": {
+       "v": 0.08
+      },
+      "e": {
+       "v": 85.57
+      },
+      "missing": {
+       "v": 0.04
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 0.04
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 14.27
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Gemini 3 Pro",
+     "cells": {
+      "n": {
+       "v": 5276.0
+      },
+      "strict": {
+       "v": 9.12
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 0.28
+      },
+      "e": {
+       "v": 8.83
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 74.45
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 16.43
+      }
+     },
+     "ours": false,
+     "family": "API VLM"
+    },
+    {
+     "method": "Qwen3-VL Instruct 2B",
+     "cells": {
+      "n": {
+       "v": 4982.0
+      },
+      "strict": {
+       "v": 53.97
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 53.97
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 46.03
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 0.0
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 4B",
+     "cells": {
+      "n": {
+       "v": 4921.0
+      },
+      "strict": {
+       "v": 4.96
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 4.96
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 55.44
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 39.61
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 8B",
+     "cells": {
+      "n": {
+       "v": 4932.0
+      },
+      "strict": {
+       "v": 3.1
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 3.1
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 96.9
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 0.0
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 32B",
+     "cells": {
+      "n": {
+       "v": 4997.0
+      },
+      "strict": {
+       "v": 0.38
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 0.38
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.02
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 59.58
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 40.02
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Instruct 30B-A3B(MoE)",
+     "cells": {
+      "n": {
+       "v": 4961.0
+      },
+      "strict": {
+       "v": 1.63
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 1.51
+      },
+      "e": {
+       "v": 0.12
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 59.85
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 38.52
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 2B",
+     "cells": {
+      "n": {
+       "v": 4921.0
+      },
+      "strict": {
+       "v": 64.91
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 64.91
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 4.67
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 30.42
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 4B",
+     "cells": {
+      "n": {
+       "v": 4921.0
+      },
+      "strict": {
+       "v": 38.53
+      },
+      "lenient": {
+       "v": 0.04
+      },
+      "a": {
+       "v": 38.53
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 22.74
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 38.73
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 8B",
+     "cells": {
+      "n": {
+       "v": 4932.0
+      },
+      "strict": {
+       "v": 22.34
+      },
+      "lenient": {
+       "v": 0.02
+      },
+      "a": {
+       "v": 22.34
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 36.37
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 41.28
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 32B",
+     "cells": {
+      "n": {
+       "v": 4931.0
+      },
+      "strict": {
+       "v": 4.54
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 4.54
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 53.72
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 41.74
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "Qwen3-VL Thinking 30B-A3B(MoE)",
+     "cells": {
+      "n": {
+       "v": 4941.0
+      },
+      "strict": {
+       "v": 1.23
+      },
+      "lenient": {
+       "v": 0.0
+      },
+      "a": {
+       "v": 1.23
+      },
+      "e": {
+       "v": 0.0
+      },
+      "missing": {
+       "v": 0.0
+      },
+      "hallucin": {
+       "v": 0.0
+      },
+      "d": {
+       "v": 56.22
+      },
+      "dprime": {
+       "v": 0.0
+      },
+      "empty": {
+       "v": 42.54
+      }
+     },
+     "ours": false,
+     "family": "Open VLM (zero-shot)"
+    },
+    {
+     "method": "TransVLM-4B @ 25 FPS",
+     "cells": {
+      "n": {
+       "v": 41673.0,
+       "mark": "best"
+      },
+      "strict": {
+       "v": 0.03,
+       "mark": "best"
+      },
+      "lenient": {
+       "v": 0.0,
+       "mark": "best"
+      },
+      "a": {
+       "v": 0.03,
+       "mark": "best"
+      },
+      "e": {
+       "v": 0.0,
+       "mark": "best"
+      },
+      "missing": {
+       "v": 0.0,
+       "mark": "best"
+      },
+      "hallucin": {
+       "v": 0.01,
+       "mark": "best"
+      },
+      "d": {
+       "v": 0.0,
+       "mark": "best"
+      },
+      "dprime": {
+       "v": 60.49,
+       "mark": "best"
+      },
+      "empty": {
+       "v": 39.47,
+       "mark": "best"
+      }
+     },
+     "ours": true,
+     "family": "Ours"
+    }
+   ],
+   "blurb": "Every VLM asked for the same JSON schema, put through the same repair pipeline. Denominators are per query, which is the conservative choice for a sliding-window method issuing ~8× more queries per video. A valid empty list is a prediction, not a failure, and is not counted as one.",
+   "columns": [
+    {
+     "id": "strict",
+     "label": "Strict-fail",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%",
+     "primary": true
+    },
+    {
+     "id": "lenient",
+     "label": "Lenient-fail",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    },
+    {
+     "id": "missing",
+     "label": "Missing field",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    },
+    {
+     "id": "hallucin",
+     "label": "Hallucinated ts",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    },
+    {
+     "id": "empty",
+     "label": "Empty []",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    },
+    {
+     "id": "n",
+     "label": "Queries",
+     "dir": "desc",
+     "fmt": "int"
+    }
+   ]
+  },
+  {
+   "id": "ablation",
+   "label": "Ablations",
+   "kind": "table",
+   "rows": [
+    {
+     "method": "w/o sliding window",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.45
+      },
+      "pub_seg_r": {
+       "v": 0.676
+      },
+      "pub_seg_f1": {
+       "v": 0.54
+      },
+      "pub_frm_p": {
+       "v": 0.443
+      },
+      "pub_frm_r": {
+       "v": 0.589,
+       "mark": "best"
+      },
+      "pub_frm_f1": {
+       "v": 0.502
+      },
+      "pub_iou_p": {
+       "v": 0.137
+      },
+      "pub_iou_r": {
+       "v": 0.106
+      },
+      "pub_iou_f1": {
+       "v": 0.12
+      },
+      "pub_abe": {
+       "v": 3.31
+      },
+      "syn_seg_p": {
+       "v": 0.883
+      },
+      "syn_seg_r": {
+       "v": 0.846
+      },
+      "syn_seg_f1": {
+       "v": 0.864
+      },
+      "syn_frm_p": {
+       "v": 0.883
+      },
+      "syn_frm_r": {
+       "v": 0.924
+      },
+      "syn_frm_f1": {
+       "v": 0.903
+      },
+      "syn_iou_p": {
+       "v": 0.213
+      },
+      "syn_iou_r": {
+       "v": 0.525
+      },
+      "syn_iou_f1": {
+       "v": 0.303
+      },
+      "syn_abe": {
+       "v": 0.63
+      },
+      "rtf": {
+       "v": 0.89
+      },
+      "params": {
+       "v": 4.8,
+       "unit": "B",
+       "raw": "4.8B",
+       "norm": 4800.0
+      },
+      "mjson": {
+       "v": 4.35
+      }
+     }
+    },
+    {
+     "method": "w/o training",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.545
+      },
+      "pub_seg_r": {
+       "v": 0.448
+      },
+      "pub_seg_f1": {
+       "v": 0.487
+      },
+      "pub_frm_p": {
+       "v": 0.265
+      },
+      "pub_frm_r": {
+       "v": 0.501
+      },
+      "pub_frm_f1": {
+       "v": 0.343
+      },
+      "pub_iou_p": {
+       "v": 0.047
+      },
+      "pub_iou_r": {
+       "v": 0.079
+      },
+      "pub_iou_f1": {
+       "v": 0.059
+      },
+      "pub_abe": {
+       "v": 7.63
+      },
+      "syn_seg_p": {
+       "v": 0.809
+      },
+      "syn_seg_r": {
+       "v": 0.478
+      },
+      "syn_seg_f1": {
+       "v": 0.599
+      },
+      "syn_frm_p": {
+       "v": 0.701
+      },
+      "syn_frm_r": {
+       "v": 0.304
+      },
+      "syn_frm_f1": {
+       "v": 0.424
+      },
+      "syn_iou_p": {
+       "v": 0.113
+      },
+      "syn_iou_r": {
+       "v": 0.093
+      },
+      "syn_iou_f1": {
+       "v": 0.102
+      },
+      "syn_abe": {
+       "v": 2.08
+      },
+      "rtf": {
+       "v": 0.76
+      },
+      "params": {
+       "v": 4.4,
+       "unit": "B",
+       "raw": "4.4B",
+       "norm": 4400.0
+      },
+      "mjson": {
+       "v": 2.13
+      }
+     }
+    },
+    {
+     "method": "w/o public data",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.756
+      },
+      "pub_seg_r": {
+       "v": 0.287
+      },
+      "pub_seg_f1": {
+       "v": 0.416
+      },
+      "pub_frm_p": {
+       "v": 0.33
+      },
+      "pub_frm_r": {
+       "v": 0.223
+      },
+      "pub_frm_f1": {
+       "v": 0.264
+      },
+      "pub_iou_p": {
+       "v": 0.151
+      },
+      "pub_iou_r": {
+       "v": 0.056
+      },
+      "pub_iou_f1": {
+       "v": 0.082
+      },
+      "pub_abe": {
+       "v": 1.7
+      },
+      "syn_seg_p": {
+       "v": 0.962,
+       "mark": "second"
+      },
+      "syn_seg_r": {
+       "v": 0.894,
+       "mark": "second"
+      },
+      "syn_seg_f1": {
+       "v": 0.927,
+       "mark": "second"
+      },
+      "syn_frm_p": {
+       "v": 0.957,
+       "mark": "best"
+      },
+      "syn_frm_r": {
+       "v": 0.926,
+       "mark": "second"
+      },
+      "syn_frm_f1": {
+       "v": 0.941,
+       "mark": "best"
+      },
+      "syn_iou_p": {
+       "v": 0.696,
+       "mark": "best"
+      },
+      "syn_iou_r": {
+       "v": 0.654,
+       "mark": "second"
+      },
+      "syn_iou_f1": {
+       "v": 0.674,
+       "mark": "best"
+      },
+      "syn_abe": {
+       "v": 0.11,
+       "mark": "best"
+      },
+      "rtf": {
+       "v": 0.73
+      },
+      "params": {
+       "v": 4.8,
+       "unit": "B",
+       "raw": "4.8B",
+       "norm": 4800.0
+      },
+      "mjson": {
+       "v": 0.01,
+       "mark": "best"
+      }
+     }
+    },
+    {
+     "method": "w/o synthetic data",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.755
+      },
+      "pub_seg_r": {
+       "v": 0.706
+      },
+      "pub_seg_f1": {
+       "v": 0.73
+      },
+      "pub_frm_p": {
+       "v": 0.587,
+       "mark": "second"
+      },
+      "pub_frm_r": {
+       "v": 0.483
+      },
+      "pub_frm_f1": {
+       "v": 0.53
+      },
+      "pub_iou_p": {
+       "v": 0.15
+      },
+      "pub_iou_r": {
+       "v": 0.161
+      },
+      "pub_iou_f1": {
+       "v": 0.155
+      },
+      "pub_abe": {
+       "v": 1.85
+      },
+      "syn_seg_p": {
+       "v": 0.972,
+       "mark": "best"
+      },
+      "syn_seg_r": {
+       "v": 0.572
+      },
+      "syn_seg_f1": {
+       "v": 0.72
+      },
+      "syn_frm_p": {
+       "v": 0.857
+      },
+      "syn_frm_r": {
+       "v": 0.656
+      },
+      "syn_frm_f1": {
+       "v": 0.743
+      },
+      "syn_iou_p": {
+       "v": 0.614
+      },
+      "syn_iou_r": {
+       "v": 0.372
+      },
+      "syn_iou_f1": {
+       "v": 0.464
+      },
+      "syn_abe": {
+       "v": 0.46
+      },
+      "rtf": {
+       "v": 0.72,
+       "mark": "second"
+      },
+      "params": {
+       "v": 4.4,
+       "unit": "B",
+       "raw": "4.4B",
+       "norm": 4400.0
+      },
+      "mjson": {
+       "v": 0.06
+      }
+     }
+    },
+    {
+     "method": "w/o optical flow",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.793,
+       "mark": "best"
+      },
+      "pub_seg_r": {
+       "v": 0.617
+      },
+      "pub_seg_f1": {
+       "v": 0.694
+      },
+      "pub_frm_p": {
+       "v": 0.574
+      },
+      "pub_frm_r": {
+       "v": 0.435
+      },
+      "pub_frm_f1": {
+       "v": 0.495
+      },
+      "pub_iou_p": {
+       "v": 0.175,
+       "mark": "best"
+      },
+      "pub_iou_r": {
+       "v": 0.154
+      },
+      "pub_iou_f1": {
+       "v": 0.164,
+       "mark": "second"
+      },
+      "pub_abe": {
+       "v": 1.3,
+       "mark": "best"
+      },
+      "syn_seg_p": {
+       "v": 0.946
+      },
+      "syn_seg_r": {
+       "v": 0.783
+      },
+      "syn_seg_f1": {
+       "v": 0.857
+      },
+      "syn_frm_p": {
+       "v": 0.954,
+       "mark": "second"
+      },
+      "syn_frm_r": {
+       "v": 0.838
+      },
+      "syn_frm_f1": {
+       "v": 0.892
+      },
+      "syn_iou_p": {
+       "v": 0.663
+      },
+      "syn_iou_r": {
+       "v": 0.555
+      },
+      "syn_iou_f1": {
+       "v": 0.604
+      },
+      "syn_abe": {
+       "v": 0.14
+      },
+      "rtf": {
+       "v": 0.69,
+       "mark": "best"
+      },
+      "params": {
+       "v": 4.8,
+       "unit": "B",
+       "raw": "4.8B",
+       "norm": 4800.0
+      },
+      "mjson": {
+       "v": 0.05
+      }
+     }
+    },
+    {
+     "method": "w/o feature fusion",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.7
+      },
+      "pub_seg_r": {
+       "v": 0.782,
+       "mark": "second"
+      },
+      "pub_seg_f1": {
+       "v": 0.739,
+       "mark": "second"
+      },
+      "pub_frm_p": {
+       "v": 0.609,
+       "mark": "best"
+      },
+      "pub_frm_r": {
+       "v": 0.518,
+       "mark": "second"
+      },
+      "pub_frm_f1": {
+       "v": 0.557,
+       "mark": "second"
+      },
+      "pub_iou_p": {
+       "v": 0.146
+      },
+      "pub_iou_r": {
+       "v": 0.178,
+       "mark": "second"
+      },
+      "pub_iou_f1": {
+       "v": 0.16
+      },
+      "pub_abe": {
+       "v": 1.92
+      },
+      "syn_seg_p": {
+       "v": 0.931
+      },
+      "syn_seg_r": {
+       "v": 0.931,
+       "mark": "best"
+      },
+      "syn_seg_f1": {
+       "v": 0.931,
+       "mark": "best"
+      },
+      "syn_frm_p": {
+       "v": 0.957,
+       "mark": "best"
+      },
+      "syn_frm_r": {
+       "v": 0.925
+      },
+      "syn_frm_f1": {
+       "v": 0.941,
+       "mark": "best"
+      },
+      "syn_iou_p": {
+       "v": 0.636
+      },
+      "syn_iou_r": {
+       "v": 0.649
+      },
+      "syn_iou_f1": {
+       "v": 0.643
+      },
+      "syn_abe": {
+       "v": 0.12,
+       "mark": "second"
+      },
+      "rtf": {
+       "v": 1.51
+      },
+      "params": {
+       "v": 4.4,
+       "unit": "B",
+       "raw": "4.4B",
+       "norm": 4400.0
+      },
+      "mjson": {
+       "v": 0.03,
+       "mark": "second"
+      }
+     }
+    },
+    {
+     "method": "duplicate weight",
+     "family": "Ablation",
+     "ours": false,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.767,
+       "mark": "second"
+      },
+      "pub_seg_r": {
+       "v": 0.575
+      },
+      "pub_seg_f1": {
+       "v": 0.655
+      },
+      "pub_frm_p": {
+       "v": 0.573
+      },
+      "pub_frm_r": {
+       "v": 0.419
+      },
+      "pub_frm_f1": {
+       "v": 0.484
+      },
+      "pub_iou_p": {
+       "v": 0.109
+      },
+      "pub_iou_r": {
+       "v": 0.137
+      },
+      "pub_iou_f1": {
+       "v": 0.121
+      },
+      "pub_abe": {
+       "v": 1.79
+      },
+      "syn_seg_p": {
+       "v": 0.958
+      },
+      "syn_seg_r": {
+       "v": 0.83
+      },
+      "syn_seg_f1": {
+       "v": 0.889
+      },
+      "syn_frm_p": {
+       "v": 0.949
+      },
+      "syn_frm_r": {
+       "v": 0.909
+      },
+      "syn_frm_f1": {
+       "v": 0.928
+      },
+      "syn_iou_p": {
+       "v": 0.647
+      },
+      "syn_iou_r": {
+       "v": 0.587
+      },
+      "syn_iou_f1": {
+       "v": 0.615
+      },
+      "syn_abe": {
+       "v": 0.14
+      },
+      "rtf": {
+       "v": 0.91
+      },
+      "params": {
+       "v": 4.8,
+       "unit": "B",
+       "raw": "4.8B",
+       "norm": 4800.0
+      },
+      "mjson": {
+       "v": 0.83
+      }
+     }
+    },
+    {
+     "method": "TransVLM (full)",
+     "family": "Ablation",
+     "ours": true,
+     "cells": {
+      "fps": {
+       "v": 25.0
+      },
+      "pub_seg_p": {
+       "v": 0.762
+      },
+      "pub_seg_r": {
+       "v": 0.806,
+       "mark": "best"
+      },
+      "pub_seg_f1": {
+       "v": 0.783,
+       "mark": "best"
+      },
+      "pub_frm_p": {
+       "v": 0.574
+      },
+      "pub_frm_r": {
+       "v": 0.562
+      },
+      "pub_frm_f1": {
+       "v": 0.568,
+       "mark": "best"
+      },
+      "pub_iou_p": {
+       "v": 0.166,
+       "mark": "second"
+      },
+      "pub_iou_r": {
+       "v": 0.221,
+       "mark": "best"
+      },
+      "pub_iou_f1": {
+       "v": 0.189,
+       "mark": "best"
+      },
+      "pub_abe": {
+       "v": 1.58,
+       "mark": "second"
+      },
+      "syn_seg_p": {
+       "v": 0.908
+      },
+      "syn_seg_r": {
+       "v": 0.882
+      },
+      "syn_seg_f1": {
+       "v": 0.895
+      },
+      "syn_frm_p": {
+       "v": 0.946
+      },
+      "syn_frm_r": {
+       "v": 0.93,
+       "mark": "best"
+      },
+      "syn_frm_f1": {
+       "v": 0.938,
+       "mark": "second"
+      },
+      "syn_iou_p": {
+       "v": 0.67,
+       "mark": "second"
+      },
+      "syn_iou_r": {
+       "v": 0.662,
+       "mark": "best"
+      },
+      "syn_iou_f1": {
+       "v": 0.666,
+       "mark": "second"
+      },
+      "syn_abe": {
+       "v": 0.11,
+       "mark": "best"
+      },
+      "rtf": {
+       "v": 0.72,
+       "mark": "second"
+      },
+      "params": {
+       "v": 4.8,
+       "unit": "B",
+       "raw": "4.8B",
+       "norm": 4800.0
+      },
+      "mjson": {
+       "v": 0.03,
+       "mark": "second"
+      }
+     }
+    }
+   ],
+   "blurb": "Each component removed in turn, everything else held fixed.",
+   "columns": [
+    {
+     "id": "fps",
+     "label": "FPS",
+     "dir": "desc",
+     "fmt": "int"
+    },
+    {
+     "id": "pub_seg_f1",
+     "label": "Seg-F1",
+     "dir": "desc",
+     "primary": true
+    },
+    {
+     "id": "pub_seg_p",
+     "label": "Seg-P",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_seg_r",
+     "label": "Seg-R",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_f1",
+     "label": "Frame-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_p",
+     "label": "Frame-P",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_frm_r",
+     "label": "Frame-R",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_iou_f1",
+     "label": "IoU-F1",
+     "dir": "desc"
+    },
+    {
+     "id": "pub_abe",
+     "label": "ABE",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "s"
+    },
+    {
+     "id": "rtf",
+     "label": "RTF",
+     "dir": "asc",
+     "fmt": "2f"
+    },
+    {
+     "id": "params",
+     "label": "Params",
+     "dir": "asc",
+     "fmt": "raw"
+    },
+    {
+     "id": "mjson",
+     "label": "M-JSON",
+     "dir": "asc",
+     "fmt": "2f",
+     "unit": "%"
+    }
+   ]
+  }
+ ]
+}

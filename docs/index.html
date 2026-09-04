@@ -1,526 +1,595 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TransVLM: A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions</title>
-  <meta name="description" content="TransVLM formalizes the Shot Transition Detection (STD) task and introduces a vision-language framework that explicitly injects optical flow as a motion prior for robust transition detection.">
-  <meta name="author" content="Ce Chen, Yi Ren, Yuanming Li, Viktor Goriachko, Zhenhui Ye, Zujin Guo, Zhibin Hong, Mingming Gong">
-  <link rel="icon" type="image/x-icon" href="./Packages/STD/favicon.ico">
-  <link rel="shortcut icon" type="image/x-icon" href="./Packages/STD/favicon.ico">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./Packages/STD/css/index.css">
-  <script src="./Packages/STD/js/index.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TransVLM — Detecting Any Shot Transitions</title>
+<meta name="description" content="TransVLM reformulates shot boundary detection as segment-level shot transition detection, injects optical flow into a vision-language model at the patch embedding, and ships a 5,215-video benchmark covering 59 transition effects. ECCV 2026.">
+<meta name="author" content="Ce Chen, Yi Ren, Yuanming Li, Viktor Goriachko, Zhenhui Ye, Zujin Guo, Zhibin Hong, Mingming Gong">
+<meta property="og:title" content="TransVLM — Detecting Any Shot Transitions">
+<meta property="og:description" content="Shot transitions are segments, not points. 59 effects, 5,215 videos, one 4.8 B model that beats 33 B ones.">
+<meta property="og:type" content="website">
+<link rel="icon" href="Packages/STD/favicon.ico">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/deck.css">
+<link rel="stylesheet" href="assets/css/strips.css">
+<link rel="stylesheet" href="assets/css/plot.css">
+<link rel="stylesheet" href="assets/css/collage.css">
+<script>
+  /* Ahead of first paint: a theme applied on DOMContentLoaded flashes the wrong
+     one first. localStorage throws in some private-browsing modes. */
+  (function () {
+    try {
+      var t = localStorage.getItem('transvlm-theme');
+      if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
 </head>
 <body>
 
-<!-- SIDEBAR TOC -->
-<nav class="toc-sidebar" id="toc">
-  <h3>Contents</h3>
-  <ol>
-    <li class="active"><a href="#highlights">Highlights</a></li>
-    <li><a href="#abstract">Abstract</a></li>
-    <li><a href="#teaser">Teaser</a></li>
-    <li><a href="#framework">Framework</a></li>
-    <li><a href="#benchmark">STD Benchmark</a></li>
-    <li><a href="#results">Comparison with Baselines</a></li>
-    <li><a href="#citation">Citation</a></li>
-    <li><a href="#updates">Updates</a></li>
-    <li><a href="#contributions">Community Contributions</a></li>
-    <li><a href="#references">References</a></li>
-  </ol>
+<a class="skip" href="#join">Skip to the first section</a>
+
+<!-- A readout first: 45 ticks stand in for the whole document and the only
+     thing that moves is the read position. The section names are hidden until
+     the pointer -- or the keyboard -- reaches the rail, and then they are links,
+     which is why this is a nav and not decoration. The ticks themselves say
+     nothing a heading does not, so they are drawn by initRail() and hidden from
+     assistive technology. -->
+<nav class="rail" aria-label="Sections">
+  <a class="lbl" href="#top">TransVLM</a>
+  <a class="lbl" href="#join">01 Join us</a>
+  <a class="lbl" href="#see-it">02 TransVLM vs. existing detectors</a>
+  <a class="lbl" href="#any">03 All 59 transitions</a>
+  <a class="lbl" href="#failures">04 Failing scenarios</a>
+  <a class="lbl" href="#method">05 Method</a>
+  <a class="lbl" href="#benchmark">06 Benchmark</a>
+  <a class="lbl" href="#results">07 Results</a>
+  <a class="lbl" href="#cite">08 Cite</a>
 </nav>
 
-<!-- HEADER -->
-<header>
-  <div class="container">
-    <h1>TransVLM: A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions</h1>
-
-    <div class="author-list">
-      <a href="https://openreview.net/profile?id=~Ce_Chen1">Ce Chen<sup>1,2,*</sup></a>,
-      <a href="https://rayeren.github.io/">Yi Ren<sup>2</sup></a>,
-      <a href="https://openreview.net/profile?id=~Yuanming_Li3">Yuanming Li<sup>2</sup></a>,
-      <a href="https://openreview.net/profile?id=~Viktor_Goriachko2">Viktor Goriachko<sup>2</sup></a>,
-      <a href="https://yerfor.github.io/en/">Zhenhui Ye<sup>2</sup></a>,
-      <a href="https://gseancdat.github.io/">Zujin Guo<sup>2,3,*</sup></a>,
-      <a href="https://openreview.net/profile?id=~Zhibin_Hong1">Zhibin Hong<sup>2</sup></a>,
-      <a href="https://mingming-gong.github.io/">Mingming Gong<sup>1,&dagger;</sup></a>
-    </div>
-
-    <div class="affiliation-list">
-      <sup>1</sup>University of Melbourne &nbsp;&nbsp;
-      <sup>2</sup>HeyGen Research &nbsp;&nbsp;
-      <sup>3</sup>Nanyang Technological University
-    </div>
-    <div class="affiliation-list" style="font-size: 0.78rem;">
-      <sup>*</sup>Work done during an internship at HeyGen Research. &nbsp;&nbsp;
-      <sup>&dagger;</sup>Corresponding author.
-    </div>
-    <div class="affiliation-list" style="font-size: 0.78rem;">
-      TransVLM is academic research and is not used in any HeyGen product.
-      For more related research, please visit
-      <a href="https://www.heygen.com/research" target="_blank" rel="noopener">HeyGen Research</a>
-      and
-      <a href="https://www.heygen.com/research/avatar-v-model" target="_blank" rel="noopener">HeyGen Avatar-V</a>.
-    </div>
-
-    <div class="affiliation-list" style="font-size: 0.78rem;">
-      <b>Accepted to ECCV 2026 (Poster).</b>
-    </div>
-
-    <div class="paper-links">
-      <a href="https://arxiv.org/abs/2604.27975" target="_blank" rel="noopener"><i class="fa fa-file-text-o"></i> Paper</a>
-      <a href="https://github.com/heygen-com/TransVLM" target="_blank" rel="noopener"><i class="fa fa-github"></i> Code</a>
-      <a href="https://huggingface.co/HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct" target="_blank" rel="noopener"><i class="fa fa-cube"></i> Model</a>
-      <a href="https://www.heygen.com/research" target="_blank" rel="noopener"><i class="fa fa-external-link"></i> HeyGen Research</a>
-    </div>
-  </div>
-</header>
-
-<!-- HIGHLIGHTS -->
-<section id="highlights" class="highlights-section">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">Highlights</h2>
-    <p class="section-desc">
-      Below are TransVLM detection results across all evaluated datasets. Non-transition
-      segments are played at <b>5&times;</b> speed; transition segments are slowed to
-      <b>1/5&times;</b> for clarity. Each video shows four colored bars overlaid on the frames,
-      indicating per-method detection results.
-    </p>
-    <div class="det-legend" style="margin-bottom: 32px;">
-      <div class="lg-row">
-        <span class="lg-item"><b>Top Left:</b> Ground Truth <span class="bar bar-gt"></span></span>
-        <span class="lg-item"><b>Top Right:</b> TransNetV2 <span class="cite-ref">[9]</span> <span class="bar bar-tn"></span></span>
-      </div>
-      <div class="lg-row">
-        <span class="lg-item"><b>Bottom Left:</b> AutoShot <span class="cite-ref">[1]</span> <span class="bar bar-as"></span></span>
-        <span class="lg-item"><b>Bottom Right:</b> TransVLM (Ours) <span class="bar bar-ours"></span></span>
-        <span class="lg-item"><b>Non-transition frames:</b> <span class="bar bar-w"></span></span>
-      </div>
-    </div>
-  </div>
-  <div class="highlights-viewport">
-    <button class="hl-arrow hl-arrow-left" id="hl-prev" aria-label="Previous">
-      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+<div class="topbar">
+  <a class="home" href="#top">TransVLM</a>
+  <nav>
+    <a href="https://arxiv.org/abs/2604.27975" target="_blank" rel="noopener">Paper</a>
+    <a href="https://github.com/heygen-com/TransVLM" target="_blank" rel="noopener">Code</a>
+    <button class="theme" type="button" aria-label="Switch to dark theme">
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 100-10 5 5 0 000 10zm0 2v3m0-20v3m7.07 2.93l2.12-2.12M2.81 21.19l2.12-2.12M19 12h3M2 12h3m14.07 4.07l2.12 2.12M2.81 2.81l2.12 2.12" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+      <span>Theme</span>
     </button>
-    <button class="hl-arrow hl-arrow-right" id="hl-next" aria-label="Next">
-      <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-    </button>
-    <div class="highlights-scroll" id="highlights-scroll">
+  </nav>
+</div>
 
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/movieshots2_m_vdb_25fps/task_0010_16.mp4" type="video/mp4">
-          </video>
+<!-- ============================================================ 00 hero -->
+<!-- The band is the full-bleed layer .wrap cannot be: the text column is what
+     .hero is, and a collage inside it would stop at 680px plus gutters. Three
+     layers, bottom up: the collage's own stage in .hero-bg, the scrim over it,
+     the copy over both. The scrim and the background carry no content, so both
+     are hidden from assistive technology. -->
+<section class="hero-band" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="cl-scrim" aria-hidden="true"></div>
+  <header class="hero wrap">
+  <h1>TransVLM: A Vision-Language Framework and Benchmark for
+      Detecting Any Shot Transitions</h1>
+  <p class="sub">
+    <span class="thesis">Shot transitions are segments, not points.</span>
+    Shot boundary detection only looks for the frame where one shot starts or
+    ends, ignoring the junction between shots. TransVLM detects the transition
+    itself, focusing on where it starts and ends, across all <b>59</b> effects
+    that FFmpeg can render.
+  </p>
+
+  <dl class="meta">
+    <dt>Venue</dt><dd>ECCV 2026 &middot; Poster</dd>
+    <dt>Paper</dt><dd><a href="https://arxiv.org/abs/2604.27975" target="_blank" rel="noopener">arxiv.org/abs/2604.27975</a></dd>
+    <dt>Code</dt><dd><a href="https://github.com/heygen-com/TransVLM" target="_blank" rel="noopener">github.com/heygen-com/TransVLM</a></dd>
+    <dt>Model</dt><dd><a href="https://huggingface.co/HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct" target="_blank" rel="noopener">HeyGenAI/TransVLM-Qwen3-VL-4B-Instruct</a></dd>
+    <dt>Company</dt><dd><a href="https://www.heygen.com" target="_blank" rel="noopener">heygen.com</a></dd>
+    <dt>Author</dt><dd><a href="https://chence17.github.io" target="_blank" rel="noopener">chence17.github.io</a></dd>
+  </dl>
+
+  <p class="byline">
+    <a href="https://chence17.github.io" target="_blank" rel="noopener">Ce Chen</a><sup>1,2*</sup>,
+    <a href="https://rayeren.github.io/">Yi Ren</a><sup>2</sup>,
+    <a href="https://openreview.net/profile?id=~Yuanming_Li3">Yuanming Li</a><sup>2</sup>,
+    <a href="https://openreview.net/profile?id=~Viktor_Goriachko2">Viktor Goriachko</a><sup>2</sup>,
+    <a href="https://yerfor.github.io/en/">Zhenhui Ye</a><sup>2</sup>,
+    <a href="https://gseancdat.github.io/">Zujin Guo</a><sup>2,3*</sup>,
+    <a href="https://openreview.net/profile?id=~Zhibin_Hong1">Zhibin Hong</a><sup>2</sup>,
+    <a href="https://mingming-gong.github.io/">Mingming Gong</a><sup>1&dagger;</sup><br>
+    <span class="affil">
+      <sup>1</sup>University of Melbourne &nbsp;
+      <sup>2</sup>HeyGen Research &nbsp;
+      <sup>3</sup>Nanyang Technological University &nbsp;&middot;&nbsp;
+      <sup>*</sup>work done during an internship at HeyGen Research &nbsp;&middot;&nbsp;
+      <sup>&dagger;</sup>corresponding author
+    </span>
+  </p>
+  <p class="note">
+    TransVLM is academic research and is not used in any HeyGen product. For related
+    work see <a href="https://www.heygen.com/research" target="_blank" rel="noopener">HeyGen Research</a>
+    and <a href="https://www.heygen.com/research/avatar-v-model" target="_blank" rel="noopener">Avatar-V</a>.
+  </p>
+  </header>
+</section>
+
+<main>
+
+<!-- ============================================================ 01 join -->
+<section id="join">
+  <div class="wrap">
+    <p class="eyebrow"><b>01</b></p>
+    <h2>Join us</h2>
+    <div class="join">
+      <div class="qr">
+        <div class="qr-frame">
+          <img src="assets/media/qr/discord.png" width="1200" height="1200"
+               alt="QR code that opens an invite to the TransVLM Discord server">
         </div>
+        <div class="cap">Discord</div>
       </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/0000000_vdb_25fps/3a2d5b40.mp4" type="video/mp4">
-          </video>
+      <div class="qr">
+        <div class="qr-frame">
+          <img src="assets/media/qr/wechat.png" width="986" height="986"
+               alt="QR code that opens an invite to the TransVLM WeChat group">
         </div>
+        <div class="cap">WeChat</div>
       </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/fast_0000000_vdb_25fps/b8d0c0de.mp4" type="video/mp4">
-          </video>
+      <div class="qr">
+        <div class="qr-frame">
+          <img src="assets/media/qr/heygen-research.png" width="1189" height="1189"
+               alt="QR code that opens the HeyGen Research page">
         </div>
+        <div class="cap">HeyGen Research</div>
       </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/long_0000000_vdb_25fps/78cdf2e9.mp4" type="video/mp4">
-          </video>
-        </div>
+      <div class="measure">
+        <p class="lede">
+          Scan to join our Discord server or our WeChat group. The third code
+          opens <a href="https://www.heygen.com/research" target="_blank" rel="noopener">HeyGen
+          Research</a>, where our related work is posted. You are welcome to
+          follow it there. In case any QR code expires, please open an
+          <a href="https://github.com/heygen-com/TransVLM/issues" target="_blank" rel="noopener">issue</a>.
+        </p>
+        <p style="margin-top:1.1rem">
+          If you are interested in joining HeyGen, please email
+          <a href="mailto:christina.zhang@heygen.com">christina.zhang@heygen.com</a>
+          directly.
+        </p>
       </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/autoshot_test_vdb_25fps/test_videos_33338203782.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/rai_vdb_25fps/10.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/clipshots_test_vdb_25fps/test_3fXTbqhlYRg.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/clipshots_test_vdb_25fps/test_A2UTphkx_Zo.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/clipshots_test_vdb_25fps/test_GlVVbaoeA7Y.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/clipshots_test_vdb_25fps/test_IG_KLAPpK10.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-      <div class="highlights-item">
-        <div class="video-showcase">
-          <video class="main-video" controls loop playsinline preload="metadata">
-            <source src="./Packages/STD/data/videos/clipshots_test_vdb_25fps/test_jaKNlaRL1Bw.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-
-    </div>
-    <div class="highlights-dots" id="highlights-dots"></div>
-    <div class="highlights-note" style="font-size: 0.72rem; line-height: 1.55; max-width: 860px; margin: 0.6rem auto 0; text-align: left; opacity: 0.85;">
-      These clips are shown for research demonstration only. They are taken from public
-      shot-transition benchmarks and remain the property of their original copyright holders,
-      who are not affiliated with this work. If you hold rights in one of them and would
-      rather it did not appear here, or you have any other concern about it, please open an
-      issue on our <a href="https://github.com/heygen-com/TransVLM/issues" target="_blank"
-      rel="noopener">GitHub repository</a> and we will take that clip down.
     </div>
   </div>
 </section>
 
-<!-- ABSTRACT -->
-<div class="abstract-section" id="abstract">
-  <div class="container">
-    <h2>Abstract</h2>
-    <p>
-      Traditional Shot Boundary Detection (SBD) inherently struggles with complex transitions
-      by formulating the task around isolated cut points, frequently yielding corrupted video
-      shots. We address this fundamental limitation by formalizing the Shot Transition Detection
-      (STD) task. Rather than searching for ambiguous points, STD explicitly detects the
-      continuous temporal segments of transitions. To tackle this, we propose
-      <b>TransVLM</b>, a Vision-Language Model (VLM) framework for STD. Unlike regular VLMs
-      that predominantly rely on spatial semantics and struggle with fine-grained inter-shot
-      dynamics, our method explicitly injects optical flow as a critical motion prior at the
-      input stage. Through a simple yet effective feature-fusion strategy, TransVLM directly
-      processes concatenated color and motion representations, significantly enhancing its
-      temporal awareness without incurring any additional visual token overhead on the language
-      backbone. To overcome the severe class imbalance in public data, we design a scalable
-      data engine to synthesize diverse transition videos for robust training, alongside a
-      comprehensive benchmark for STD. Extensive experiments demonstrate that TransVLM achieves
-      superior overall performance, outperforming traditional heuristic methods, specialized
-      spatiotemporal networks, and top-tier VLMs.
-    </p>
+<!-- ==================================================== 02 comparison -->
+<section id="see-it">
+  <div class="wrap">
+    <p class="eyebrow"><b>02</b></p>
+    <h2>TransVLM vs. existing detectors</h2>
+    <div class="measure">
+      <p class="lede">
+        Ground truth and three detectors, all at 25&nbsp;fps, on the same benchmark
+        videos. Every clip here is a transition TransVLM detects and both
+        shot-boundary detectors miss, cut out of the video it came from.
+        84&nbsp;clips in total. Drag the timeline to move through one.
+      </p>
+    </div>
+
+    <!-- --card-ar sets the shape every card in this deck is fitted into. The 84
+         extracted clips are 1.78 (40), 1.0 (40) and 0.56 (4), so no single shape
+         fits them all and 4/3 sits between the two big groups. -->
+    <div class="media clips">
+      <div class="clip-deck" id="clip-deck" style="--card-ar: 4 / 3"></div>
+
+      <div class="deck-dots" id="clip-dots"></div>
+      <div class="deck-under" id="clip-under">
+        <div class="tracks"></div>
+        <div class="readout" aria-live="off"></div>
+        <div class="controls" id="clip-speed" role="group" aria-label="Playback speed"></div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- TEASER -->
-<div class="teaser-section" id="teaser">
-  <div class="container">
-    <h2>Teaser</h2>
-    <img src="./Packages/STD/data/figures/fig1.jpg" alt="Limitations of existing shot transition detection methods">
-    <p class="fig-caption">
-      <b>Limitations of existing shot transition detection methods.</b> Predicted transitions are
-      denoted by colored lines: <b style="color:#6b7280;">gray</b> for ground truth,
-      <b style="color:#dc2626;">red</b> for a state-of-the-art SBD method (AutoShot
-      <span class="cite-ref">[1]</span>), <b style="color:#2563eb;">blue</b> for a top-tier VLM
-      (Qwen3-VL <span class="cite-ref">[2]</span>), and <b style="color:#22a324;">green</b> for our
-      proposed TransVLM. While SBD models excel at detecting normal cuts (a) but fail on gradual
-      and special transitions (c, d, e), VLMs can perceive gradual and special transitions but
-      miss normal cuts. Neither of them can detect the subtle cuts (b). In contrast, TransVLM
-      robustly detects all these transitions.
-    </p>
+<!-- ======================================================= 03 the belts -->
+<section id="any">
+  <div class="wrap">
+    <p class="eyebrow"><b>03</b></p>
+    <h2>All 59 transitions</h2>
+    <div class="measure">
+      <p class="lede">
+        FFmpeg&rsquo;s 58 native <code>xfade</code> transitions and the cut: the whole
+        vocabulary of the data engine behind the synthetic half of the benchmark
+        and most of the training set. Point at a tile, or tap it, and it plays
+        with its definition.
+      </p>
+      <p>
+        For each pair of adjacent shots the engine draws one effect uniformly from
+        the 59 and a duration uniformly up to a bound set by the two shots. A cut
+        forces the duration to zero. The shots themselves are mined by running
+        PySceneDetect, TransNetV2 and AutoShot and keeping only those a majority
+        agree on, so the pool carries almost no residual transitions.
+      </p>
+    </div>
+
+    <!-- The belts name and define whatever is held; the prose above says where
+         the 59 come from and how the engine uses them. -->
+    <div id="strips" class="media mid"></div>
   </div>
-</div>
+</section>
 
-<!-- FRAMEWORK -->
-<div class="framework-section" id="framework">
-  <div class="container">
-    <h2>Framework</h2>
-    <img src="./Packages/STD/data/figures/fig3.png" alt="TransVLM Framework Overview">
-    <p class="fig-caption">
-      <b>Overview of the TransVLM framework.</b> Our framework comprises three core components.
-      <b>(a) Model Architecture:</b> we explicitly inject optical flow as a motion prior via a
-      parameter-efficient strategy. By exclusively expanding the input projection weights of the
-      Vision Patch Embed Layer, the model directly processes concatenated frames of color and
-      optical flow. Crucially, this extracts joint appearance-motion representations without
-      inflating the visual token sequence length, thereby incurring zero additional computational
-      burden on the language model. <b>(b) Data Synthesis:</b> given an arbitrary sequence of
-      clean shots, our scalable data engine automatically synthesizes videos with diverse
-      transitions, simultaneously generating precisely aligned segment-level JSON labels for
-      model training. <b>(c) Arbitrary Video Inference:</b> a temporal sliding-window strategy
-      partitions the input stream into overlapping segments to generate local predictions, which
-      are subsequently aggregated into a continuous global prediction via temporal Non-Maximum
-      Suppression (NMS).
-    </p>
-  </div>
-</div>
+<!-- ===================================================== 04 failure cases -->
+<section id="failures">
+  <div class="wrap">
+    <p class="eyebrow"><b>04</b></p>
+    <h2>Failing scenarios</h2>
 
-<!-- BENCHMARK -->
-<section id="benchmark">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">STD Benchmark</h2>
-    <p class="section-desc">
-      Unlike SBD datasets that provide ambiguous shot boundaries, our benchmark re-annotates
-      six public datasets and combines them with synthesized videos to build a comprehensive
-      STD benchmark of 5,215 videos (~100.3 hours, 45,239 transitions), evaluating diverse
-      transition types. All transitions are equipped with <b>segment-level</b> ground-truth
-      labels. We categorize transitions by duration: <b>Cut</b> (&lt;0.1s), <b>Normal</b>
-      (&le;1s), and <b>Long</b> (&gt;1s).
-    </p>
+    <div class="media clips">
+      <div class="clip-deck" id="fail-deck" style="--card-ar: 4 / 3"></div>
 
-    <div class="stats-table-wrap">
-      <table class="stats-table">
+      <div class="deck-dots" id="fail-dots"></div>
+      <div class="deck-under" id="fail-under">
+        <div class="tracks"></div>
+        <div class="readout" aria-live="off"></div>
+        <div class="why"></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.6rem">Where the errors are</h3>
+
+    <!-- Supplementary Table S1, TransVLM at 25 fps, every metric averaged over the
+         0 to 0.5 s tolerance sweep. Static like the benchmark table in 06: the
+         numbers are the paper's, not derived from anything on this page. -->
+    <!-- Five columns sit in the prose column: on the 1120 tier a hand's width
+         opens between a label and its figure. -->
+    <div class="scroller measure" style="margin-top:1.6rem">
+      <table class="tbl">
         <thead>
           <tr>
-            <th rowspan="2">Dataset</th>
-            <th rowspan="2">Domain</th>
-            <th rowspan="2">Original Label</th>
-            <th colspan="2">Total Videos</th>
-            <th colspan="2">Total Transitions</th>
-            <th colspan="3">Transition Types</th>
+            <th>Duration</th><th>Segment F1</th><th>Frame F1</th><th>IoU F1</th><th>Boundary error</th>
           </tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td colspan="5">Public data</td></tr>
+          <tr><td>Cut &lt;&nbsp;0.1&nbsp;s</td><td>0.776</td><td>0.805</td><td>0.165</td><td>0.13&nbsp;s</td></tr>
+          <tr><td>Normal 0.1&ndash;1&nbsp;s</td><td>0.591</td><td>0.341</td><td>0.216</td><td>0.15&nbsp;s</td></tr>
+          <tr><td>Long &gt;&nbsp;1&nbsp;s</td><td>0.803</td><td>0.238</td><td>0.269</td><td>2.15&nbsp;s</td></tr>
+          <tr class="group"><td colspan="5">Synthetic data</td></tr>
+          <tr><td>Cut &lt;&nbsp;0.1&nbsp;s</td><td>0.668</td><td>0.638</td><td>0.003</td><td>0.04&nbsp;s</td></tr>
+          <tr><td>Normal 0.1&ndash;1&nbsp;s</td><td>0.948</td><td>0.997</td><td>0.787</td><td>0.06&nbsp;s</td></tr>
+          <tr><td>Long &gt;&nbsp;1&nbsp;s</td><td>0.991</td><td>0.942</td><td>0.946</td><td>0.11&nbsp;s</td></tr>
+          <tr class="group"><td colspan="5">Overall</td></tr>
+          <tr><td>Cut &lt;&nbsp;0.1&nbsp;s</td><td>0.764</td><td>0.787</td><td>0.146</td><td>0.12&nbsp;s</td></tr>
+          <tr><td>Normal 0.1&ndash;1&nbsp;s</td><td>0.689</td><td>0.479</td><td>0.335</td><td>0.12&nbsp;s</td></tr>
+          <tr><td>Long &gt;&nbsp;1&nbsp;s</td><td>0.941</td><td>0.761</td><td>0.796</td><td>0.57&nbsp;s</td></tr>
+        </tbody>
+      </table>
+      <p class="fig-cap">TransVLM at 25&nbsp;fps. The F1 columns are averaged over the 0 to 0.5&nbsp;s tolerance sweep. IoU F1 also over five overlap thresholds from 0.1 to 0.9.</p>
+    </div>
+
+    <div class="measure" style="margin-top:1.6rem">
+      <p>
+        Long transitions are the easiest to detect because several seconds of
+        surrounding context anchor both endpoints. Normal-length transitions in
+        the public set are the most difficult: the model tends to overpredict
+        them, increasing false positives and lowering F1. Cuts are usually
+        detected but localized one frame off. On synthetic cuts, the average
+        boundary error is 0.04&nbsp;second, which yields an almost negligible IoU
+        because cuts have no temporal duration. In the public subset, some long
+        transitions are detected, but their endpoints can be off by as much as
+        two seconds, where the ground-truth boundaries are themselves least
+        certain.
+      </p>
+      <p>
+        The remaining errors occur mainly in very low-light scenes, where both
+        colour and optical flow become unreliable, and in long transitions that
+        span two sliding windows and lose temporal coverage at the boundary
+        between them.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== 05 method -->
+<section id="method">
+  <div class="wrap">
+    <p class="eyebrow"><b>05</b></p>
+    <h2>Method</h2>
+    <div class="measure">
+      <p class="lede">
+        VLMs capture spatial semantics effectively but struggle with motion
+        across shot boundaries. Instead of adding a separate encoder, TransVLM
+        expands the vision patch embedding from three to six channels,
+        initializes the new weights to zero, and processes concatenated colour
+        and optical-flow inputs.
+      </p>
+      <p>
+        The visual token sequence does not get longer, so the language backbone
+        carries no additional cost.
+      </p>
+    </div>
+
+    <!-- The two figures are one deck, the same left/right stack as section 04.
+         Their markup lives here rather than in a JSON file: it is prose about
+         the figures, and it belongs in the document. initMethod() lifts it into
+         cards; the template keeps it out of the layout until then, so there is
+         no flash of two full-width figures before the deck exists. -->
+    <template id="method-figs">
+      <!-- The figure is one file shown as three panels, cropped in CSS at the
+           gutters the artwork already draws a dashed rule in. Splitting it is
+           what lets the panels stack on a phone, where 2.79:1 is 128px tall and
+           nothing in it can be read; side by side they rebuild the original,
+           which is why --fw / --fh / --x0 / --pw are the source's own pixels.
+           Measured off the render, not eyeballed: the three tinted grounds run
+           40-1268, 1274-2094 and 2100-2790, and the rules between them fall in
+           the two gaps.
+
+           The file is named on every panel rather than once in a custom
+           property on the row, because a relative url() inside a custom
+           property is resolved against the stylesheet that reads it, not
+           against this document -- which sends it looking under assets/css/,
+           where it 404s and leaves the card blank white. -->
+      <figure data-title="Three components" data-tag="framework"
+              data-src="assets/media/figures/fig3.png">
+        <div class="fig-split" style="--fw: 2832; --fh: 1015">
+          <span class="fig-panel" style="background-image: url('assets/media/figures/fig3.png'); --x0: 40; --pw: 1229" role="img"
+                aria-label="(a) Model architecture: the vision patch embed layer takes concatenated colour and optical flow frames through the vision model to the language model."></span>
+          <span class="fig-panel" style="background-image: url('assets/media/figures/fig3.png'); --x0: 1274; --pw: 821" role="img"
+                aria-label="(b) Data synthesis: clean shots go through the data engine to a synthetic video with aligned segment-level JSON labels."></span>
+          <span class="fig-panel" style="background-image: url('assets/media/figures/fig3.png'); --x0: 2100; --pw: 691" role="img"
+                aria-label="(c) Arbitrary video inference: a sliding window gives local predictions that are merged into one global prediction."></span>
+        </div>
+        <figcaption>
+          <b>(a) Architecture:</b> the input projection of the vision patch embed
+          layer is expanded so the model consumes concatenated colour and flow
+          frames, extracting joint appearance&ndash;motion features without inflating
+          the token sequence. <b>(b) Data synthesis:</b> given any sequence of clean
+          shots, the engine synthesises transition videos with exactly aligned
+          segment-level JSON labels. <b>(c) Inference:</b> a temporal sliding
+          window produces local predictions, aggregated into one global
+          prediction by temporal NMS.
+        </figcaption>
+      </figure>
+      <!-- Two equal halves, split on the dashed rule at x=729. The file is an
+           SVG and stays one: cropping in CSS keeps it vector, where cutting it
+           into two files would duplicate the base64 panels it embeds. -->
+      <figure data-title="What flow adds" data-tag="tokens"
+              data-src="assets/media/figures/fig2.svg">
+        <div class="fig-split" style="--fw: 1460; --fh: 563">
+          <span class="fig-panel" style="background-image: url('assets/media/figures/fig2.svg'); --x0: 27; --pw: 702" role="img"
+                aria-label="(a) Normal cut: colour frames, optical flow frames, and the visual tokens of each."></span>
+          <span class="fig-panel" style="background-image: url('assets/media/figures/fig2.svg'); --x0: 730; --pw: 702" role="img"
+                aria-label="(b) Subtle cut: the same four rows, where the colour tokens barely change and the flow tokens do."></span>
+        </div>
+        <figcaption>
+          The same frames tokenised with colour only and with colour plus flow, for
+          a normal cut and for a subtle one. The flow tokens answer the
+          transition frames far more sharply than the colour ones in both cases,
+          and on the subtle cut that difference is most of what is left to see.
+        </figcaption>
+      </figure>
+    </template>
+
+    <!-- No --card-ar: a split figure sizes itself. Both cards are one row of
+         panels wide-screen, so they still come out the same height as each
+         other; stacked on a phone they do not, and a ratio that forced them to
+         would letterbox the shorter one. -->
+    <div class="media mid">
+      <div class="clip-deck" id="method-deck"></div>
+      <div class="deck-dots" id="method-dots"></div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="v">3&nbsp;&rarr;&nbsp;6</div><div class="k">patch-embed<br>input channels</div></div>
+      <div class="stat"><div class="v">1.6&nbsp;M</div><div class="k">added<br>parameters</div></div>
+      <div class="stat"><div class="v">0</div><div class="k">extra visual<br>tokens</div></div>
+      <div class="stat"><div class="v">4.8&nbsp;B</div><div class="k">total<br>(Qwen3-VL-4B-Instruct)</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================= 06 benchmark -->
+<section id="benchmark">
+  <div class="wrap">
+    <p class="eyebrow"><b>06</b></p>
+    <h2>Benchmark</h2>
+    <div class="measure">
+      <p class="lede">
+        Public SBD datasets represent cuts as timestamps, making them unable to
+        capture transitions such as a two-second dissolve. The STD benchmark
+        addresses this by using six datasets with segment-level annotations
+        (three re-annotated frame by frame for this study and three adopted as
+        provided) alongside synthetically generated videos.
+      </p>
+      <p>
+        Transitions are grouped by duration &mdash; <b>Cut</b> under 0.1&nbsp;s,
+        <b>Normal</b> up to 1&nbsp;s, <b>Long</b> beyond that.
+      </p>
+    </div>
+
+    <div class="scroller media table panel" style="margin-top:1.6rem">
+      <table class="tbl">
+        <thead>
           <tr>
-            <th>Count</th><th>Dur. (h)</th>
-            <th>Count</th><th>Dur. (s)</th>
+            <th>Dataset</th><th>Domain</th><th>Original label</th>
+            <th>Videos</th><th>Hours</th><th>Transitions</th>
             <th>Cut</th><th>Normal</th><th>Long</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>RAI <span class="cite-ref">[3]</span></td><td>TV Shows</td><td>Point</td><td>10</td><td>1.64</td><td>1,036</td><td>304.4</td><td>757</td><td>188</td><td>91</td></tr>
-          <tr><td>BBC <span class="cite-ref">[4]</span></td><td>Documentaries</td><td>Point</td><td>11</td><td>9.00</td><td>4,943</td><td>703.7</td><td>4,255</td><td>582</td><td>106</td></tr>
-          <tr><td>AutoShot (Test) <span class="cite-ref">[1]</span></td><td>Short Videos</td><td>Point</td><td>200</td><td>2.01</td><td>2,065</td><td>545.0</td><td>1,008</td><td>1,004</td><td>53</td></tr>
-          <tr><td>ClipShots (Test) <span class="cite-ref">[5]</span></td><td>Web Videos</td><td>Point</td><td>500</td><td>32.85</td><td>6,923</td><td>1,548.1</td><td>4,798</td><td>1,830</td><td>295</td></tr>
-          <tr><td>MovieShots2 (Test) <span class="cite-ref">[6]</span></td><td>Movies</td><td>Point</td><td>282</td><td>20.72</td><td>14,767</td><td>9,566.4</td><td>13,436</td><td>710</td><td>621</td></tr>
-          <tr><td>SportsShot (Val) <span class="cite-ref">[7]</span></td><td>Sports</td><td>Point</td><td>240</td><td>9.37</td><td>5,045</td><td>944.4</td><td>3,899</td><td>1,064</td><td>82</td></tr>
-          <tr><td>STD Synthesis Data</td><td>Web Videos</td><td>Segment</td><td>3,972</td><td>24.67</td><td>10,460</td><td>18,249.3</td><td>3,593</td><td>1,615</td><td>5,252</td></tr>
-          <tr class="row-ours"><td><b>STD Benchmark</b></td><td><b>Diverse</b></td><td><b>Segment</b></td><td><b>5,215</b></td><td><b>100.26</b></td><td><b>45,239</b></td><td><b>31,861.3</b></td><td><b>31,746</b></td><td><b>6,993</b></td><td><b>6,500</b></td></tr>
+          <tr><td>RAI <span class="ref">[3]</span></td><td>TV shows</td><td>Point</td><td>10</td><td>1.64</td><td>1,036</td><td>757</td><td>188</td><td>91</td></tr>
+          <tr><td>BBC <span class="ref">[4]</span></td><td>Documentaries</td><td>Point</td><td>11</td><td>9.00</td><td>4,943</td><td>4,255</td><td>582</td><td>106</td></tr>
+          <tr><td>AutoShot (test) <span class="ref">[1]</span></td><td>Short videos</td><td>Point</td><td>200</td><td>2.01</td><td>2,065</td><td>1,008</td><td>1,004</td><td>53</td></tr>
+          <tr><td>ClipShots (test) <span class="ref">[5]</span></td><td>Web videos</td><td>Point</td><td>500</td><td>32.85</td><td>6,923</td><td>4,798</td><td>1,830</td><td>295</td></tr>
+          <tr><td>MovieShots2 (test) <span class="ref">[6]</span></td><td>Movies</td><td>Point</td><td>282</td><td>20.72</td><td>14,767</td><td>13,436</td><td>710</td><td>621</td></tr>
+          <tr><td>SportsShot (val) <span class="ref">[7]</span></td><td>Sports</td><td>Point</td><td>240</td><td>9.37</td><td>5,045</td><td>3,899</td><td>1,064</td><td>82</td></tr>
+          <tr><td>STD synthesis data</td><td>Web videos</td><td>Segment</td><td>3,972</td><td>24.67</td><td>10,460</td><td>3,593</td><td>1,615</td><td>5,252</td></tr>
+          <tr class="ours"><td>STD Benchmark</td><td>Diverse</td><td>Segment</td><td>5,215</td><td>100.26</td><td>45,239</td><td>31,746</td><td>6,993</td><td>6,500</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <h3 style="margin-top:2.6rem">How it was annotated</h3>
+    <div class="measure">
+      <p>
+        Expert annotators worked through a frame-precise tool, one primary
+        pass plus at least one reviewer, disagreements arbitrated to a single
+        consensus label. We will release the benchmark annotations after our
+        internal inspection process.
+      </p>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="v">11</div><div class="k">expert<br>annotators</div></div>
+      <div class="stat"><div class="v">2,840</div><div class="k">transitions<br>added</div></div>
+      <div class="stat"><div class="v">2,467</div><div class="k">false positives<br>removed</div></div>
+      <div class="stat"><div class="v">2,641</div><div class="k">boundaries<br>shifted</div></div>
+      <div class="stat"><div class="v">37.3</div><div class="k">corrections<br>per video</div></div>
+    </div>
+
+    <h3 style="margin-top:2.6rem">Missed in the originals</h3>
+    <div class="measure">
+      <p>
+        Across four of the six datasets, the public annotations omit 14
+        transitions entirely. Most are gradual transitions, the very kind of
+        event that point-based labels cannot represent.
+      </p>
+    </div>
+
+    <!-- Built from assets/data/missed.json; the frames are the paper's
+         supplementary montages, split back into one card per example. Each
+         card carries its source video and interval as data attributes -- they
+         identify a file, not the thing the reader is looking at. -->
+    <div class="media mid">
+      <div class="ms-deck" id="missed"></div>
+      <div class="deck-dots" id="missed-dots"></div>
     </div>
   </div>
 </section>
 
-<!-- MAIN RESULTS -->
+<!-- ========================================================= 07 results -->
 <section id="results">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">Comparison with Baselines</h2>
-
-    <h3 class="subsection-title">Evaluation Metrics</h3>
-    <p class="subsection-desc">
-      We propose a rigorous evaluation suite comprising both segment-level and frame-level
-      metrics, parameterized by a temporal tolerance &tau; (0.0 &ndash; 0.5 s) to handle
-      annotator subjectivity at gradual transition boundaries:
-      <b>Segment&nbsp;F<sub>1</sub></b> (instance retrieval),
-      <b>Frame&nbsp;F<sub>1</sub></b> (temporal coverage),
-      <b>Absolute Boundary Error&nbsp;(ABE)</b> in seconds, and
-      <b>Real-Time Factor&nbsp;(RTF)</b> for inference efficiency.
-    </p>
-
-    <h3 class="subsection-title">Quantitative Comparison</h3>
-    <p class="subsection-desc">
-      We compare TransVLM against five paradigms: PySceneDetect <span class="cite-ref">[8]</span>,
-      TransNetV2 <span class="cite-ref">[9]</span>, AutoShot <span class="cite-ref">[1]</span>,
-      Gemini series <span class="cite-ref">[10]</span>, and Qwen3-VL series
-      <span class="cite-ref">[2]</span>. We report mean segment- and frame-level metrics across
-      the defined &tau; values. TransVLM substantially outperforms heuristic methods, specialized
-      networks, and significantly larger general-purpose VLMs.
-      <b>Bold</b> = best, <u>underline</u> = second-best.
-    </p>
-
-    <div class="stats-table-wrap">
-      <table class="stats-table">
-        <thead>
-          <tr>
-            <th rowspan="3">Method</th>
-            <th colspan="7">Public Data</th>
-            <th colspan="7">Synthetic Data</th>
-            <th rowspan="3">RTF</th>
-          </tr>
-          <tr>
-            <th colspan="3">Segment</th><th colspan="3">Frame</th><th rowspan="2">ABE</th>
-            <th colspan="3">Segment</th><th colspan="3">Frame</th><th rowspan="2">ABE</th>
-          </tr>
-          <tr>
-            <th>P</th><th>R</th><th>F<sub>1</sub></th>
-            <th>P</th><th>R</th><th>F<sub>1</sub></th>
-            <th>P</th><th>R</th><th>F<sub>1</sub></th>
-            <th>P</th><th>R</th><th>F<sub>1</sub></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="row-section"><td colspan="16">PySceneDetect <span class="cite-ref">[8]</span></td></tr>
-          <tr><td>&nbsp;&nbsp;Adaptive</td><td>0.656</td><td>0.716</td><td>0.684</td><td>0.645</td><td>0.372</td><td>0.457</td><td>1.93</td><td class="best">0.924</td><td>0.172</td><td>0.290</td><td>0.922</td><td>0.036</td><td>0.069</td><td class="second">0.28</td><td>0.09</td></tr>
-          <tr><td>&nbsp;&nbsp;Content</td><td>0.627</td><td>0.759</td><td>0.686</td><td>0.603</td><td>0.383</td><td>0.453</td><td class="second">1.08</td><td class="second">0.909</td><td>0.128</td><td>0.225</td><td class="best">0.968</td><td>0.029</td><td>0.056</td><td>0.61</td><td>0.09</td></tr>
-          <tr><td>&nbsp;&nbsp;Hash</td><td>0.566</td><td>0.778</td><td>0.654</td><td>0.549</td><td>0.416</td><td>0.457</td><td>2.11</td><td>0.880</td><td>0.118</td><td>0.208</td><td>0.940</td><td>0.027</td><td>0.052</td><td>0.85</td><td>0.09</td></tr>
-          <tr><td>&nbsp;&nbsp;Hist</td><td>0.452</td><td>0.741</td><td>0.559</td><td>0.419</td><td>0.398</td><td>0.394</td><td>1.19</td><td>0.577</td><td>0.379</td><td>0.455</td><td>0.762</td><td>0.117</td><td>0.197</td><td>1.04</td><td>0.09</td></tr>
-          <tr><td>&nbsp;&nbsp;Threshold</td><td>0.364</td><td>0.031</td><td>0.057</td><td>0.306</td><td>0.014</td><td>0.027</td><td>3.08</td><td>0.773</td><td>0.039</td><td>0.074</td><td>0.749</td><td>0.008</td><td>0.016</td><td>1.46</td><td>0.09</td></tr>
-
-          <tr><td>TransNetV2 <span class="cite-ref">[9]</span></td><td class="second">0.727</td><td>0.780</td><td class="second">0.752</td><td class="best">0.731</td><td>0.427</td><td>0.528</td><td>1.87</td><td>0.275</td><td>0.149</td><td>0.194</td><td>0.417</td><td>0.034</td><td>0.063</td><td>0.61</td><td class="second">0.07</td></tr>
-          <tr><td>AutoShot <span class="cite-ref">[1]</span></td><td>0.707</td><td class="second">0.804</td><td>0.751</td><td class="second">0.709</td><td class="second">0.440</td><td class="second">0.532</td><td>1.78</td><td>0.379</td><td>0.248</td><td>0.299</td><td>0.530</td><td>0.058</td><td>0.102</td><td>0.51</td><td class="best">0.03</td></tr>
-
-          <tr class="row-section"><td colspan="16">Gemini Series <span class="cite-ref">[10]</span></td></tr>
-          <tr><td>&nbsp;&nbsp;2.5 Pro</td><td>0.558</td><td>0.527</td><td>0.542</td><td>0.453</td><td>0.361</td><td>0.401</td><td>3.62</td><td>0.338</td><td class="second">0.851</td><td>0.465</td><td>0.638</td><td class="second">0.760</td><td class="second">0.686</td><td>0.82</td><td>0.81</td></tr>
-          <tr><td>&nbsp;&nbsp;3 Pro</td><td>0.527</td><td>0.573</td><td>0.549</td><td>0.469</td><td>0.343</td><td>0.393</td><td>2.18</td><td>0.479</td><td>0.768</td><td>0.588</td><td>0.711</td><td>0.482</td><td>0.568</td><td>0.88</td><td>1.32</td></tr>
-
-          <tr class="row-section"><td colspan="16">Qwen3-VL Instruct Series <span class="cite-ref">[2]</span></td></tr>
-          <tr><td>&nbsp;&nbsp;4B</td><td>0.235</td><td>0.088</td><td>0.124</td><td>0.134</td><td>0.174</td><td>0.148</td><td>55.00</td><td>0.717</td><td>0.306</td><td>0.428</td><td>0.458</td><td>0.618</td><td>0.525</td><td>8.88</td><td>0.31</td></tr>
-          <tr><td>&nbsp;&nbsp;8B</td><td>0.222</td><td>0.297</td><td>0.246</td><td>0.132</td><td>0.307</td><td>0.184</td><td>34.39</td><td>0.586</td><td>0.597</td><td>0.591</td><td>0.741</td><td>0.204</td><td>0.315</td><td>1.60</td><td>0.34</td></tr>
-          <tr><td>&nbsp;&nbsp;32B</td><td>0.309</td><td>0.473</td><td>0.370</td><td>0.214</td><td>0.279</td><td>0.241</td><td>3.96</td><td>0.895</td><td>0.623</td><td class="second">0.735</td><td>0.911</td><td>0.361</td><td>0.516</td><td>1.35</td><td>0.98</td></tr>
-          <tr><td>&nbsp;&nbsp;30B-A3B (MoE)</td><td>0.218</td><td>0.300</td><td>0.242</td><td>0.171</td><td>0.222</td><td>0.192</td><td>9.61</td><td>0.806</td><td>0.593</td><td>0.683</td><td>0.749</td><td>0.355</td><td>0.482</td><td>1.86</td><td>0.35</td></tr>
-
-          <tr class="row-section"><td colspan="16">Qwen3-VL Thinking Series <span class="cite-ref">[2]</span></td></tr>
-          <tr><td>&nbsp;&nbsp;4B</td><td>0.449</td><td>0.079</td><td>0.134</td><td>0.265</td><td>0.051</td><td>0.086</td><td>1.50</td><td>0.839</td><td>0.218</td><td>0.346</td><td>0.748</td><td>0.087</td><td>0.156</td><td>1.68</td><td>1.03</td></tr>
-          <tr><td>&nbsp;&nbsp;8B</td><td>0.450</td><td>0.144</td><td>0.217</td><td>0.297</td><td>0.094</td><td>0.143</td><td>4.25</td><td>0.854</td><td>0.389</td><td>0.534</td><td>0.923</td><td>0.147</td><td>0.252</td><td>1.29</td><td>1.31</td></tr>
-          <tr><td>&nbsp;&nbsp;32B</td><td>0.403</td><td>0.260</td><td>0.315</td><td>0.308</td><td>0.160</td><td>0.209</td><td>1.09</td><td>0.900</td><td>0.608</td><td>0.726</td><td>0.943</td><td>0.323</td><td>0.479</td><td>1.16</td><td>3.30</td></tr>
-          <tr><td>&nbsp;&nbsp;30B-A3B (MoE)</td><td>0.374</td><td>0.217</td><td>0.275</td><td>0.291</td><td>0.127</td><td>0.175</td><td class="best">0.98</td><td>0.890</td><td>0.610</td><td>0.724</td><td>0.915</td><td>0.331</td><td>0.485</td><td>1.18</td><td>0.92</td></tr>
-
-          <tr class="row-ours"><td><b>TransVLM (Ours)</b></td><td class="best">0.762</td><td class="best">0.806</td><td class="best">0.783</td><td>0.574</td><td class="best">0.562</td><td class="best">0.568</td><td>1.58</td><td>0.908</td><td class="best">0.882</td><td class="best">0.895</td><td class="second">0.946</td><td class="best">0.930</td><td class="best">0.938</td><td class="best">0.11</td><td>0.50</td></tr>
-        </tbody>
-      </table>
+  <div class="wrap">
+    <p class="eyebrow"><b>07</b></p>
+    <h2>Results</h2>
+    <div class="measure">
+      <p class="lede">
+        No baseline is strong on both halves of the benchmark. Public data is
+        about 80% cuts, which the shot-boundary detectors were built for and which
+        a VLM fed five frames a second cannot resolve; the synthetic half is
+        mostly gradual, and there the order reverses. TransVLM is the only row
+        that holds on both.
+      </p>
     </div>
 
-    <h3 class="subsection-title">Per-&tau; Comparison &amp; Curves</h3>
-    <p class="subsection-desc">
-      Use the panels below to inspect detailed per-method numbers across each dataset / temporal
-      tolerance &tau;, and visualize the corresponding metric curves as a function of &tau;.
-      In each per-&tau; table, <b>bold</b> marks the best result and <u>underline</u> marks the
-      second-best.
-    </p>
+    <!-- The four controls name every axis of the figure, and holding any row
+         opens every metric it has. Switch Rows for the ablations. The figure's
+         rows are the paper's whole comparison table (21 methods) and its whole
+         ablation (7 components plus the full model); the notes below read out
+         the comparisons those rows support but do not spell, plus the two
+         things the table has no column for: the output format and the
+         subtle-cut split. -->
+    <div id="explore" class="media mid" style="margin-top:1.6rem"></div>
 
-    <div id="quant-widget" class="qe-section">
-      <div class="qe-panels">
-        <div class="qe-panel">
-          <h4>Per-&tau; Table</h4>
-          <div class="qe-controls">
-            <label>Dataset
-              <select data-role="t-ds"></select>
-            </label>
-            <label>&tau;
-              <select data-role="t-tt"></select>
-            </label>
-          </div>
-          <div class="qe-frame-box qe-frame-table">
-            <iframe data-role="t-frame"></iframe>
-          </div>
-        </div>
-        <div class="qe-panel">
-          <h4>Metric Curve vs. &tau;</h4>
-          <div class="qe-controls">
-            <label>Dataset
-              <select data-role="p-ds"></select>
-            </label>
-            <label>Metric
-              <select data-role="p-mt"></select>
-            </label>
-          </div>
-          <div class="qe-frame-box qe-frame-plot">
-            <img data-role="p-img" alt="metric curve">
-          </div>
-        </div>
-      </div>
+    <div class="measure" style="margin-top:2.2rem">
+      <p>
+        <b>Same frame rate.</b> The zero-shot VLMs were run at 5&nbsp;fps. Run at
+        5&nbsp;fps itself, TransVLM still leads them on frame-level F1 on both
+        halves and on segment-level F1 on the synthetic half; on public
+        segment-level F1 Gemini&nbsp;3&nbsp;Pro is ahead by 0.001.
+      </p>
+      <p>
+        <b>Well-formed output.</b> Untuned, Qwen3-VL-4B returns unparseable JSON
+        for 4.96% of its outputs; TransVLM for 0.03%. Take the sliding window away,
+        so the whole video goes through one forward pass, and the rate climbs back
+        to 4.35% while public segment-level F1 falls to 0.540. The 2B variants fail
+        on 54% and 65% of outputs, which is why 4B is the smallest backbone used.
+      </p>
+      <p>
+        <b>Where flow helps.</b> The ablation view shows what removing optical
+        flow costs overall. On the synthetic subtle-cut split alone, cuts with
+        little change in content, flow lifts segment-level F1 from 0.681 to 0.732
+        and frame-level F1 from 0.555 to 0.642: it is the abrupt, low-contrast
+        cuts it recovers.
+      </p>
     </div>
-
   </div>
 </section>
 
+<!-- ============================================================ 08 cite -->
+<section id="cite">
+  <div class="wrap">
+    <p class="eyebrow"><b>08</b></p>
+    <h2>Cite</h2>
 
-<!-- CITATION -->
-<section id="citation">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">Citation</h2>
-    <p class="section-desc">
-      If you find our work useful, please consider citing:
-    </p>
-    <pre style="background:#f6f8fa; padding:1em; border-radius:6px; overflow-x:auto; font-family:Menlo, Monaco, 'Courier New', monospace; font-size:0.9em; max-width: 900px; margin: 0 auto;"><code>@inproceedings{chen2026transvlm,
-  title={TransVLM: A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions},
+    <div class="cite measure">
+      <pre id="bibtex"><code>@inproceedings{chen2026transvlm,
+  title={TransVLM: A Vision-Language Framework and Benchmark for
+         Detecting Any Shot Transitions},
   author={Chen, Ce and Ren, Yi and Li, Yuanming and Goriachko, Viktor and
           Ye, Zhenhui and Guo, Zujin and Hong, Zhibin and Gong, Mingming},
   booktitle={European Conference on Computer Vision},
   year={2026},
   organization={Springer}
 }</code></pre>
-  </div>
-</section>
+      <button class="btn copy js-copy" type="button" data-copy="bibtex">Copy BibTeX</button>
+    </div>
 
-<!-- UPDATES -->
-<section id="updates">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">Updates</h2>
-    <p class="section-desc">
-      The STD benchmark is intended as a <strong>living resource</strong>.
-      We are actively exploring <strong>smaller and more efficient VLM backbones</strong>
-      for the STD task, and the resulting checkpoints, training recipes, and evaluation
-      results will be open-sourced here as they become available.
+    <h3 style="margin-top:2.6rem">Updates</h3>
+    <p class="measure">
+      The STD benchmark is meant as a living resource. We are working on smaller and
+      more efficient VLM backbones for the task; checkpoints, recipes and results
+      will be released here as they land.
     </p>
-  </div>
-</section>
 
-<!-- COMMUNITY CONTRIBUTIONS -->
-<section id="contributions">
-  <div class="container">
-    <h2 class="section-title" style="text-align:center;">Community Contributions</h2>
-    <p class="section-desc">
-      We <strong>welcome community submissions</strong> of smaller-model baselines.
-      If you have a more compact or more efficient method for STD, please open an
-      <a href="https://github.com/heygen-com/TransVLM/issues" target="_blank" rel="noopener">issue</a>
-      or pull request on the
-      <a href="https://github.com/heygen-com/TransVLM" target="_blank" rel="noopener">official repository</a>
-      with the model description, total parameter count, evaluation results following the
-      format above, and reproduction instructions. Approved submissions will be added to
-      the leaderboard.
-    </p>
-  </div>
-</section>
-
-<!-- REFERENCES -->
-<section class="references" id="references">
-  <div class="container">
-    <h2>References</h2>
-    <ol>
+    <h3 style="margin-top:2.2rem">References</h3>
+    <ol class="refs measure">
       <li>Zhu et al. <em>AutoShot: A Short Video Dataset and State-of-the-Art Shot Boundary Detection.</em> CVPRW 2023.</li>
       <li>Bai et al. <em>Qwen3-VL Technical Report.</em> 2025.</li>
-      <li>Baraldi et al. <em>A Deep Siamese Network for Scene Detection in Broadcast Videos (RAI dataset).</em> ACM MM 2015.</li>
+      <li>Baraldi et al. <em>A Deep Siamese Network for Scene Detection in Broadcast Videos (RAI).</em> ACM MM 2015.</li>
       <li>Baraldi et al. <em>Shot and Scene Detection via Hierarchical Clustering for Re-using Broadcast Video (BBC).</em> CAIP 2015.</li>
       <li>Tang et al. <em>Fast Video Shot Transition Localization with Deep Structured Models (ClipShots).</em> ACCV 2018.</li>
       <li>Rao et al. <em>A Local-to-Global Approach to Multi-Modal Movie Scene Segmentation (MovieShots).</em> CVPR 2020.</li>
-      <li>MCG. <em>SportsShot: A Large-Scale Sports Shot Boundary Detection Dataset.</em> 2024.</li>
-      <li>Castellano et al. <em>PySceneDetect.</em> Open-source software, 2014&ndash;.</li>
-      <li>Soucek and Lokoc. <em>TransNet V2: An Effective Deep Network Architecture for Fast Shot Transition Detection.</em> 2020.</li>
-      <li>Google DeepMind. <em>Gemini Technical Report.</em> 2023.</li>
+      <li>MCG-NJU. <em>SportsShot: A Fine-Grained Dataset for Shot Segmentation in Multiple Sports.</em> Dataset, 2024.</li>
+      <li>Castellano. <em>PySceneDetect.</em> Open-source software, 2014&ndash;.</li>
+      <li>Sou&ccaron;ek and Loko&ccaron;. <em>TransNet V2: An Effective Deep Network Architecture for Fast Shot Transition Detection.</em> ACM MM 2024.</li>
+      <li>Gemini Team. <em>Gemini: A Family of Highly Capable Multimodal Models.</em> 2023.</li>
+      <li>Zhang et al. <em>ActionFormer: Localizing Moments of Actions with Transformers.</em> ECCV 2022.</li>
       <li>Zhang et al. <em>NeuFlow v2: Push High-Efficiency Optical Flow to the Limit.</em> 2024.</li>
     </ol>
-
   </div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
 <footer>
-  <div class="container">
-    <p>TransVLM: A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions. Best viewed in a modern browser with video playback support.</p>
+  <div class="wrap">
+    TransVLM &middot; ECCV 2026 &middot;
+    <a href="https://github.com/heygen-com/TransVLM" target="_blank" rel="noopener">source</a><br>
+    Best viewed in a browser that plays WebM and H.264.
+    <p class="rights">
+      These clips come from public shot-transition benchmarks and remain the property
+      of their original copyright holders, who are not affiliated with this work. If
+      you hold rights in one and would rather it did not appear here, please
+      <a href="https://github.com/heygen-com/TransVLM/issues" target="_blank" rel="noopener">open an issue</a>
+      and we will take it down.
+    </p>
   </div>
 </footer>
 
+<script src="assets/vendor/embla-carousel-8.6.0.umd.js"></script>
+<script src="assets/js/tracks.js"></script>
+<script src="assets/js/deck.js"></script>
+<script src="assets/js/spring.js"></script>
+<script src="assets/js/strips.js"></script>
+<script src="assets/js/plot.js"></script>
+<script src="assets/js/collage.js"></script>
+<script src="assets/js/explore.js"></script>
+<script src="assets/js/site.js"></script>
 </body>
 </html>

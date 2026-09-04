@@ -1,0 +1,373 @@
+/* TVPlot -- figures for sections 07 and 08.
+ *
+ * Every colour here is an existing site.css token. No new hues: the two
+ * families the argument names keep the hues the page already gave them, and
+ * the rest take existing neutrals. See HAX-36 before adding one.
+ */
+
+.plot {
+  /* Re-sorting is a movement the eye follows, so it is a glide: long enough to
+   * be traceable, and eased gently rather than front-loaded -- a steep ease-out
+   * covers most of the distance in the first fifth of its duration and reads as
+   * a snap however long you make it.
+   *
+   * Focus is a response to the pointer, so it only has to stay under the ~200 ms
+   * that still feels immediate. Both live here because they are being tuned by
+   * eye and four copies of a duration drift apart. */
+  --motion-sort: .62s cubic-bezier(.3, .7, .25, 1);
+  --motion-state: .16s ease-out;
+
+  /* The panel is positioned against this box, so it can never escape the
+   * figure however close to an edge the mark sits. */
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.plot-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plot-svg:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------ furniture */
+
+.plot-grid line {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+
+.plot-parity {
+  stroke: var(--line-2);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.plot-tick {
+  font: 400 var(--fs-label)/1 var(--mono);
+  fill: var(--fg-3);
+}
+
+.plot-axis {
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  fill: var(--fg-3);
+}
+
+.plot-annot {
+  font: 400 var(--fs-label)/1 var(--mono);
+  fill: var(--fg-3);
+}
+
+.plot-annot.is-ours { fill: var(--ours); }
+
+/* ------------------------------------------------- names and their leaders */
+
+/* One name per row. On the ranking it is the left-hand column; on the scatter
+ * it sits beside its own dot -- quiet by default either way, because eighteen
+ * of them shouting would drown the marks they are labelling.
+ *
+ * One size on both. The name on the scatter used to step back to 11.5px
+ * against the ranking's 12.5, which is a distinction no reader can make -- the
+ * two figures are never on screen together -- bought with two sizes, both off
+ * the page's scale and one of them under its floor. */
+.plot-label {
+  font: 400 var(--fs-label)/1 var(--sans);
+  fill: var(--fg-2);
+}
+
+/* On the mark, not on the label: the bar figure's label carries no class of
+   its own, so keyed to the label alone TransVLM was bold on the scatter and
+   plain on the ranking, and plain under every filter of it. The mark is where
+   `ours` is written in both figures. */
+.mark.is-ours .plot-label { fill: var(--ours); font-weight: 600; }
+
+/* A name the placer could not fit anywhere clear. It sits on its dot, so it
+ * gets a halo to stay readable -- and it is visibly the odd one out, which is
+ * the point: it means the layout needs a wider plot, not a dropped label. */
+.plot-label.is-crowded {
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+}
+
+.mark.is-on .plot-label { fill: var(--fg); font-weight: 600; }
+
+/* Only drawn for a name that had to step away from its dot. */
+.plot-leader {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: .8;
+  stroke-opacity: .5;
+}
+
+/* ----------------------------------------------------------- control bar */
+
+/* Four controls and a reset. Every one of them names an axis the published
+ * comparison table already has, so the figure never shows a slice the source
+ * does not publish. */
+.ctlbar {
+  /* The bar is a sentence about the figure rather than part of it, so it keeps
+     to the text's width and the figure below it takes the whole tier. */
+  width: min(100%, var(--measure));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .7rem 1.5rem;
+  margin: 0 auto 1.8rem;
+  padding: .85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-sunk);
+}
+
+.ctl {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+/* A wrapped button is taller than its neighbours and knocks the row out of
+ * line. The bar wraps between controls instead. */
+.ctl .seg button { white-space: nowrap; }
+
+.ctl[hidden] { display: none; }
+
+.ctl-k {
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+
+.ctl-reset {
+  margin-left: auto;
+  padding: .3rem .6rem;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  background: none;
+  font: 400 var(--fs-label)/1 var(--sans);
+  color: var(--fg-3);
+  cursor: pointer;
+}
+
+.ctl-reset:hover { color: var(--fg); border-color: var(--fg-3); }
+
+@media (max-width: 700px) {
+  .ctlbar { gap: .6rem 1rem; }
+  .ctl-reset { margin-left: 0; }
+}
+
+/* ------------------------------------------------------------ ranked bars */
+
+.bar {
+  fill: var(--c);
+  fill-opacity: .82;
+  /* `width` is a CSS geometry property on an SVG rect. Where it is supported
+   * the bar grows; where it is not, plot.js has also set the attribute, so the
+   * bar is simply correct without the animation. */
+  transition: width var(--motion-sort),
+              fill-opacity var(--motion-state);
+}
+
+.mark.is-ours .bar { fill-opacity: 1; }
+
+/* A bar past the axis's ceiling: it runs to the edge and is hatched so that
+ * it reads as cut, not as merely the longest. The number beside it carries
+ * the true value and an arrow. See clipCeiling in plot.js. */
+.bar.is-clipped {
+  fill-opacity: .45;
+  stroke: var(--c); stroke-width: 1; stroke-dasharray: 3 2;
+}
+
+.mark.is-on .bar { fill-opacity: 1; }
+
+.bar-num {
+  font: 400 var(--fs-label)/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+  fill: var(--fg-2);
+}
+
+.mark.is-on .bar-num { fill: var(--fg); }
+
+/* --------------------------------------------------------------- pair dots */
+
+.pair-dot {
+  fill: var(--c);
+  fill-opacity: .78;
+  stroke: var(--bg);
+  stroke-width: 1.25;
+  transition: fill-opacity var(--motion-state);
+}
+
+.mark.is-ours .pair-dot { fill-opacity: 1; stroke-width: 2; }
+
+/* A dot pinned to the axis edge because its value lies past the ceiling:
+ * hollow, so it is visibly not where the others are, with the true value in
+ * its name. See clipCeiling in plot.js. */
+.pair-dot.is-clipped { fill: var(--bg); fill-opacity: 1; stroke: var(--c); stroke-width: 2; stroke-dasharray: 3 2; }
+
+.mark.is-on .pair-dot { fill-opacity: 1; }
+
+/* ---------------------------------------------------------------- marks */
+
+.mark-hit { fill: transparent; }
+
+/* No delay on either: a delay in front of the highlight is what made it feel
+ * sluggish, and the entrance's per-row stagger is where that came from. */
+.plot-marks .mark {
+  cursor: pointer;
+  outline: none;
+  transition: transform var(--motion-sort),
+              opacity var(--motion-state);
+}
+
+/* Focus dims the field rather than highlighting one thing, so the comparison
+ * the reader is making stays on screen. */
+.plot.has-focus .plot-marks .mark { opacity: .26; }
+
+.plot.has-focus .plot-marks .mark.is-on { opacity: 1; }
+
+.plot.has-focus .plot-leaders { opacity: .3; }
+
+/* ---------------------------------------------------------------- panel */
+
+/* Floats over the figure beside the mark it describes. pointer-events off so
+ * it can sit close to the dot without stealing the hover that summoned it. */
+.plot-panel {
+  position: absolute;
+  z-index: 2;
+  width: 13rem;
+  padding: .55rem .7rem .6rem;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+.panel-name {
+  font: 500 var(--fs-small)/1.3 var(--sans);
+  color: var(--fg);
+  margin: 0;
+}
+
+.panel-family {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin: .3rem 0 0;
+}
+
+.panel-family::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+  flex: none;
+}
+
+.panel-rows {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .1rem .7rem;
+  margin: .5rem 0 0;
+  padding: .45rem 0 0;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-label);
+  line-height: 1.35;
+}
+
+.panel-rows dt { color: var(--fg-3); margin: 0; }
+
+.panel-rows dd {
+  margin: 0;
+  text-align: right;
+  color: var(--fg-2);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The row the figure is currently showing. Unlike a fixed emphasis on two
+ * chosen metrics, this one is information: it says which of the panel's numbers
+ * is the bar you are looking at. It moves when the controls move. */
+.panel-rows dt.is-lead { color: var(--fg-2); }
+
+.panel-rows dd.is-lead { color: var(--fg); font-weight: 500; }
+
+.panel-note {
+  font: 400 var(--fs-label)/1.4 var(--sans);
+  color: var(--fg-3);
+  margin: .55rem 0 0;
+}
+
+/* ---------------------------------------------------------------- reveal
+ *
+ * `will-reveal` is added by plot.js, never written in the markup: a figure is
+ * fully visible by default, so the hidden state only ever exists on a page
+ * where the script that un-hides it is already running.
+ *
+ * An animation rather than a transition, and plot.js takes both classes off
+ * once it has played. That matters: while `will-reveal` is on, each mark
+ * carries its own entrance delay, and anything left behind here would put that
+ * delay in front of the hover highlight. Keep the numbers in step with
+ * REVEAL_MS and STAGGER_MS in plot.js.
+ */
+
+.will-reveal .plot-marks .mark,
+.will-reveal .plot-leaders,
+.will-reveal .plot-annot { opacity: 0; }
+
+.will-reveal.is-in .plot-marks .mark {
+  animation: plot-in .34s ease both;
+  animation-delay: calc(var(--i, 0) * 22ms);
+}
+
+.will-reveal.is-in .plot-leaders,
+.will-reveal.is-in .plot-annot {
+  animation: plot-in .4s ease .3s both;
+}
+
+@keyframes plot-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plot-marks .mark, .bar, .pair-dot { transition: none; }
+  .will-reveal .plot-marks .mark,
+  .will-reveal .plot-leaders,
+  .will-reveal .plot-annot { opacity: 1; animation: none; }
+}
+
+/* ------------------------------------------------------------- narrower */
+
+/* Below the point where the panel would cover most of the figure, it stops
+ * floating and docks under the plot instead. */
+@media (max-width: 620px) {
+  .plot-panel {
+    position: static;
+    width: auto;
+    margin-top: 1rem;
+  }
+  /* The 11px tightening that used to be here is gone. It was dead for years --
+     the figure was a fixed 1120-unit viewBox scaled to fit, so the value came
+     out multiplied by the column's fraction of 1120 -- and once ranked() drew
+     in CSS pixels and it started to bite, what it bought was the figure's names
+     and numbers set below the page's floor at the width where they are hardest
+     to read. Both stay at --fs-label. */
+}

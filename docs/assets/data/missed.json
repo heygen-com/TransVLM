@@ -1,0 +1,316 @@
+{
+  "cards": [
+    {
+      "name": "RAI 1",
+      "dataset": "RAI",
+      "cols": 5,
+      "rows": 2,
+      "ar": [
+        4800,
+        1080
+      ],
+      "kind": "Gradual Transition",
+      "sources": [
+        {
+          "label": "a",
+          "video": "1.mp4",
+          "split": null,
+          "kind": "Gradual Transition",
+          "start": 20.4,
+          "end": 21.84
+        }
+      ],
+      "frames": [
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_01.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_02.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_03.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_04.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_05.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_06.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_07.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_08.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_09.jpg",
+        "assets/media/missed/rai/a_1mp4_gradual_2040-2184/frame_10.jpg"
+      ]
+    },
+    {
+      "name": "RAI 2",
+      "dataset": "RAI",
+      "cols": 5,
+      "rows": 2,
+      "ar": [
+        4800,
+        1080
+      ],
+      "kind": "Gradual Transition",
+      "sources": [
+        {
+          "label": "b",
+          "video": "1.mp4",
+          "split": null,
+          "kind": "Gradual Transition",
+          "start": 23.8,
+          "end": 25.8
+        }
+      ],
+      "frames": [
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_01.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_02.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_03.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_04.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_05.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_06.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_07.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_08.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_09.jpg",
+        "assets/media/missed/rai/b_1mp4_gradual_2380-2580/frame_10.jpg"
+      ]
+    },
+    {
+      "name": "AutoShot 1",
+      "dataset": "AutoShot",
+      "cols": 5,
+      "rows": 1,
+      "ar": [
+        5400,
+        1920
+      ],
+      "kind": "Subtle Cut",
+      "sources": [
+        {
+          "label": "c",
+          "video": "13335596295.mp4",
+          "split": "test",
+          "kind": "Subtle Cut",
+          "start": 43.0,
+          "end": 43.04
+        }
+      ],
+      "frames": [
+        "assets/media/missed/autoshot/c_13335596295_subtlecut_4300-4304/frame_01.jpg",
+        "assets/media/missed/autoshot/c_13335596295_subtlecut_4300-4304/frame_02.jpg",
+        "assets/media/missed/autoshot/c_13335596295_subtlecut_4300-4304/frame_03.jpg",
+        "assets/media/missed/autoshot/c_13335596295_subtlecut_4300-4304/frame_04.jpg",
+        "assets/media/missed/autoshot/c_13335596295_subtlecut_4300-4304/frame_05.jpg"
+      ]
+    },
+    {
+      "name": "AutoShot 2",
+      "dataset": "AutoShot",
+      "cols": 5,
+      "rows": 1,
+      "ar": [
+        3600,
+        1280
+      ],
+      "kind": "Cut",
+      "sources": [
+        {
+          "label": "d",
+          "video": "12580139534.mp4",
+          "split": "train",
+          "kind": "Cut",
+          "start": 34.8,
+          "end": 34.84
+        }
+      ],
+      "frames": [
+        "assets/media/missed/autoshot/d_12580139534_cut_3480-3484/frame_01.jpg",
+        "assets/media/missed/autoshot/d_12580139534_cut_3480-3484/frame_02.jpg",
+        "assets/media/missed/autoshot/d_12580139534_cut_3480-3484/frame_03.jpg",
+        "assets/media/missed/autoshot/d_12580139534_cut_3480-3484/frame_04.jpg",
+        "assets/media/missed/autoshot/d_12580139534_cut_3480-3484/frame_05.jpg"
+      ]
+    },
+    {
+      "name": "ClipShots 1",
+      "dataset": "ClipShots",
+      "cols": 5,
+      "rows": 1,
+      "ar": [
+        3200,
+        358
+      ],
+      "kind": "Cut",
+      "sources": [
+        {
+          "label": "e",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 2.08,
+          "end": 2.12
+        }
+      ],
+      "frames": [
+        "assets/media/missed/clipshots/e_96lap9j_cut_0208-0212/frame_01.jpg",
+        "assets/media/missed/clipshots/e_96lap9j_cut_0208-0212/frame_02.jpg",
+        "assets/media/missed/clipshots/e_96lap9j_cut_0208-0212/frame_03.jpg",
+        "assets/media/missed/clipshots/e_96lap9j_cut_0208-0212/frame_04.jpg",
+        "assets/media/missed/clipshots/e_96lap9j_cut_0208-0212/frame_05.jpg"
+      ]
+    },
+    {
+      "name": "ClipShots 2\u20133",
+      "dataset": "ClipShots",
+      "cols": 5,
+      "rows": 2,
+      "ar": [
+        3200,
+        716
+      ],
+      "kind": "Cut",
+      "sources": [
+        {
+          "label": "f",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 10.44,
+          "end": 10.48
+        },
+        {
+          "label": "g",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 11.12,
+          "end": 11.16
+        }
+      ],
+      "frames": [
+        "assets/media/missed/clipshots/f_96lap9j_cut_1044-1048/frame_01.jpg",
+        "assets/media/missed/clipshots/f_96lap9j_cut_1044-1048/frame_02.jpg",
+        "assets/media/missed/clipshots/f_96lap9j_cut_1044-1048/frame_03.jpg",
+        "assets/media/missed/clipshots/f_96lap9j_cut_1044-1048/frame_04.jpg",
+        "assets/media/missed/clipshots/f_96lap9j_cut_1044-1048/frame_05.jpg",
+        "assets/media/missed/clipshots/g_96lap9j_cut_1112-1116/frame_01.jpg",
+        "assets/media/missed/clipshots/g_96lap9j_cut_1112-1116/frame_02.jpg",
+        "assets/media/missed/clipshots/g_96lap9j_cut_1112-1116/frame_03.jpg",
+        "assets/media/missed/clipshots/g_96lap9j_cut_1112-1116/frame_04.jpg",
+        "assets/media/missed/clipshots/g_96lap9j_cut_1112-1116/frame_05.jpg"
+      ]
+    },
+    {
+      "name": "ClipShots 4\u20136",
+      "dataset": "ClipShots",
+      "cols": 5,
+      "rows": 3,
+      "ar": [
+        3200,
+        1074
+      ],
+      "kind": "Cut",
+      "sources": [
+        {
+          "label": "h",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 11.44,
+          "end": 11.48
+        },
+        {
+          "label": "i",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 12.08,
+          "end": 12.12
+        },
+        {
+          "label": "j",
+          "video": "-96lap9jYibdZbCgpB8pBw__.mp4",
+          "split": "train - only gradual",
+          "kind": "Cut",
+          "start": 12.52,
+          "end": 12.56
+        }
+      ],
+      "frames": [
+        "assets/media/missed/clipshots/h_96lap9j_cut_1144-1148/frame_01.jpg",
+        "assets/media/missed/clipshots/h_96lap9j_cut_1144-1148/frame_02.jpg",
+        "assets/media/missed/clipshots/h_96lap9j_cut_1144-1148/frame_03.jpg",
+        "assets/media/missed/clipshots/h_96lap9j_cut_1144-1148/frame_04.jpg",
+        "assets/media/missed/clipshots/h_96lap9j_cut_1144-1148/frame_05.jpg",
+        "assets/media/missed/clipshots/i_96lap9j_cut_1208-1212/frame_01.jpg",
+        "assets/media/missed/clipshots/i_96lap9j_cut_1208-1212/frame_02.jpg",
+        "assets/media/missed/clipshots/i_96lap9j_cut_1208-1212/frame_03.jpg",
+        "assets/media/missed/clipshots/i_96lap9j_cut_1208-1212/frame_04.jpg",
+        "assets/media/missed/clipshots/i_96lap9j_cut_1208-1212/frame_05.jpg",
+        "assets/media/missed/clipshots/j_96lap9j_cut_1252-1256/frame_01.jpg",
+        "assets/media/missed/clipshots/j_96lap9j_cut_1252-1256/frame_02.jpg",
+        "assets/media/missed/clipshots/j_96lap9j_cut_1252-1256/frame_03.jpg",
+        "assets/media/missed/clipshots/j_96lap9j_cut_1252-1256/frame_04.jpg",
+        "assets/media/missed/clipshots/j_96lap9j_cut_1252-1256/frame_05.jpg"
+      ]
+    },
+    {
+      "name": "MovieShots2 1\u20134",
+      "dataset": "MovieShots2",
+      "cols": 5,
+      "rows": 4,
+      "ar": [
+        5760,
+        2560
+      ],
+      "kind": "Cut",
+      "sources": [
+        {
+          "label": "k",
+          "video": "task_0083_12.mp4",
+          "split": "test",
+          "kind": "Cut",
+          "start": 0.28,
+          "end": 0.32
+        },
+        {
+          "label": "l",
+          "video": "task_0083_12.mp4",
+          "split": "test",
+          "kind": "Cut",
+          "start": 1.12,
+          "end": 1.16
+        },
+        {
+          "label": "m",
+          "video": "task_0083_12.mp4",
+          "split": "test",
+          "kind": "Cut",
+          "start": 3.4,
+          "end": 3.44
+        },
+        {
+          "label": "n",
+          "video": "task_0083_12.mp4",
+          "split": "test",
+          "kind": "Cut",
+          "start": 7.8,
+          "end": 7.84
+        }
+      ],
+      "frames": [
+        "assets/media/missed/movieshots2/k_task0083_12_cut_0028-0032/frame_01.jpg",
+        "assets/media/missed/movieshots2/k_task0083_12_cut_0028-0032/frame_02.jpg",
+        "assets/media/missed/movieshots2/k_task0083_12_cut_0028-0032/frame_03.jpg",
+        "assets/media/missed/movieshots2/k_task0083_12_cut_0028-0032/frame_04.jpg",
+        "assets/media/missed/movieshots2/k_task0083_12_cut_0028-0032/frame_05.jpg",
+        "assets/media/missed/movieshots2/l_task0083_12_cut_0112-0116/frame_01.jpg",
+        "assets/media/missed/movieshots2/l_task0083_12_cut_0112-0116/frame_02.jpg",
+        "assets/media/missed/movieshots2/l_task0083_12_cut_0112-0116/frame_03.jpg",
+        "assets/media/missed/movieshots2/l_task0083_12_cut_0112-0116/frame_04.jpg",
+        "assets/media/missed/movieshots2/l_task0083_12_cut_0112-0116/frame_05.jpg",
+        "assets/media/missed/movieshots2/m_task0083_12_cut_0340-0344/frame_01.jpg",
+        "assets/media/missed/movieshots2/m_task0083_12_cut_0340-0344/frame_02.jpg",
+        "assets/media/missed/movieshots2/m_task0083_12_cut_0340-0344/frame_03.jpg",
+        "assets/media/missed/movieshots2/m_task0083_12_cut_0340-0344/frame_04.jpg",
+        "assets/media/missed/movieshots2/m_task0083_12_cut_0340-0344/frame_05.jpg",
+        "assets/media/missed/movieshots2/n_task0083_12_cut_0780-0784/frame_01.jpg",
+        "assets/media/missed/movieshots2/n_task0083_12_cut_0780-0784/frame_02.jpg",
+        "assets/media/missed/movieshots2/n_task0083_12_cut_0780-0784/frame_03.jpg",
+        "assets/media/missed/movieshots2/n_task0083_12_cut_0780-0784/frame_04.jpg",
+        "assets/media/missed/movieshots2/n_task0083_12_cut_0780-0784/frame_05.jpg"
+      ]
+    }
+  ]
+}

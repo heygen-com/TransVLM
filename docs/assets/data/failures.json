@@ -1,0 +1,124 @@
+{
+ "cases": [
+  {
+   "id": "C1",
+   "bundleId": "C3",
+   "mode": "F1",
+   "modeLabel": "Short cut missed",
+   "why": "A zero-length cut on synthetic footage is the weakest bucket the paper reports on the synthetic half (segment F1 0.668, against 0.991 for long transitions). Here both marks are missed outright.",
+   "source": "fast_0000000_vdb_25fps",
+   "subset": "synthetic",
+   "clip": "assets/media/failures/C1.mp4",
+   "poster": "assets/media/failures/C1.jpg",
+   "posterAt": 2.28,
+   "duration": 15.88,
+   "width": 1152,
+   "height": 648,
+   "lowRes": false,
+   "window": [
+    0.0,
+    15.88
+   ],
+   "fullDuration": 15.88,
+   "nGtFull": 2,
+   "metrics": {
+    "ours": {
+     "segF1": 0.0,
+     "abe": null,
+     "fn": 2,
+     "fp": 0
+    },
+    "tn": {
+     "segF1": 0.0,
+     "abe": null,
+     "fn": 2,
+     "fp": 1
+    },
+    "as": {
+     "segF1": 0.0,
+     "abe": null,
+     "fn": 2,
+     "fp": 1
+    }
+   },
+   "tracks": {
+    "gt": [
+     [
+      2.28,
+      2.28
+     ],
+     [
+      7.68,
+      7.68
+     ]
+    ],
+    "tn": [],
+    "as": [],
+    "ours": []
+   },
+   "fps": 25.0
+  },
+  {
+   "id": "C2",
+   "bundleId": "C5",
+   "mode": "F2",
+   "modeLabel": "Lighting false positive",
+   "why": "The optical-flow branch reads a fast brightness change as a boundary cue, such as a flash, a flickering monitor and stage lighting, firing in a stretch that has no transition in it.",
+   "source": "clipshots_test_vdb_25fps",
+   "subset": "public",
+   "clip": "assets/media/failures/C2.mp4",
+   "poster": "assets/media/failures/C2.jpg",
+   "posterAt": 16.2,
+   "duration": 18.0,
+   "width": 128,
+   "height": 128,
+   "lowRes": true,
+   "window": [
+    109.0,
+    127.0
+   ],
+   "fullDuration": 234.24,
+   "nGtFull": 3,
+   "metrics": {
+    "ours": {
+     "segF1": 0.0,
+     "abe": null,
+     "fn": 3,
+     "fp": 7
+    },
+    "tn": {
+     "segF1": 0.2,
+     "abe": 0.36,
+     "fn": 0,
+     "fp": 24
+    },
+    "as": {
+     "segF1": 0.162,
+     "abe": 0.36,
+     "fn": 0,
+     "fp": 31
+    }
+   },
+   "tracks": {
+    "gt": [],
+    "tn": [],
+    "as": [],
+    "ours": [
+     [
+      8.0,
+      8.0
+     ],
+     [
+      12.8,
+      13.4
+     ],
+     [
+      17.5,
+      18.0
+     ]
+    ]
+   },
+   "fps": 25.0
+  }
+ ]
+}

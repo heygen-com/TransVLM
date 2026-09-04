@@ -1,0 +1,1137 @@
+/* TransVLM project page.
+ *
+ * Two themes off one set of tokens. The data assets the page embeds -- 98 SVG
+ * curves, 168 iframe tables, the paper's own figures -- are all light-native and
+ * carry a fixed legend (red = TransNetV2, amber = AutoShot, green = ours). So
+ * dark mode does not invert them: it puts them on a white ground in both themes
+ * -- .card-media.pad in deck.css, which is where the figures now live.
+ * Inverting would swap red and cyan, which is not a theme, it is a different
+ * claim.
+ *
+ * The four data colours are locked to the pixels burnt into the demo clips.
+ * Change them and the page disagrees with its own videos.
+ */
+
+:root {
+  --bg: #faf9f7;
+  --bg-elev: #ffffff;
+  --bg-sunk: #f2f0ec;
+  --fg: #14140f;
+  --fg-2: #55534c;
+  --fg-3: #6f6c64;   /* 4.98:1 on --bg; #8a877e was 3.41 */
+  --line: #e3e0d9;
+  --line-2: #cfcbc1;
+  --accent: #17651a;
+  --accent-soft: #eaf3ea;
+  --shadow: 0 1px 2px rgba(20, 20, 15, .04), 0 8px 24px -12px rgba(20, 20, 15, .10);
+
+  /* The background grain, laid over --bg by body::before. Mid-grey noise is
+     louder against a near-black ground than against a near-white one, so the
+     dark theme takes less of it to read as the same texture. */
+  --grain: .034;
+
+  --gt: #69727f;
+  --tn: #da2724;
+  --as: #fea500;
+  --ours: #209222;
+  --idle: #cfd5da;
+
+  /* Section 07's figure colours by method class, and the published page has
+     five of them. Three take hues the page already burnt into its demo clips
+     -- SBD red, Open VLM amber, ours green -- and the two supporting classes
+     stay neutral on purpose: the argument is about the three coloured
+     families, so a hue on the other two would claim a significance the data
+     does not have. API VLM borrows --gt for its neutral; Heuristic needs its
+     own, below.
+
+     These are declared here rather than taken from --fg-3, which is where the
+     figure used to reach. --fg-3 is a *text* token: it is theme-variant, so
+     the heuristic marks shifted 7.3 dE00 between light and dark while every
+     other family colour held still, and any future tuning of muted text would
+     have silently moved a data colour. Theme-invariant like the four above,
+     for the same reason they are -- the legend in samples.json hard-codes its
+     swatches, and a colour that moves with the theme would disagree with it.
+
+     --heur is 20.1 dE76 from --gt, against the 16.0 that --fg-3 managed, and
+     clears 3:1 on both grounds (3.74 light, 4.91 dark). See HAX-36.
+
+     Known and deliberately left: raising --fg-3 for contrast moved it to a warm
+     taupe in both themes -- #6f6c64 light, #8a877e dark -- which is the family
+     --heur and --abla live in, so they now sit 10.1 / 6.0 (light) and 6.4 / 4.7
+     (dark) from it. What has to separate still does: --heur is 20.1 from --gt
+     and far from the three hues, so no two *families* are confusable. --fg-3 is
+     text furniture -- ticks, axis labels, the source line -- never a mark fill,
+     and it never shares a band of the figure with the bars or dots, which take
+     --fg-2 for their names. Closing the gap is not possible while staying
+     neutral: --gt already owns the cool side, so any real separation needs
+     chroma and therefore a new hue, which is a decision above this file. The
+     best neutral available is roughly #9d8897, at 15.5. */
+  --heur: #8a7f6e;
+  /* Ablation rows are one class, so colour carries nothing there. Its own
+     token rather than a shared neutral: the day Heuristic earns a hue, this
+     must not follow it. */
+  --abla: #7e7b73;
+
+  /* TAL is the sixth class and, like API VLM and Heuristic, a supporting one:
+     ActionFormer is a single row, and the argument is still about the three
+     coloured families. So it stays neutral and takes the slot this file had
+     already measured as the best neutral left -- the cool and warm greys are
+     spoken for by --gt and --heur/--abla, and what remains is a muted mauve.
+     #96808f is 14.6 dE76 from the nearest of the three (--heur at 19.2, --gt at
+     16.1, --abla at 16.5) and 77+ from all three hues, so no two families are
+     confusable; it clears 3:1 on both grounds (3.45 light, 5.32 dark).
+     Theme-invariant for the same reason the five above are. */
+  --tal: #96808f;
+
+  /* Three widths, all centred on one axis. The text is the page column: a
+     paragraph does not get wider because the screen did. Everything else is a
+     step out from it. */
+  --measure: 680px;                               /* text */
+  --wide: calc(var(--measure) + 2 * var(--gut));  /* the page column: text plus its gutters */
+  --tier: 1120px;                                 /* tables, and layouts that need the room */
+  --media: 1600px;                                /* figures and clips, and their ceiling */
+  --gut: clamp(1rem, 4vw, 2.5rem);
+  /* The viewing tier's own gutter, wider than the reading one: a strip of
+     clips or a table that runs to within 40px of the window edge reads as
+     wallpaper, not as an exhibit set on the page. Roughly 100px at 1440. */
+  --gut-media: clamp(1.5rem, 7vw, 6rem);
+
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* SIX SIZES, AND THE FLOOR IS 12px. Nothing on this page is set smaller than
+     that: 12px is where a mono label at --fg-3 stops being readable at arm's
+     length, and it is the size below which mobile Safari zooms the page to read
+     a form control. What was here instead was eleven distinct sizes under 12 --
+     .6, .64, .65, .66, .68, .7, .72, .74rem and 10, 11, 11.5px in the figures --
+     and another five accidental steps between 12 and 13.5. Each had been picked
+     locally and none of them was a level anyone could name.
+     The steps are the four jobs the page has, plus the two above body:
+     label 12 for anything that names a thing (mono labels, tags, ticks, table
+     heads, buttons, the rail), small 13.44 for text that is read but subordinate
+     (table cells, notes, the byline, references), caption 14.4 for what is read
+     under a figure, and body 16. The ratio is ~1.12 between the small steps and
+     ~1.11 up to body -- close enough to read as one family, far enough apart
+     that the four levels are distinguishable side by side, which .68 against .7
+     never was. Display type (h1, h2, .stat .v, the hero) is NOT on this scale:
+     it scales with the viewport through its own clamps. */
+  --fs-label: .75rem;     /* 12px  */
+  --fs-small: .84rem;     /* 13.44 */
+  --fs-caption: .9rem;    /* 14.4  */
+  --fs-body: 1rem;        /* 16    */
+  --fs-lede: 1.08rem;     /* 17.28 */
+  --fs-h3: 1.2rem;        /* 19.2  */
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e0e0c;
+  --bg-elev: #171714;
+  --bg-sunk: #090908;
+  --fg: #f2f0ea;
+  --fg-2: #a8a49a;
+  --fg-3: #8a877e;   /* 5.38:1 on --bg; #77746c was 4.14 */
+  --line: #2a2926;
+  --line-2: #3b3a35;
+  --accent: #4fb852;
+  --accent-soft: #14251500;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 10px 30px -14px rgba(0, 0, 0, .8);
+  --idle: #4a4a46;
+  --grain: .022;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 var(--fs-body)/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* One tiling square of greyscale noise over the whole ground, at a strength the
+   theme picks. Fixed rather than scrolling: the tile is random, so the two are
+   indistinguishable at rest, and a fixed layer neither repaints on scroll nor
+   grows a 16k-pixel backdrop. Negative z-index puts it above the body fill and
+   below every element that paints its own background -- the white plates the
+   light-native figures sit on stay white. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url(../media/noise.png) repeat;
+  opacity: var(--grain);
+}
+
+/* A theme swap is not an animation. Every transition on this page is written
+   against a token -- .card's border-color, .card-foot .name's color, the dots,
+   the rail labels -- and swapping the token under a live transition leaves the
+   property stranded at the theme it started in: measurably, card titles and
+   borders sat at the old theme's values two seconds after the toggle, which on
+   an active card is #f2f0ea on white. Suppressing transitions for the frame of
+   the swap fixes all four at once and leaves each one's own purpose intact,
+   which deleting them would not. */
+:root[data-theme-swap] * { transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+a { color: inherit; text-decoration: none; }
+main p a, main li a, .byline a, figcaption a {
+  border-bottom: 1px solid var(--line-2);
+}
+main p a:hover, main li a:hover, .byline a:hover, figcaption a:hover {
+  color: var(--accent); border-bottom-color: var(--accent);
+}
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  padding: .6rem 1rem; background: var(--fg); color: var(--bg);
+}
+.skip:focus { left: .5rem; top: .5rem; }
+
+/* ---------------------------------------------------------------- layout */
+
+.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 var(--gut); }
+.measure { max-width: var(--measure); }
+
+/* A reading width is not a viewing width. The prose is the page column and stays
+   there; anything you look at rather than read is measured against the window
+   instead and centred on the same axis, so it grows with the screen while the
+   paragraphs do not. Capped, because a deck card is a fraction of its container
+   and a 4:3 card in an uncapped one is taller than the screen it is being read
+   on. The percentage resolves against .wrap's content box, which is centred, so
+   this centres on the window without leaving the flow. */
+.media {
+  --media-w: calc(min(100vw - 2 * var(--gut-media), var(--media)) * var(--media-fit, 1));
+  width: var(--media-w);
+  margin-inline: calc(50% - var(--media-w) / 2);
+}
+/* The two video decks come off the tier rather than sitting on it. A card is a
+   fraction of its container and these are 4:3, so at the full width the front
+   card is most of the height of the screen and the page is one card deep. The
+   whole exhibit scales together -- card, counter and timeline -- because the
+   fraction is taken from the container they all measure against. */
+.media.clips { --media-fit: 1; }
+/* ...but only where that is the problem. The factor was reasoned about at the
+   1600px ceiling and then applied at every width, so below about 930px it made
+   the page's centrepiece narrower than the paragraphs around it -- 274 against
+   343 at 375, 565 against 680 at 768 -- which is the width system upside down.
+   Above the crossover a 4:3 card at full width really is taller than the screen,
+   and the factor earns its keep. */
+@media (min-width: 930px) { .media.clips { --media-fit: .8; } }
+/* The middle tier. A table set to 1456px is a row of numbers with a hand's
+   width between the label and the figure it belongs to; the reader has to track
+   across the gap for every cell. Columns want to be close. */
+.media.mid { --media: var(--tier); }
+/* Narrower still, for the one table that sits on its own ground: at the tier's
+   1120px the benchmark table read as a slab the width of its section. Its own
+   class rather than a narrower tier, because the results figure shares the
+   tier and hides its two-halves scatter below 1000px of rendered width --
+   narrowing the tier to 1000 took that view off the page at every size. */
+.media.table { --media: 1000px; }
+
+/* No rule between sections. The eyebrow numbers and the run of whitespace are
+   the boundary; a line on top of them was a second way of saying the same
+   thing, and under the hero it cut the collage off flat where the scrim was
+   already fading it out. */
+section { padding: clamp(3.5rem, 9vw, 7rem) 0; }
+
+/* A raised ground under one block, with edges that dissolve into the page
+   rather than a box drawn round it. Used on the benchmark table, which is the
+   one exhibit in its section and sits between two runs of prose; the lift is
+   what makes it read as an object and the soft edge is what keeps it from
+   reading as a frame. --bg-elev is a lift in both themes: white on the warm
+   off-white, and a step up from near-black. Transparent stops interpolate
+   premultiplied, so the fade never passes through grey. */
+.panel {
+  padding: 1.6rem 1.8rem;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%,
+    var(--bg-elev) 0%, var(--bg-elev) 58%, rgba(0, 0, 0, 0) 100%);
+}
+
+.eyebrow {
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  display: flex; align-items: baseline; gap: .8rem;
+  margin-bottom: 1.1rem;
+}
+.eyebrow b { color: var(--accent); font-weight: 500; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
+h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.06; }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.35rem); line-height: 1.15; margin-bottom: .9rem; }
+h3 { font-size: var(--fs-h3); line-height: 1.3; margin-bottom: .5rem; }
+
+p { margin-bottom: 1rem; color: var(--fg-2); }
+p.lede { font-size: var(--fs-lede); color: var(--fg-2); }
+p:last-child { margin-bottom: 0; }
+strong, b { color: var(--fg); font-weight: 600; }
+em { font-style: italic; }
+code {
+  font: 400 max(.88em, var(--fs-label))/1 var(--mono);
+  background: var(--bg-sunk);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: .1em .35em;
+}
+/* Inside a block, the chip styling above is wrong twice over: the box is the
+   <pre>'s, and an inline border on a <code> spanning many lines is drawn on
+   every line box, which put a rule above and below each line of the BibTeX. */
+pre code { font: inherit; background: none; border: 0; border-radius: 0; padding: 0; }
+/* A superscript is smaller than the line it rides, and never smaller than the
+   floor. .75em of the byline's --fs-small is 10.1px, so there the max() binds
+   and the marker comes out at 12; in body copy .75em is 12 already. */
+sup { font-size: max(.75em, var(--fs-label)); vertical-align: super; line-height: 0; }
+.ref { font: 500 var(--fs-label) var(--mono); color: var(--accent); vertical-align: super; }
+
+.note {
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--fg-3);
+  margin-top: 1rem;
+}
+.note a { color: var(--fg-2); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ------------------------------------------------------------ side rail */
+/* Not a menu: a scroll readout. 45 ticks stand in for the whole document, the
+   section starts are the ticks that never shrink to the base width, and a
+   gaussian around the read position is the only thing that moves. Widths,
+   opacities and colours are written by initRail(); what is here is the frame.
+   Pinned to the viewport edge rather than to the content column, because the
+   figures below it run the full width of the page. */
+
+:root {
+  --rail-w: 18px;
+  --rail-pitch: 10px;
+  --rail-n: 45;
+}
+
+.rail {
+  position: fixed; left: 1.5rem; top: 50%;
+  transform: translateY(-50%);
+  width: var(--rail-w);
+  height: calc(var(--rail-n) * var(--rail-pitch));
+  display: none;
+  z-index: 20;
+}
+/* The strip is 18px wide, which is a hard thing to hit on purpose. The hover
+   target is the padding, so that reaching for it brings up the names. */
+.rail::before { content: ""; position: absolute; inset: -1rem -1.25rem; }
+
+.rail .ticks { display: flex; flex-direction: column; height: 100%; }
+.rail .tick { flex: none; display: flex; align-items: center; height: var(--rail-pitch); }
+.rail .tick i { display: block; height: 2px; border-radius: 1px; background: var(--fg-3); }
+
+.rail .lbl {
+  position: absolute; left: 100%; top: 0;
+  transform: translateY(-50%);
+  margin-left: .5rem;
+  padding: .18rem .4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  /* The names sit over whatever the figure beside them happens to be. */
+  background: color-mix(in srgb, var(--bg) 84%, transparent);
+  opacity: 0;
+  transition: opacity .15s, color .15s;
+  pointer-events: none;
+}
+/* At rest the ticks say where you are and nothing else. Reach for the rail --
+   with the pointer or with the tab key -- and the names come up, and then they
+   are the only way in the page to jump between sections.
+
+   A class, not :hover, because the names are not where the rail is: each hangs
+   outside the 18px strip at left: 100% plus half a rem, reaching x=216 from a
+   strip that ends at x=42. Most of them sit all but touching, but two of the
+   gaps are 84px and 97px tall, and crossing one of those put the pointer on
+   neither the strip nor a name -- so :hover ended and every name went with it,
+   halfway to the one being reached for. initRail() decides this by where the
+   pointer is rather than what it is over.
+
+   The other way out was to widen .rail::before over the whole column the names
+   hang in. Two lines and no JS, and it lays a 200px band of transparent hit
+   target down the page for as long as the rail is open -- with the figures,
+   which run the full width from 1280 up, underneath it. */
+.rail.is-open .lbl, .rail:focus-within .lbl { opacity: 1; pointer-events: auto; }
+/* Reaching for it is not available on every device that gets it. The rail is
+   drawn from 1280px up, which a landscape tablet and a touch laptop both clear
+   with no hover at all -- and since the names are the only way in the page to
+   jump between sections, that reader would get 45 inert ticks and nothing else.
+   Where there is no hover they are simply up. */
+@media (any-hover: none) {
+  .rail .lbl { opacity: 1; pointer-events: auto; }
+}
+.rail .lbl[data-current] { color: var(--fg); }
+.rail .lbl:hover, .rail .lbl:focus-visible { color: var(--accent); }
+
+/* The rail floats. It used to widen the media gutter from 1280px up so the
+   clips and figures stopped short of it, which made an 18px strip decide the
+   width of everything on the page; the page lays out as if the rail were not
+   there, and the rail sits over whatever reaches the edge. Its names already
+   carry a backdrop for exactly that. */
+@media (min-width: 1280px) {
+  .rail { display: block; }
+}
+
+/* --------------------------------------------------------------- topbar */
+
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 1rem;
+  padding-block: .55rem;
+  /* Lines the bar's own contents up with the page column. Against 100% rather
+     than 100vw: vw counts the scrollbar and the column does not, and a bar that
+     misses the column by half a scrollbar is a bar that looks broken. */
+  padding-inline: max(var(--gut), calc((100% - var(--measure)) / 2));
+  font: 500 var(--fs-label)/1 var(--mono);
+
+  /* The bar has no edge. Fill, blur and grain are three layers on one ramp and
+     they run out together below the text, so the page passes under the bar
+     instead of stopping at a line. The ramp overhangs the box by 1.6rem: fade
+     the fill inside the bar's own 45px and the text ends up sitting on a
+     half-covered ground, with nowhere left for the handoff to happen. */
+  --bar-fade: linear-gradient(to bottom, #000 0 58%, transparent 100%);
+}
+/* Both layers ride the ramp. z-index -1 puts them above the bar's own box and
+   under its text; ::after paints over ::before, so grain sits on fill. */
+.topbar::before,
+.topbar::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -1.6rem 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: var(--bar-fade);
+  mask-image: var(--bar-fade);
+}
+/* The fill, and the blur that belongs to it. Masking an element masks its
+   backdrop-filter with it, which is the only way to fade a blur out. */
+.topbar::before {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+}
+/* The grain the blur averages away. It leaves on the fill's ramp because past
+   the ramp the page's own grain is already showing through, and the two are the
+   same field: this tile is attached to the viewport, and body::before is a
+   fixed element inset to 0, so its padding box is the viewport too. */
+.topbar::after {
+  background: url(../media/noise.png) repeat fixed;
+  opacity: var(--grain);
+}
+.topbar .home { letter-spacing: .04em; }
+/* Wraps, because the item count is not fixed: leaderboard.html puts six things
+   in this bar where index.html puts four, and six do not fit a phone. Without
+   this the theme toggle sat 69px past the right edge at 375 -- and since the
+   body clips overflow rather than scrolling it, past the edge means gone, not
+   merely off to the side. */
+.topbar nav { margin-left: auto; display: flex; flex-wrap: wrap; gap: .1rem; align-items: center; }
+.topbar nav a { padding: .4rem .55rem; color: var(--fg-3); border-radius: 5px; }
+.topbar nav a:hover { color: var(--fg); background: var(--bg-sunk); }
+.topbar nav a.here { color: var(--fg); }
+
+.theme {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-elev);
+  color: var(--fg-2);
+  cursor: pointer;
+  font: inherit;
+}
+.theme:hover { color: var(--fg); border-color: var(--line-2); }
+.theme svg { width: 13px; height: 13px; fill: currentColor; }
+:root[data-theme="dark"] .theme .sun { display: none; }
+:root:not([data-theme="dark"]) .theme .moon { display: none; }
+
+/* ----------------------------------------------------------------- hero */
+
+/* THE BAND IS FULL-BLEED AND .hero IS NOT, which is the whole reason there are
+   two elements here. .wrap caps itself at --wide -- 760px at the widest gutter
+   -- so a collage mounted inside the header would be a panel that narrow with
+   page either side of it. The band takes the viewport; the header goes on
+   keeping the text column inside it.
+
+   `overflow: hidden` is the band's own guarantee, not the tiles'. .cl-stage
+   already clips what drifts past its edge, so this is not what stops a tile
+   spilling; it is what makes the band a single opaque rectangle regardless of
+   what a future layer inside it does, and it is cheap insurance against the
+   one thing body's `overflow-x: hidden` would otherwise have to catch.
+
+   100svh, not 100vh: on mobile Safari the large viewport unit leaves the hero
+   taller than the visible area, so the copy starts under the URL bar. The vh
+   line ahead of it is the fallback for browsers with no svh. Both are a
+   MINIMUM -- the hero's own copy is taller than 100svh on a laptop (963px
+   against 900), and the band grows to it rather than clipping the byline. */
+.hero-band {
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  /* The band, not the header, carries the vertical room -- and the same amount
+     above and below. With the copy shorter than the viewport the grid centres
+     it and this is only a floor; with the copy taller, on a laptop, this is
+     all the space there is, and symmetric is what keeps the block reading as
+     centred instead of hanging off a padding-top that grew with the width. */
+  padding-block: clamp(2rem, 6vh, 4rem);
+}
+
+/* The host TVCollage mounts into: positioned by the caller, which is this rule
+   and nothing else. The component appends its own absolutely-inset stage, and
+   that stage carries `z-index: 0` so its tiles sort their depth among
+   themselves instead of against the copy — see collage.css. So .hero-bg wants
+   no z-index of its own: at `auto` it does not open a second stacking context,
+   and the stage, the scrim (1) and the header (2) stack in one order. */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero {
+  /* Over the scrim, which is over the stage. Positioned so the z-index
+     applies at all. No vertical padding of its own: the band centres it and
+     pads it, and a second padding here would push it off centre. */
+  position: relative;
+  z-index: 2;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* THE TEXT SITS ON FROSTED GLASS, and the glass is the size of the text. The
+   collage drifts behind the title, and something has to keep a serif legible
+   over a dissolve; an ellipse of page colour over the stage did that by
+   painting out a third of the collage. This paints out nothing: a panel the
+   width of the text column plus a margin, blurring what passes behind it and
+   tinting it toward the page, so the clips are still there, softened, and the
+   letters read against a calm ground. Its edges fade through a mask -- 7rem
+   above and below, 6rem either side -- so the panel has no outline and the
+   frost thins to nothing on every side. The fades are long on purpose: at
+   4rem, barely three times the blur radius, the frost still ended in a
+   visible band; at these lengths the blur has room to thin before the mask
+   runs out, and the margin around the text equals the fade so the plateau
+   still covers every glyph. Behind the header's own children (z-index -1 inside
+   the header's stacking context) and above the stage and scrim (the header is
+   at 2). Where backdrop-filter is unsupported the tint alone remains, which
+   is the previous scrim's legibility without its footprint. */
+.hero::before {
+  content: '';
+  position: absolute; z-index: -1;
+  /* Margin = fade on every side, so the plateau reaches the text's own edge
+     and no glyph sits in the thinning: 7rem above and below, 6rem either side,
+     the sides tighter because the column already has the window's gutters
+     around it and 8rem read as the panel leaving the text behind. */
+  inset: -7rem -6rem;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.15);
+  backdrop-filter: blur(22px) saturate(1.15);
+  -webkit-mask:
+    linear-gradient(90deg, transparent, #000 6rem, #000 calc(100% - 6rem), transparent),
+    linear-gradient(180deg, transparent, #000 7rem, #000 calc(100% - 7rem), transparent);
+  -webkit-mask-composite: source-in;
+  mask:
+    linear-gradient(90deg, transparent, #000 6rem, #000 calc(100% - 6rem), transparent),
+    linear-gradient(180deg, transparent, #000 7rem, #000 calc(100% - 7rem), transparent);
+  mask-composite: intersect;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+  line-height: 1.14;
+  max-width: 21em;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+.hero .sub {
+  font-size: clamp(1rem, 1.9vw, 1.18rem);
+  max-width: 36em;
+  color: var(--fg-2);
+  margin-bottom: 2.2rem;
+}
+.hero .sub .thesis { color: var(--fg); }
+.hero .sub b { color: var(--fg); font-weight: 500; }
+
+.meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: .3rem 1.6rem;
+  font: 400 var(--fs-small)/1.5 var(--mono);
+  margin-bottom: 2rem;
+}
+.meta dt { color: var(--fg-3); }
+.meta dd { color: var(--fg); min-width: 0; overflow-wrap: anywhere; }
+.meta dd a { border-bottom: 1px solid var(--line-2); }
+.meta dd a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+.byline { font-size: var(--fs-small); line-height: 1.75; color: var(--fg-2); max-width: 62ch; }
+.byline a { border-bottom: 1px solid var(--line); }
+.byline a:hover { border-bottom-color: var(--accent); }
+.byline .affil { color: var(--fg-3); }
+
+/* --------------------------------------------------------- data plating */
+
+/* The paper's figures carry type set at print size, which is not legible at card
+   width. The picture is a link to the asset itself; the box it fills is the
+   deck card's media, so the geometry is in deck.css and only the hint is here. */
+a.zoom { display: block; position: relative; }
+a.zoom::after {
+  content: "open full size ↗";
+  position: absolute; right: .5rem; bottom: .5rem;
+  font: 500 var(--fs-label)/1 var(--mono);
+  padding: .35rem .5rem; border-radius: 5px;
+  background: rgba(20, 20, 15, .78); color: #fff;
+  opacity: 0; transition: opacity .15s;
+}
+a.zoom:hover::after, a.zoom:focus-visible::after { opacity: 1; }
+figure { margin: 0; }
+/* .fig-cap is the deck's caption, which lives under the deck rather than in the
+   card and is swapped by initMethod(); .deck-under already sizes it to the
+   active card. Same type as a figcaption because it is one.
+
+   THE CAPTION TIER IS --fs-body. It went .8 -> .92 -> 1 for the same reason each
+   time: these captions are read, not skipped, and they were still being set
+   as if they were fine print. .82rem (.note) is the fine print; 16px is the
+   body. A caption is now the body's size, and stays subordinate by colour --
+   --fg-3 against the --fg-2 of a paragraph -- rather than by being small.
+   Under a figure that spans up to --media there is no paragraph beside it to
+   compete with, so the size collision the earlier steps were protecting is
+   not one.
+
+   strips.css keeps --fs-caption and is no longer the same size. A tile definition
+   in the 59-effect wall is not a figure caption: its panel reserves height
+   from the longest string in the set, so a size there is a grid-height
+   decision, not a reading one. */
+figcaption, .fig-cap { font-size: var(--fs-body); line-height: 1.6; color: var(--fg-3); margin-top: .7rem; }
+figcaption b, .fig-cap b { color: var(--fg-2); }
+
+.scroller { overflow-x: auto; overscroll-behavior-x: contain; position: relative; }
+.scroller.more-r {
+  mask-image: linear-gradient(to right, #000 calc(100% - 1.1rem), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 1.1rem), transparent);
+}
+.scroller.more-l.more-r {
+  mask-image: linear-gradient(to right, transparent, #000 1.1rem, #000 calc(100% - 1.1rem), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 1.1rem, #000 calc(100% - 1.1rem), transparent);
+}
+.scroller.more-l:not(.more-r) {
+  mask-image: linear-gradient(to right, transparent, #000 1.1rem);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 1.1rem);
+}
+
+/* --------------------------------------------- 06 the missed-transition deck */
+/* One deck for all fourteen. The card styling is deck.css; what is here is the
+   strip that fills a card.
+
+   A grid, not a flex row, because a card holds up to twenty frames: laid end to
+   end RAI's ten are 17:1, which in a card is a 45 px sliver, and at 5x2 the
+   dissolve is readable. --ms-ar is the grid's own ratio (cols*frameW by
+   rows*frameH), so a grid cell comes out at exactly one frame and nothing is
+   cropped. The card's own ratio is one number, and site.js owns it (MISSED_BOX,
+   written onto --card-ar): the grid is centred in the card and letter- or
+   pillarboxes, and which of the two is settled in JS against that same number.
+   It cannot be done here with max-width and max-height, because whichever of
+   them binds does so by breaking the aspect-ratio and distorting every cell. */
+.ms-deck { margin-top: 1.6rem; }
+
+.ms-strip {
+  position: absolute; inset: 0; margin: auto;
+  aspect-ratio: var(--ms-ar);
+  display: grid;
+  grid-template-columns: repeat(var(--ms-cols), 1fr);
+  grid-auto-rows: 1fr;
+}
+.ms-strip.is-wide { width: 100%; height: auto; }
+.ms-strip.is-tall { height: 100%; width: auto; }
+/* cover, where deck.css's own media is contain. A cell is exactly one frame's
+   aspect, so there is nothing to crop, and cover is what keeps the montage
+   seamless where sub-pixel rounding would otherwise open a hairline between
+   frames. What makes that safe is the extractor: it refuses to put two frame
+   sizes on one card. */
+.ms-strip img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ------------------------------------------------------ four-method tracks */
+/* Drawn under both decks -- the comparison clips and the failure cases. The card
+   styling itself lives in deck.css; what is left here is the strip. */
+
+.clip-deck { margin-top: 1.8rem; }
+
+/* --lbl and --gap are the row grid's label column, and the window frame is
+   positioned off the same two values -- it spans all four rails, so it has to
+   start where the rails start. One source of truth, or the frame drifts off the
+   rails the first time the labels are resized. */
+.tracks {
+  --lbl: 8.6rem; --gap: .7rem;
+  position: relative;
+  /* The window frame below lifts itself over the rails with a z-index, and this
+     keeps that quarrel inside the strip: without it the frame is ordered against
+     the whole page, which already stacks things at 20, 30, 100 and, in the deck
+     itself, 1000. */
+  isolation: isolate;
+  margin-top: 1rem; display: flex; flex-direction: column; gap: 5px;
+}
+.trk { display: grid; grid-template-columns: var(--lbl) minmax(0, 1fr); align-items: center; gap: var(--gap); }
+@media (max-width: 640px) {
+  .tracks { --lbl: 5.6rem; --gap: .45rem; }
+}
+/* Below this the label is worth more as width than as a column. The seek track
+   drops under about 230px around here and the label was taking 90px of it; with
+   clips running to 454s that is close to two seconds a pixel, and four rails
+   inside 92px are one indistinguishable stripe. So the label goes above its own
+   rail and every rail gets the whole strip.
+   --lbl and --gap go to zero instead of the grid being special-cased, because
+   .win is positioned off those same two values: zeroing them is what keeps the
+   loop-window frame on the rails. The row gap is then set on its own axis. */
+/* The label used to shrink to .66/.68rem at these two widths. It does not any
+   more: the label column narrows and then goes away entirely, which is what
+   bought the rails their width -- shrinking the type below the floor bought
+   almost nothing on top of that and cost the four method names their
+   legibility on the device least able to spare it. */
+@media (max-width: 520px) {
+  .tracks { --lbl: 0px; --gap: 0px; gap: .7rem; }
+  .trk { grid-template-columns: minmax(0, 1fr); row-gap: 3px; }
+}
+
+/* The stretch of the clip that actually plays. Outside the rails on every side,
+   so it frames them rather than sitting on the data. */
+.win {
+  position: absolute;
+  top: -3px; bottom: -3px;
+  left: calc(var(--lbl) + var(--gap) + (100% - var(--lbl) - var(--gap)) * var(--w0));
+  width: calc((100% - var(--lbl) - var(--gap)) * var(--wd));
+  border: 1px solid var(--fg-2);
+  border-radius: 5px;
+  pointer-events: none;           /* the rails under it are seekable */
+  /* Over the rails, not under them. The frame is the first child of .tracks and
+     the four rails are positioned siblings after it, so by paint order each rail
+     covers the stretch of the box that crosses it -- and a frame that is only
+     visible in the gaps between the rails arrives as four fragments rather than
+     as one enclosure. */
+  z-index: 1;
+}
+.trk .lbl {
+  display: flex; align-items: center; gap: .4rem;
+  font: 400 var(--fs-label)/1 var(--mono); color: var(--fg-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.trk .lbl.on { color: var(--fg); }
+.swatch { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+
+.rail-t {
+  position: relative; height: 20px; border-radius: 4px;
+  background: var(--bg-sunk);
+  border: 1px solid var(--line);
+  cursor: ew-resize; touch-action: none;
+}
+.rail-t .seg { position: absolute; top: 2px; bottom: 2px; border-radius: 2px; opacity: .92; }
+.rail-t .head {
+  position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px;
+  background: var(--fg); border-radius: 1px; pointer-events: none;
+}
+
+.readout {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .8rem;
+  margin-top: .8rem;
+  font: 400 var(--fs-small)/1.5 var(--mono); color: var(--fg-2);
+}
+.readout .t { color: var(--fg); }
+.readout .hit { color: var(--accent); }
+.controls { display: flex; align-items: center; gap: .5rem; margin-top: .9rem; }
+
+.btn {
+  font: 500 var(--fs-label)/1 var(--mono);
+  padding: .5rem .85rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--bg-elev); color: var(--fg-2); cursor: pointer;
+}
+.btn:hover { color: var(--fg); border-color: var(--line-2); }
+.btn.solid { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+/* TransVLM set apart from the methods it is compared with, in the two places
+   the strip names it: its rail label and the readout under it. Weight and full
+   contrast only -- the colour is the swatch's job, and .on still does the
+   lighting, so a label that is not firing is emphasised without being lit. */
+.trk .lbl.ours { font-weight: 600; color: var(--fg); }
+.readout .name.ours { font-weight: 600; color: var(--fg); }
+
+.legend {
+  display: flex; flex-wrap: wrap; gap: .35rem 1.1rem;
+  font: 400 var(--fs-label)/1 var(--mono); color: var(--fg-2);
+  margin-top: 1.4rem;
+}
+.legend span { display: inline-flex; align-items: center; gap: .4rem; }
+
+/* ----------------------------------------------------------- method figures */
+
+/* A paper figure is a row of panels with a rule between them, and at 2.79:1 a
+   phone renders that row 128px tall -- every label in it unreadable, and no
+   amount of fitting helps, because the shape is the problem. So the figure is
+   shown as its panels: one file, cropped in CSS at the gutters the artwork
+   already rules, laid in a row that becomes a column when the row stops being
+   worth having.
+
+   Cropped in CSS rather than into files, for two reasons. fig2 is an SVG whose
+   panels are embedded rasters -- two files would ship those twice -- and the
+   crop being a view of the original is what guarantees the row rebuilds the
+   figure exactly as it renders today. The numbers are the source's own pixels,
+   so they can be checked against it. */
+.fig-split {
+  display: flex;
+  align-items: flex-start;
+  gap: .55rem;
+  padding: 8px;
+}
+/* flex-basis 0 with grow set to the panel's own width divides the row in the
+   source's proportions, so the panels come out at one shared height and the
+   row is the figure. */
+.fig-panel {
+  flex: var(--pw) 1 0;
+  min-width: 0;
+  aspect-ratio: var(--pw) / var(--fh);
+  /* background-image is set per panel in the markup: a relative url() in a
+     custom property resolves against this stylesheet, not the document. */
+  background-repeat: no-repeat;
+  /* Scale the whole figure so this panel's slice fills the box, then slide it
+     to the slice: the standard two-term sprite crop, in the source's units. */
+  background-size: calc(var(--fw) / var(--pw) * 100%) auto;
+  background-position: calc(var(--x0) / (var(--fw) - var(--pw)) * 100%) 0;
+}
+
+/* Below this the row is worth less than the stack: the narrowest panel of the
+   three is a quarter of the row, and a quarter of a phone is 90px. Above it
+   nothing changes -- a panel in the row is exactly as big as it is in the
+   undivided figure, so the wide layout is not a compromise for the narrow one. */
+@media (max-width: 700px) {
+  .fig-split { flex-direction: column; }
+  /* Along the column, flex-basis is the height: leaving it at 0 collapses every
+     panel, because an auto-height container has no free space to grow into. */
+  .fig-panel { flex: 0 0 auto; width: 100%; }
+
+  /* Stacked, the two Method cards are 1476px and 737px tall, and a deck's track
+     is as tall as its tallest card. Centred, the shorter one floats with 370px
+     of nothing above it; aligned to the top it sits where the reader has just
+     scrolled to, and all the slack falls below it instead. Only here, and only
+     stacked: everywhere else the cards in a deck are the same height. */
+  #method-deck .deck-track { align-items: flex-start; }
+}
+
+/* The media box of a card holding one. Everything else in a deck is fitted to
+   --card-ar with its content taken out of flow; this one is the content, and
+   its height is whatever the panels come to. */
+.card-media.split {
+  aspect-ratio: auto;
+  background: #fff;
+}
+.card-media.split > a.zoom {
+  position: static;
+  display: block;
+}
+
+/* ---------------------------------------------------------- failure cases */
+
+.why { font-size: var(--fs-caption); margin-top: 1.2rem; }
+
+/* ClipShots distributes some of its videos at thumbnail size, and C2 is 128x128.
+   Fitting it to the card would upscale it four times over and invite the reader
+   to read detail that is not in the file, so it stays near its own resolution,
+   centred on the card, where its own pixels are visibly the limit. */
+.card-media.low { display: grid; place-items: center; }
+/* A flat 256 is wider than the card at phone widths: at 320 it was 69px past
+   the frame holding it, so a quarter of the picture was cut off the right, and
+   laying the clip out instead of positioning it let a square video push the
+   media box off the deck's 4:3 -- that one card came out 115px taller than its
+   siblings and the deck jumped every time it came round.
+
+   So it goes back to being positioned, for the reason .card-media gives above:
+   out of flow it cannot impose its own ratio on the box. Driving it from height
+   rather than width is what keeps the cap honest -- the box is 4:3, so height is
+   the axis that binds first, and the ratio then carries the width. Still never
+   upscaled past 2x its own 128px, still centred, and now it gives up size only
+   where the card genuinely has none to give. */
+.card-media.low > video {
+  margin: auto;
+  height: min(256px, 100%); width: auto; max-width: 100%; aspect-ratio: 1;
+  image-rendering: pixelated;
+}
+
+/* ----------------------------------------------------------------- tables */
+
+.tbl { width: 100%; border-collapse: collapse; font: 400 var(--fs-small)/1.4 var(--sans); }
+.tbl th, .tbl td { padding: .48rem .7rem; text-align: right; white-space: nowrap; }
+.tbl th:first-child, .tbl td:first-child,
+.tbl th.mcell, .tbl td.mcell { text-align: left; }
+.tbl thead th {
+  font: 500 var(--fs-label)/1.3 var(--mono);
+  letter-spacing: .04em;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--line-2);
+  vertical-align: bottom;
+}
+.tbl tbody td { border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; color: var(--fg-2); }
+.tbl tbody tr:hover td { background: var(--bg-sunk); }
+.tbl tbody tr.ours td { background: var(--accent-soft); color: var(--fg); font-weight: 600; }
+:root[data-theme="dark"] .tbl tbody tr.ours td { background: #16261700; box-shadow: inset 0 0 0 99px rgba(79, 184, 82, .07); }
+.tbl tbody tr.group td { font: 500 var(--fs-label)/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--fg-3); padding-top: 1rem; background: none; }
+.tbl .best { color: var(--fg); font-weight: 600; }
+.tbl .second { text-decoration: underline; text-decoration-color: var(--line-2); text-underline-offset: 3px; }
+.tbl .nil { color: var(--fg-3); }
+
+/* -------------------------------------------------------------- widgets */
+
+.qe { display: grid; gap: 1.8rem; margin-top: 1.5rem; }
+.qe-panel { display: flex; flex-direction: column; gap: .7rem; min-width: 0; }
+.qe-panel h3 { font: 500 var(--fs-label)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--fg-3); margin: 0; }
+.qe-ctl { display: flex; flex-wrap: wrap; gap: .5rem; }
+.qe-ctl label { display: inline-flex; align-items: center; gap: .4rem; font: 400 var(--fs-label)/1 var(--mono); color: var(--fg-3); }
+select {
+  font: 400 var(--fs-label)/1 var(--mono);
+  padding: .42rem 1.6rem .42rem .55rem;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: var(--bg-elev) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path d='M0 0l5 6 5-6z' fill='%238a877e'/></svg>") no-repeat right .5rem center/8px 5px;
+  color: var(--fg);
+  appearance: none; cursor: pointer; max-width: 100%;
+}
+.qe-box { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.qe-box.t { height: 32rem; }
+.qe-box.p { aspect-ratio: 2 / 1; max-width: 44rem; }
+.qe-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.qe-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 10px; }
+
+/* ------------------------------------------------------------- fact grid */
+
+.facts { display: grid; gap: 1.6rem 2rem; margin-top: 1.8rem; }
+@media (min-width: 700px) { .facts { grid-template-columns: 1fr 1fr; } }
+.facts h3 { font-family: var(--sans); font-size: var(--fs-body); font-weight: 600; margin-bottom: .3rem; }
+.facts p { font-size: var(--fs-caption); margin: 0; }
+
+/* THE ROWS COME OUT AS EVEN AS THE COUNT ALLOWS. Flex-wrap laid five figures
+   out as 4 + 1 at the tier width and four as 3 + 1: one number alone on its
+   row, as if it were the conclusion of the others. A grid decides the split by
+   columns, and the column count follows the item count so that no row is more
+   than one short of another -- 2 for two or four (2 + 2), 3 for three, five or
+   six (3 + 2, 3 + 3), 4 for seven or eight (4 + 3, 4 + 4). Counted in CSS with
+   :has(), so a row that gains a figure re-balances without anyone touching a
+   class; the rule is the same on every section that uses it. Two columns below
+   520px regardless, where three figures a row do not fit. */
+.stat-row {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.6rem 2.6rem;
+  margin: 1.8rem 0 0;
+  padding-top: 1.4rem; border-top: 1px solid var(--line);
+}
+.stat-row:has(> .stat:nth-child(2):last-child),
+.stat-row:has(> .stat:nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stat-row:has(> .stat:nth-child(7):last-child),
+.stat-row:has(> .stat:nth-child(8):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 520px) { .stat-row { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+.stat { min-width: 0; }
+.stat .v { font: 400 1.9rem/1 var(--serif); color: var(--fg); font-variant-numeric: tabular-nums; }
+.stat .k { font: 400 var(--fs-label)/1.4 var(--mono); color: var(--fg-3); margin-top: .35rem; }
+
+/* ----------------------------------------------------------- community */
+
+.join { display: grid; gap: 1.6rem; margin-top: 1.8rem; }
+/* Three codes side by side with the copy under them, not beside them. In the
+   page column there is never width to put the copy beside them, and with three
+   there is none left at all: 3 x 13.3rem plus two 1.2rem gaps is 676 of 680px.
+   The gap tightens from 1.6rem for the same reason. Under 620px they stack. */
+@media (min-width: 620px) {
+  .join {
+    grid-template-columns: repeat(3, minmax(0, 13.3rem));
+    gap: 1.2rem;
+    align-items: start;
+  }
+  .join > .measure { grid-column: 1 / -1; }
+}
+.qr { text-align: center; }
+.qr-frame { display: inline-block; max-width: 218px; width: 100%; }
+.qr-frame img {
+  display: block; width: 100%; height: auto; aspect-ratio: 1;
+  border-radius: 10px; border: 1px solid var(--line);
+  /* the codes carry their own quiet zone; the padding keeps the border off it */
+  background: #fff; padding: 6px;
+}
+.qr .cap { font: 500 var(--fs-small)/1.4 var(--mono); color: var(--fg); margin-top: .6rem; }
+
+.cite { margin-top: 1.4rem; }
+.cite pre {
+  font: 400 var(--fs-small)/1.65 var(--mono);
+  background: var(--bg-sunk);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 1rem 1.1rem; overflow-x: auto; color: var(--fg-2);
+}
+.copy { margin-top: .7rem; }
+
+.refs { counter-reset: r; list-style: none; font-size: var(--fs-small); line-height: 1.7; color: var(--fg-2); }
+.refs li { counter-increment: r; padding-left: 2.2rem; position: relative; margin-bottom: .3rem; }
+.refs li::before {
+  content: "[" counter(r) "]";
+  position: absolute; left: 0;
+  font: 400 var(--fs-label)/1.7 var(--mono); color: var(--fg-3);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.2rem 0 3.5rem;
+  font: 400 var(--fs-small)/1.7 var(--mono);
+  color: var(--fg-3);
+}
+footer a { border-bottom: 1px solid var(--line); }
+/* The takedown notice ends the document rather than sitting beside the clips.
+   It covers every clip on the page, and it was written out twice -- once under
+   section 02's deck and once inside section 04's -- for one obligation. */
+footer .rights { margin-top: 1.4rem; }
+
+
+
+/* ------------------------------------------------------- table internals */
+
+.tbl .mname { display: block; }
+.tbl .mfam {
+  display: block;
+  font: 400 var(--fs-label)/1.4 var(--mono);
+  color: var(--fg-3);
+  letter-spacing: .02em;
+}
+.tbl tbody tr.ours .mfam { color: var(--accent); }
+
+.tbl .barcell { display: grid; grid-template-columns: minmax(0, 1fr) 3.4rem; align-items: center; gap: .55rem; min-width: 8.5rem; }
+.tbl .bar { height: 8px; border-radius: 2px; background: var(--line-2); justify-self: stretch; }
+.tbl .bar.mine { background: var(--ours); }
+.tbl .barv { text-align: right; }
+
+.tbl th button.sorth {
+  font: inherit; color: inherit; background: none; border: 0; padding: 0;
+  cursor: pointer; display: inline-flex; align-items: baseline; gap: .25rem;
+  text-align: right;
+}
+.tbl th button.sorth:hover { color: var(--fg); }
+.tbl th.sorted button.sorth { color: var(--fg); }
+/* No size of its own: at .8em of the head it was 9.6px, and the head is now
+   the smallest size on the page, so the arrow takes that size too. The width is
+   still fixed, so sorting a column does not shift its label. */
+.tbl th .caret { width: .8em; display: inline-block; }
+
+/* ============================================================ leaderboard */
+
+.wrap.lb { max-width: var(--tier); }
+.lb {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding: 2rem 0 4rem;
+}
+@media (min-width: 1000px) {
+  .lb { grid-template-columns: 15rem minmax(0, 1fr); gap: 2.8rem; align-items: start; }
+}
+
+#rail-body { position: sticky; top: 3.5rem; display: flex; flex-direction: column; gap: .1rem; }
+.rgroup-h {
+  font: 500 var(--fs-label)/1 var(--mono);
+  letter-spacing: .11em; text-transform: uppercase;
+  color: var(--fg-3);
+  margin: 1.5rem 0 .5rem;
+}
+.rgroup-h:first-child { margin-top: 0; }
+
+.seg { display: flex; gap: .25rem; }
+.seg button {
+  flex: 1;
+  font: 500 var(--fs-label)/1 var(--mono);
+  padding: .5rem .4rem;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg-elev); color: var(--fg-2); cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+.rlist { display: flex; flex-direction: column; gap: 1px; }
+.rlist button {
+  display: grid; grid-template-columns: 1.1rem 1fr; gap: .45rem;
+  align-items: baseline; text-align: left;
+  font: 400 var(--fs-small)/1.35 var(--sans);
+  padding: .38rem .5rem;
+  border: 0; border-radius: 6px; background: none; color: var(--fg-2); cursor: pointer;
+}
+.rlist button:hover { background: var(--bg-sunk); color: var(--fg); }
+.rlist button[aria-current="true"] { background: var(--bg-sunk); color: var(--fg); font-weight: 500; }
+.rlist .tick { font: 400 var(--fs-label)/1.35 var(--mono); color: var(--line-2); }
+.rlist .tick.on { color: var(--accent); }
+
+input.search {
+  font: 400 var(--fs-small)/1 var(--sans);
+  padding: .5rem .6rem;
+  border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg-elev); color: var(--fg); width: 100%;
+}
+input.search::placeholder { color: var(--fg-3); }
+
+#lb-head h1 {
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .7rem;
+  margin-bottom: .7rem;
+}
+#lb-head .badge {
+  font: 500 var(--fs-label)/1 var(--mono);
+  padding: .35rem .6rem;
+  border: 1px solid var(--line-2); border-radius: 999px;
+  color: var(--fg-2);
+  letter-spacing: .04em;
+}
+.lb-meta {
+  font: 400 var(--fs-small)/1.6 var(--mono);
+  color: var(--fg-3);
+  display: flex; flex-wrap: wrap; gap: .1rem .6rem;
+  margin-bottom: .9rem;
+}
+.lb-meta .dot { color: var(--line-2); }
+.lb-blurb { font-size: var(--fs-caption); max-width: 66ch; }
+.lb-blurb code { font-size: max(.82em, var(--fs-label)); }
+
+.tblbox { margin-top: 1.4rem; }
+.tbl td.rank, .tbl th.rankh { text-align: right; padding-right: .3rem; color: var(--fg-3); font-variant-numeric: tabular-nums; width: 2.2rem; }
+.tbl tbody tr.ours td.rank { color: var(--accent); }
+.morewrap { margin-top: 1rem; }
+
+.scatbox { margin-top: 1.4rem; }
+svg.scat { display: block; width: 100%; height: auto; overflow: visible; }
+svg.scat .grid { stroke: var(--line); stroke-width: 1; }
+svg.scat .axl { font: 400 var(--fs-label) var(--mono); fill: var(--fg-3); }
+svg.scat .axt { font: 400 var(--fs-label) var(--mono); fill: var(--fg-3); }
+svg.scat .front { fill: none; stroke: var(--line-2); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg.scat .pt circle { fill: var(--gt); fill-opacity: .28; stroke: var(--gt); stroke-width: 1.2; }
+svg.scat .pt.mine circle { fill: var(--ours); fill-opacity: .35; stroke: var(--ours); stroke-width: 1.6; }
+svg.scat .ptl { font: 400 var(--fs-label) var(--mono); fill: var(--fg-2); }
+svg.scat .pt.mine .ptl { fill: var(--ours); font-weight: 500; }
+
+#lb-foot { margin-top: 2.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); display: grid; gap: .6rem; }
+.fn {
+  display: grid; grid-template-columns: 2.2rem 1fr; gap: .5rem;
+  font-size: var(--fs-small); line-height: 1.6; color: var(--fg-3); margin: 0;
+}
+.fn .fnn { font: 400 var(--fs-label)/1.6 var(--mono); color: var(--fg-3); text-align: right; }
+.fn .fnb { min-width: 0; }
+.fn code { font-size: var(--fs-label); padding: 0 .2em; }
+.fn.src { color: var(--fg-3); }
+svg.scat .grid.faint { stroke: var(--line); stroke-dasharray: 2 4; }
+svg.scat .ptl.mine { fill: var(--ours); font-weight: 500; }

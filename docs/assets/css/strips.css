@@ -1,0 +1,188 @@
+/* TVStrips — three belts of live tiles, one row held.
+ *
+ * Motion vocabulary ported from gpumon/web/src/index.css and its DESIGN.md §4,
+ * kept local so the shared stylesheet keeps one owner. The belts are not in it:
+ * their rate is a spring in JS, because a keyframe animation cannot ease its
+ * own rate and a belt that stops dead reads as a broken page. These curves
+ * carry only the things that CHANGE — a fade, a dim, a ring.
+ *
+ * Every token has a fallback, so the component renders in a page with no
+ * palette of its own. Values are site.css's light theme.
+ */
+
+.strips {
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.22, 0.85, 0.3, 1);
+  --ease-settle: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --ease-in: cubic-bezier(0.5, 0, 0.9, 0.4);
+  --st-h: 96px;
+  --st-w: 171px;
+  --st-gap: 6px;
+  margin-top: 1.7rem;
+  /* Written by the component as half a row. This is what stops a card opening
+     on the bottom row from taking a bite out of the next section. */
+  padding-block: var(--st-reserve, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strips { --dur-fast: 0ms; --dur-base: 0ms; --dur-slow: 0ms; }
+  /* The belts do not drift at all here, which would otherwise leave most of
+     every ring permanently past the edges with only the keyboard able to reach
+     it. So the rows become what they already are underneath: scrollable. */
+  .st-row { overflow-x: auto; overflow-y: hidden; }
+  .st-rows { -webkit-mask-image: none; mask-image: none; }
+}
+
+/* The card overflows the belt vertically by design, so the stage cannot clip
+   and the popped card is a SIBLING of the masked rows — inside them it would
+   fade out along with the tiles whenever it opened near an edge.
+ *
+ * The space the card is allowed to overflow into is reserved as PADDING on the
+ * host, not as a margin on the stage: the stage has no border or padding of its
+ * own, so a margin there collapses straight through it and the section's height
+ * never grows -- which is the whole point of reserving it. */
+.st-stage { position: relative; }
+
+.st-rows {
+  display: flex; flex-direction: column; gap: var(--st-gap);
+  /* A belt with a visible start and end is a list. The tails dissolve instead,
+     so the tiles read as passing through. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+
+.st-row {
+  position: relative;
+  height: var(--st-h);
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------- a tile */
+
+.st-tile {
+  position: absolute; top: 0; left: 0;
+  width: var(--st-w); height: var(--st-h);
+  padding: 0; border: 0; border-radius: 6px;
+  background: var(--bg-sunk, #f2f0ec);
+  overflow: hidden; cursor: pointer;
+  will-change: transform;
+  transition: opacity var(--dur-base) var(--ease-out);
+  /* No transform transition: the position is written every frame from the rate
+     spring, and a transition here would fight it and lag the belt. */
+}
+.st-tile img {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover; background: #000;
+}
+/* No <video> in a tile. Giving every tile its own clip was tried and measured:
+   about 27 concurrent VP9 streams with the off-screen ones paused, which is
+   inside the pixel budget on paper and janks badly in practice, because the
+   cost is per-element rather than per-pixel. The only clip on the page is the
+   one in the popped card. */
+
+/* Always on, bottom centre. A tile you cannot name is a tile you cannot look
+   up, and the belt is not a credit roll. */
+.st-tag {
+  position: absolute; left: 0; right: 0; bottom: 4px;
+  font: 400 var(--fs-label, .75rem)/1 var(--mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  color: #fff; text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .95), 0 0 8px rgba(0, 0, 0, .6);
+  pointer-events: none;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  padding-inline: 6%;
+}
+
+/* Focus cannot be an outline: an outline is drawn outside the tile's radius and
+   the row clips it. An inset ring is inside. */
+.st-tile::after {
+  content: ''; position: absolute; inset: 0; border-radius: 6px;
+  box-shadow: inset 0 0 0 2px var(--accent, #17651a);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.st-tile:focus-visible { outline: none; }
+.st-tile:focus-visible::after { opacity: 1; }
+
+/* While a tile is held the rest step back — the card is what is being looked
+   at, and 58 competing clips is what pulls the eye off it. */
+.strips.holding .st-tile { opacity: .38; }
+:root[data-theme="light"] .strips.holding .st-tile { opacity: .55; }
+/* The held tile itself is covered by the card, so it stays lit underneath. */
+.strips.holding .st-tile.held { opacity: 1; }
+
+/* ---------------------------------------------------------------- the card */
+
+.st-card {
+  position: absolute; top: 0; left: 0; z-index: 6;
+  /* Never a hit target. The card covers tiles other than the one it grew out
+     of, and a card that catches the pointer takes the hover away from the tile
+     underneath — which closes the card, which gives the hover back. */
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, width, height;
+}
+
+/* The solid panel. Its box, radius and opacity are written per frame from the
+   same `open` the frame grows on, so at rest there is no panel at all and at
+   full open the frame and its prose sit on one surface. A sibling of the frame
+   rather than its parent, because a border-radius clip on the media would cut
+   the panel's own border and shadow. */
+.st-plate {
+  position: absolute;
+  background: var(--bg-elev, #ffffff);
+  border: 1px solid var(--line-2, #cfcbc1);
+  border-top-color: var(--fg-3, #8a877e);
+  border-radius: 12px;
+  box-shadow:
+    0 18px 44px -12px rgba(0, 0, 0, .72),
+    0 4px 12px -2px rgba(0, 0, 0, .4);
+  will-change: width, height, opacity;
+}
+:root[data-theme="light"] .st-plate {
+  border-top-color: var(--line-2, #cfcbc1);
+  box-shadow:
+    0 16px 40px -14px rgba(20, 20, 15, .28),
+    0 3px 10px -2px rgba(20, 20, 15, .12);
+}
+
+.st-frame {
+  position: absolute; inset: 0; overflow: hidden;
+  border-radius: 6px; background: #000;
+}
+.st-card-poster, .st-frame video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.st-frame video {
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.st-card.rolling .st-frame video { opacity: 1; }
+
+/* Inside the panel, under the frame. Its width is written from the same number
+   the frame opens to, so the card is one rectangle. */
+.st-cap-box {
+  position: absolute; top: 100%; left: 0;
+  /* The bottom padding is the panel's inner margin: the plate reserves exactly
+     offsetHeight, so what the text needs below it has to be in this box or the
+     border lands on the descenders. */
+  padding: .6rem .15rem .5rem;
+}
+.st-name {
+  /* On the scale in site.css: the name takes body size and the definition
+     under it the caption size, so the name keeps its step over it. */
+  font: 500 var(--fs-body, 1rem)/1.2 var(--mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  color: var(--fg, #14140f);
+}
+.st-body {
+  margin-top: .28rem;
+  font-size: var(--fs-caption, .9rem); line-height: 1.5;
+  color: var(--fg-2, #55534c);
+}
+
+.st-live {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
