@@ -27,8 +27,11 @@
 
   /* The background grain, laid over --bg by body::before. Mid-grey noise is
      louder against a near-black ground than against a near-white one, so the
-     dark theme takes less of it to read as the same texture. */
-  --grain: .034;
+     dark theme takes less of it to read as the same texture.
+     Raised a third when the tile went from white noise to paper fibre: the
+     new field's deviation is 46 levels against the old 74, so the same opacity
+     laid down two thirds of the modulation. */
+  --grain: .044;
 
   --gt: #69727f;
   --tn: #da2724;
@@ -137,7 +140,7 @@
   --accent-soft: #14251500;
   --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 10px 30px -14px rgba(0, 0, 0, .8);
   --idle: #4a4a46;
-  --grain: .022;
+  --grain: .029;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -570,8 +573,34 @@ sup { font-size: max(.75em, var(--fs-label)); vertical-align: super; line-height
   color: var(--fg-2);
   margin-bottom: 2.2rem;
 }
-.hero .sub .thesis { color: var(--fg); }
-.hero .sub b { color: var(--fg); font-weight: 500; }
+/* THE THESIS CARRIES THE PAGE, so it is set apart from the sentences that
+   explain it: 600 against the lede's 400, and an accent rule under it. Colour
+   alone was doing that job and it was not enough -- at --fg against --fg-2 the
+   two read as the same sentence in a review. The underline is the accent's,
+   not the text's, so the emphasis is the page's green rather than a heavier
+   grey. */
+.hero .sub .thesis {
+  color: var(--fg);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+/* The count is a fact, not a word, so it is plated like every other number on
+   this page: mono, accent, on the accent's own tint. A chip inside running
+   text has to stay on the line it rides -- hence the .9em and the tight
+   padding, which keep the line box the height of the sentence around it. */
+.hero .sub b {
+  font: 500 .9em/1 var(--mono);
+  color: var(--accent);
+  /* Mixed from the accent rather than --accent-soft: that token is
+     transparent in the dark theme, where the one thing using it -- the
+     leaderboard's own row -- wants no plate at all. */
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  border-radius: 4px;
+  padding: .15em .4em;
+}
 
 .meta {
   display: grid;
@@ -585,10 +614,25 @@ sup { font-size: max(.75em, var(--fs-label)); vertical-align: super; line-height
 .meta dd a { border-bottom: 1px solid var(--line-2); }
 .meta dd a:hover { border-bottom-color: var(--accent); color: var(--accent); }
 
-.byline { font-size: var(--fs-small); line-height: 1.75; color: var(--fg-2); max-width: 62ch; }
+/* Names at the body size, everything under them one tier down: at one size
+   the authors and their affiliations read as a single block of fine print,
+   and the names are the line a reader looks for. */
+.byline { font-size: var(--fs-body); line-height: 1.75; color: var(--fg-2); max-width: 62ch; }
 .byline a { border-bottom: 1px solid var(--line); }
 .byline a:hover { border-bottom-color: var(--accent); }
-.byline .affil { color: var(--fg-3); }
+/* A row of items rather than a sentence of them: flex-wrap breaks between
+   items and never inside one, and the gap is what a middot used to be -- a
+   separator that cannot end up at the start of a line. */
+.byline .affil {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.2rem;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--fg-3);
+}
+.byline .affil > span { white-space: nowrap; }
+.byline .affil.notes { margin-top: .1rem; }
 
 /* --------------------------------------------------------- data plating */
 

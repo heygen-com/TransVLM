@@ -191,9 +191,13 @@ window.TVPlot = (function () {
     fig.classList.add('is-in');
   }
 
-  /* What the panel should try not to cover: the marks themselves and the names
-   * that identify them. Grid lines and axes are furniture and do not count. */
-  var OBSTACLES = '.bar, .pair-dot, .plot-label';
+  /* What the panel should try not to cover: the marks, and every word the
+   * figure needs to be read -- the row names, the number at a bar's end, the
+   * tick labels, the axis titles, the note on the parity line. Grid lines are
+   * furniture and do not count; a scale the panel has covered is a figure
+   * without units. */
+  var OBSTACLES = '.bar, .pair-dot, .plot-label, .bar-num,' +
+                  '.plot-tick, .plot-axis, .plot-annot';
 
   /* The panel that reads a mark out. It floats over the figure beside the mark
    * rather than sitting in a line underneath it: a strip of digits below the
@@ -238,25 +242,40 @@ window.TVPlot = (function () {
       var ax = ab.left - fb.left, ay = ab.top - fb.top;
       var acx = ax + ab.width / 2, acy = ay + ab.height / 2;
 
-      /* The marks and names the panel should try not to cover, in figure
-       * coordinates. The mark's own anchor is left out -- the panel is allowed
-       * to sit against the thing it describes. */
+      /* The marks and text the panel should try not to cover, in figure
+       * coordinates. Nothing in the anchor's own group counts: the panel is
+       * allowed to sit against the thing it describes, and it repeats that
+       * mark's name and numbers in its own type. Counted, a mark's own label
+       * made the free slot beside its own dot look as expensive as one over a
+       * neighbour's. Marks are shapes and text is text, which is the whole
+       * distinction the cost function needs. */
       var obs = [];
+      var kin = anchor.parentNode;
       [].forEach.call(fig.querySelectorAll(OBSTACLES), function (o) {
-        if (o === anchor) return;
+        if (o === anchor || kin.contains(o)) return;
         var b = o.getBoundingClientRect();
         if (!b.width || !b.height) return;
         obs.push({
           l: b.left - fb.left, t: b.top - fb.top,
           r: b.right - fb.left, b: b.bottom - fb.top,
-          name: o.classList.contains('plot-label')
+          name: o.tagName === 'text'
         });
       });
 
-      /* What a panel at this spot would hide: marks are counted, names are
-       * measured. Covering a mark at all is a failure rather than something to
-       * trade off by area -- a mark half hidden is a mark you cannot read -- so
-       * the count is what the cost function is built on. */
+      /* What a panel at this spot would hide. Covering a mark at all is a
+       * failure rather than something to trade off by area -- a mark half
+       * hidden is a mark you cannot read -- so the count is what the cost
+       * function is built on.
+       *
+       * A word is the same: past a fifth of its box it stops being readable,
+       * and it counts as a mark from there. Only a clipped edge -- a
+       * descender, the last digit of a number the panel has grazed -- is
+       * traded off by area. Measured by area alone, twenty-one row labels at a
+       * quarter of a point per pixel were cheaper than one bar, and the panel
+       * parked itself over the whole name column, including the name of the
+       * row it was describing. */
+      var HARD_NAME = 0.2;
+
       function hides(left, top) {
         var marks = 0, names = 0;
         for (var i = 0; i < obs.length; i++) {
@@ -265,7 +284,9 @@ window.TVPlot = (function () {
           if (w <= 0) continue;
           var h = Math.min(top + ph, o.b) - Math.max(top, o.t);
           if (h <= 0) continue;
-          if (o.name) names += w * h; else marks++;
+          if (!o.name) { marks++; continue; }
+          if (w * h > (o.r - o.l) * (o.b - o.t) * HARD_NAME) marks++;
+          else names += w * h;
         }
         return { marks: marks, names: names };
       }

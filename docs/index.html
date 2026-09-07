@@ -103,13 +103,21 @@
     <a href="https://yerfor.github.io/en/">Zhenhui Ye</a><sup>2</sup>,
     <a href="https://gseancdat.github.io/">Zujin Guo</a><sup>2,3*</sup>,
     <a href="https://openreview.net/profile?id=~Zhibin_Hong1">Zhibin Hong</a><sup>2</sup>,
-    <a href="https://mingming-gong.github.io/">Mingming Gong</a><sup>1&dagger;</sup><br>
+    <a href="https://mingming-gong.github.io/">Mingming Gong</a><sup>1&dagger;</sup>
+    <!-- Two lines, and the break between them is structural rather than a
+         wrap: as one run joined by middots, the separator between the last
+         affiliation and the first footnote landed at the head of a line at
+         some widths. Each item is its own element so it never splits either,
+         and the space between items is the row's gap -- with nothing to fall
+         to the start of a line, there is nothing to fix by hand. -->
     <span class="affil">
-      <sup>1</sup>University of Melbourne &nbsp;
-      <sup>2</sup>HeyGen Research &nbsp;
-      <sup>3</sup>Nanyang Technological University &nbsp;&middot;&nbsp;
-      <sup>*</sup>work done during an internship at HeyGen Research &nbsp;&middot;&nbsp;
-      <sup>&dagger;</sup>corresponding author
+      <span><sup>1</sup>University of Melbourne</span>
+      <span><sup>2</sup>HeyGen Research</span>
+      <span><sup>3</sup>Nanyang Technological University</span>
+    </span>
+    <span class="affil notes">
+      <span><sup>*</sup>work done during an internship at HeyGen Research</span>
+      <span><sup>&dagger;</sup>corresponding author</span>
     </span>
   </p>
   <p class="note">
@@ -248,7 +256,7 @@
          numbers are the paper's, not derived from anything on this page. -->
     <!-- Five columns sit in the prose column: on the 1120 tier a hand's width
          opens between a label and its figure. -->
-    <div class="scroller measure" style="margin-top:1.6rem">
+    <div class="scroller measure panel" style="margin-top:1.6rem">
       <table class="tbl">
         <thead>
           <tr>
