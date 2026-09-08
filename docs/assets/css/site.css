@@ -12,6 +12,64 @@
  * Change them and the page disagrees with its own videos.
  */
 
+/* --------------------------------------------------------------- typeface
+ *
+ * Geist Sans and Geist Mono (vercel.com/font), OFL-1.1. The three files are
+ * the upstream webfonts from geist-font v1.7.2 byte for byte -- not subset,
+ * not re-compressed -- so assets/fonts/OFL.txt beside them and the NOTICE
+ * entry cover the whole of what ships.
+ *
+ * Self-hosted, where Newsreader and JetBrains Mono were linked from
+ * fonts.googleapis.com. That host does not resolve in mainland China, and this
+ * page carries a WeChat code and expects readers there, so the old link was
+ * quietly serving them Georgia and Menlo. A deploy is now a checkout.
+ *
+ * One variable file per style rather than nine static weights: 209 KB for the
+ * three against 46 KB apiece for the 400 / 500 / 600 the page actually asks
+ * for, and the variable file can be tuned without adding a request.
+ *
+ * The italic is its own face because em is real italic here (site.css:291,
+ * twelve of them in index.html) and a synthesised oblique of a geometric sans
+ * is visibly a shear, not a cut. It is fetched only by pages that use em.
+ *
+ * Coverage: 728 codepoints in the sans, 889 in the mono -- Latin and Cyrillic,
+ * no Greek and no U+2713. Nothing the page renders needs one: tau, delta and
+ * the check mark appear only in leaderboard.js / leaderboard.json, which is
+ * deferred and unlinked, and the kappa in benchmark.json is build-time data no
+ * page fetches. The system stacks below are what would catch them, at a visible
+ * change of width and weight -- so if leaderboard.html ships, that is the thing
+ * to look at first. See HAX-177.
+ *
+ * No CJK either, and nothing here needs it: this page is English throughout.
+ * If Chinese ever lands on it, the family is Noto Sans SC (OFL, the same Hei
+ * as Source Han Sans), self-hosted beside these three and named in the stack
+ * rather than left to whatever the reader's OS supplies -- a system CJK face
+ * is a different weight and width on every platform, which is not a fallback,
+ * it is three designs. Decided 2026-09-07. The one Chinese page this directory
+ * had went with the plan page the same day.
+ */
+@font-face {
+  font-family: "Geist";
+  src: url("../fonts/geist-sans-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("../fonts/geist-sans-italic-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../fonts/geist-mono-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #faf9f7;
   --bg-elev: #ffffff;
@@ -28,10 +86,24 @@
   /* The background grain, laid over --bg by body::before. Mid-grey noise is
      louder against a near-black ground than against a near-white one, so the
      dark theme takes less of it to read as the same texture.
-     Raised a third when the tile went from white noise to paper fibre: the
-     new field's deviation is 46 levels against the old 74, so the same opacity
-     laid down two thirds of the modulation. */
-  --grain: .044;
+
+     This number is not comparable between rungs of the ladder in
+     tools/make_noise.py, and there is no point deriving it from the last one:
+     the fBm rungs deviate 45 to 47 levels and the per-pixel one deviates 74, so
+     the same opacity lays down half again as much modulation. .05 was picked by
+     eye off lab/grain.html against the rung that ships, which is `hiss`. Change
+     the rung and this has to be looked at again, not scaled. */
+  --grain: .05;
+
+  /* The mottle, laid over --bg by body::after. Not a second grain: the tile is
+     a warm #c4a86e whose alpha carries the field, peaking at 136 of 255, so
+     this token scales an already-partial coverage -- .12 puts the deepest patch
+     at 6% of that warm over the ground and leaves 40% of the tile at no tint
+     at all.
+     The dark theme takes half. The same overlay darkens a near-white ground
+     and lightens a near-black one, and a warm lift off #0e0e0c reads far
+     louder than the same warm sunk into #faf9f7. */
+  --mottle: .12;
 
   --gt: #69727f;
   --tn: #da2724;
@@ -99,9 +171,15 @@
      wallpaper, not as an exhibit set on the page. Roughly 100px at 1440. */
   --gut-media: clamp(1.5rem, 7vw, 6rem);
 
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* TWO FAMILIES, ONE SOURCE. There is no --serif: Geist has no serif, and the
+     Newsreader that used to hold h1-h3 and .stat .v was a third webfont from a
+     second host bought for three declarations. The page's own voice was always
+     the mono -- seventy sites against ten for the body -- so the display face
+     joining the body face costs less than the inconsistency did.
+     The stacks after Geist are what the page rendered in before it had a
+     webfont at all: a failed or blocked load lands exactly on the old page. */
+  --sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* SIX SIZES, AND THE FLOOR IS 12px. Nothing on this page is set smaller than
      that: 12px is where a mono label at --fg-3 stops being readable at arm's
@@ -140,7 +218,11 @@
   --accent-soft: #14251500;
   --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 10px 30px -14px rgba(0, 0, 0, .8);
   --idle: #4a4a46;
-  --grain: .029;
+  /* Both at the light theme's ratio -- .66 and .50, the two this file
+     already carried -- applied to numbers that were judged in the light
+     theme. Derived, not looked at. */
+  --grain: .033;
+  --mottle: .06;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -149,30 +231,114 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 4rem;
   -webkit-text-size-adjust: 100%;
+  /* THE ENDS STOP. The native bounce past either end moves the visual
+     viewport, and .rail and .topbar are pinned to the viewport, so the chrome
+     slid off the window it belongs to. Off here, and nothing replaces it: the
+     page simply stops at its ends.
+
+     A hand-written band did replace it for two commits, and it was wrong in a
+     way worth recording so nobody rebuilds it. Wheel events do not stop when
+     the finger does -- trackpad momentum keeps firing them for a second or
+     more -- and code at this level cannot tell a flick's tail from a drag. So
+     it read the tail as continued input, held the page out at full stretch for
+     as long as the momentum lasted, and only then sprang home. Seconds of it.
+     The velocity a real rubber band needs lives in the compositor, and this is
+     not where it can be reached.
+
+     A native bounce that leaves the chrome alone is still possible, but only
+     by moving the scroll into an inner container: the browser then rubber-bands
+     that element's content while the document, and everything positioned
+     against it, never moves. That is a scroll-architecture change -- the rail's
+     math, scroll-padding-top, anchors and the scrollbar rule all move with it
+     -- not a script. See HAX-181.
+
+     This also stops scroll chaining, which the page never wanted: nothing here
+     is meant to hand a scroll to the document when an inner container runs
+     out. */
+  overscroll-behavior-y: none;
 }
+
 
 body {
   background: var(--bg);
   color: var(--fg);
   font: 400 var(--fs-body)/1.65 var(--sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* CLIP, NOT HIDDEN, AND THAT ONE WORD IS WHAT MAKES position: sticky WORK.
+     `hidden` makes this a scroll container -- computed overflow-y goes from
+     visible to auto -- so a sticky element's nearest scrollport becomes body,
+     and body never scrolls: the document scroller is html. Every sticky rule
+     on this site was therefore dead. Measured before the fix, in samples.css's
+     note: at scrollY 1970 a sticky block sat at viewport top -1507, exactly
+     where a static one would.
+
+     `clip` clips the same overflow without becoming a scroll container, so
+     overflow-y stays visible and the scrollport is the viewport again. What
+     comes back: .topbar (top: 0) and #rail-body on leaderboard.html (top:
+     3.5rem). The bar was always built to stick -- html's scroll-padding-top of
+     4rem exists to clear it, and .topbar::after re-adds the grain its
+     backdrop-filter eats, which is only a thing a stuck bar does.
+
+     Still clipped, which is what the horizontal overflow needed in the first
+     place: `clip` differs from `hidden` only in refusing to be scrolled, and
+     nothing scrolls this box. */
+  overflow-x: clip;
+  /* The containing block for ::after, the scrolling mottle below: it is
+     absolute and inset to 0, so it needs body's own box to be what that
+     resolves against, and body's box is the document's height. */
+  position: relative;
 }
 
-/* One tiling square of greyscale noise over the whole ground, at a strength the
-   theme picks. Fixed rather than scrolling: the tile is random, so the two are
-   indistinguishable at rest, and a fixed layer neither repaints on scroll nor
-   grows a 16k-pixel backdrop. Negative z-index puts it above the body fill and
-   below every element that paints its own background -- the white plates the
-   light-native figures sit on stay white. */
-body::before {
+/* THE GROUND IS TWO LAYERS, SPLIT BY FREQUENCY, and the split is the topbar's.
+   A blur destroys high frequencies and passes low ones, which decides where
+   each one has to live:
+
+   ::before is the grain -- 1 to 8px, the band the bar's backdrop-filter eats.
+   .topbar::after re-adds it, and the two line up only because both are
+   attached to the viewport, so this layer stays fixed. At that scale a
+   scrolling field and a fixed one are the same picture anyway: the tile is
+   random.
+
+   ::after is the mottle -- 80 to 640px, uneven translucency rather than
+   texture, and the half of parchment the grain cannot carry. A blur passes it,
+   so the bar does not re-add it, so nothing pins it to the viewport: it is
+   absolute, and it scrolls with the document, which is what makes the ground
+   belong to the page instead of sitting in front of it.
+
+   Negative z-index puts both above the body fill and below every element that
+   paints its own background -- the white plates the light-native figures sit
+   on stay white. ::after paints over ::before, which is the right order: the
+   mottle is 40% fully transparent by pixel count, so the grain reads through
+   the patches as well as beside them. */
+body::before,
+body::after {
   content: "";
-  position: fixed;
-  inset: 0;
   z-index: -1;
   pointer-events: none;
+}
+body::before {
+  position: fixed;
+  inset: 0;
   background: url(../media/noise.png) repeat;
   opacity: var(--grain);
+}
+/* Drawn at 1280x1792 from a 256px tile -- MOTTLE_DRAW in tools/make_noise.py,
+   which has to agree with this. The field carries nothing above its coarsest
+   octaves, so a 5x-across, 7x-down upscale of smooth data is invisible, and
+   storing it at drawn size would be 35x the pixels for detail it does not
+   contain.
+
+   The two axes differ on purpose. Equal ones put the repeat on a square
+   lattice, and a square lattice is the one arrangement the eye finds: 1280 by
+   1792 gives the horizontal and vertical periods no common rhythm, and over
+   this document's height the vertical one comes round nine times instead of
+   thirteen. */
+body::after {
+  position: absolute;
+  inset: 0;
+  background: url(../media/mottle.png) repeat;
+  background-size: 1280px 1792px;
+  opacity: var(--mottle);
 }
 
 /* A theme swap is not an animation. Every transition on this page is written
@@ -203,8 +369,14 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, select:focus-vi
   border-radius: 3px;
 }
 
+/* Fixed, not absolute. It was absolute and resolved against the initial
+   containing block, which is the viewport -- correct by accident. body is
+   positioned now, for the mottle, so absolute would resolve against the
+   document instead and put the link at the document's top left: right where
+   the first tab stop finds it, and above the window for anyone who reaches it
+   after scrolling. Fixed is what it always meant. */
 .skip {
-  position: absolute; left: -9999px; top: 0; z-index: 100;
+  position: fixed; left: -9999px; top: 0; z-index: 100;
   padding: .6rem 1rem; background: var(--fg); color: var(--bg);
 }
 .skip:focus { left: .5rem; top: .5rem; }
@@ -279,10 +451,16 @@ section { padding: clamp(3.5rem, 9vw, 7rem) 0; }
 }
 .eyebrow b { color: var(--accent); font-weight: 500; }
 
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; }
-h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.06; }
-h2 { font-size: clamp(1.7rem, 3.4vw, 2.35rem); line-height: 1.15; margin-bottom: .9rem; }
-h3 { font-size: var(--fs-h3); line-height: 1.3; margin-bottom: .5rem; }
+/* 500, not the serif's 400: a geometric sans at 400 goes limp at 3.6rem, and
+   600 is where strong lives, so a heading there would weigh the same as a bold
+   run inside the paragraph under it. Tracking tightens as the size grows --
+   Geist's sidebearings are set for text, and at display sizes the default
+   spacing reads loose. The three values are one optical curve, not three
+   choices; -.01em flat is what the serif wanted. */
+h1, h2, h3 { font-family: var(--sans); font-weight: 500; }
+h1 { font-size: clamp(2.3rem, 6vw, 3.6rem); line-height: 1.06; letter-spacing: -.032em; }
+h2 { font-size: clamp(1.7rem, 3.4vw, 2.35rem); line-height: 1.15; margin-bottom: .9rem; letter-spacing: -.024em; }
+h3 { font-size: var(--fs-h3); line-height: 1.3; margin-bottom: .5rem; letter-spacing: -.014em; }
 
 p { margin-bottom: 1rem; color: var(--fg-2); }
 p.lede { font-size: var(--fs-lede); color: var(--fg-2); }
@@ -396,6 +574,29 @@ sup { font-size: max(.75em, var(--fs-label)); vertical-align: super; line-height
    carry a backdrop for exactly that. */
 @media (min-width: 1280px) {
   .rail { display: block; }
+
+  /* And where the rail is, the native bar is a second scroll readout saying the
+     same thing worse -- 45 ticks and a section name against a grey thumb. It
+     goes, but only inside this query: below 1280 the rail is display:none and
+     the bar is the only thing on the page that says where you are.
+
+     The root scroller only. The tables, the <pre> blocks, the belts in 03 and
+     the verdict table all keep their bars: those scroll on the horizontal axis,
+     which the rail says nothing about, and there the bar is the only hint the
+     content continues.
+
+     What this costs: dragging the thumb. Wheel, keys, touch and the rail's own
+     names all still work, and macOS hides the bar at rest anyway, but a mouse
+     user on Windows or Linux loses the one affordance they could grab. Taken
+     deliberately -- the rail is 45 ticks with a gaussian on the read position
+     and section names on reach, which is more readout than a thumb ever is.
+
+     A hidden bar also makes 100vw and the client width agree from here up. The
+     topbar's padding-inline still measures against 100%, which is right at
+     every width -- see the comment there. Nothing else on the page reads vw
+     against a scrollbar. */
+  html { scrollbar-width: none; }
+  html::-webkit-scrollbar { display: none; }
 }
 
 /* --------------------------------------------------------------- topbar */
@@ -481,7 +682,7 @@ sup { font-size: max(.75em, var(--fs-label)); vertical-align: super; line-height
    already clips what drifts past its edge, so this is not what stops a tile
    spilling; it is what makes the band a single opaque rectangle regardless of
    what a future layer inside it does, and it is cheap insurance against the
-   one thing body's `overflow-x: hidden` would otherwise have to catch.
+   one thing body's `overflow-x: clip` would otherwise have to catch.
 
    100svh, not 100vh: on mobile Safari the large viewport unit leaves the hero
    taller than the visible area, so the copy starts under the URL bar. The vh
@@ -990,7 +1191,8 @@ select {
 .stat-row:has(> .stat:nth-child(8):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 @media (max-width: 520px) { .stat-row { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
 .stat { min-width: 0; }
-.stat .v { font: 400 1.9rem/1 var(--serif); color: var(--fg); font-variant-numeric: tabular-nums; }
+/* tabular-nums survives the move off the serif: Geist carries tnum. */
+.stat .v { font: 500 1.9rem/1 var(--sans); color: var(--fg); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .stat .k { font: 400 var(--fs-label)/1.4 var(--mono); color: var(--fg-3); margin-top: .35rem; }
 
 /* ----------------------------------------------------------- community */

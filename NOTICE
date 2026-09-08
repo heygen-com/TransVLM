@@ -8,11 +8,13 @@ License, Version 2.0. See the LICENSE file.
 THIRD-PARTY COMPONENTS
 ======================
 
-Portions of this repository are copied from other projects. Every one of them is Apache
-License 2.0, which is why this repository carries a single license rather than a per-directory
-mix. Their copyright and attribution notices are retained below as Apache-2.0 section 4
-requires, and where a copy was modified the change is stated. Each modified file also carries
-that statement in its own header, as section 4(b) requires.
+Portions of this repository are copied from other projects. All but two are Apache License
+2.0; the exceptions are item 6, which is MIT, and item 7, which is under the SIL Open Font
+License 1.1. Both ship unmodified with their licence text beside them. HeyGen's own code is
+Apache-2.0 throughout, which is why this repository carries a single license file rather
+than a per-directory mix. Copyright and attribution notices are retained
+below as Apache-2.0 section 4 requires, and where a copy was modified the change is stated.
+Each modified file also carries that statement in its own header, as section 4(b) requires.
 
 Not everything under a directory named _vendored/ is third-party: see the first-party section
 after this one.
@@ -61,6 +63,47 @@ after this one.
    Modified. Overrides the multimodal processor for 6-channel input, and corrects the M-RoPE
    position calculation for this input shape. The M-RoPE fix is our contribution and is
    offered back to SGLang upstream.
+
+
+6. Embla Carousel
+   Upstream: https://github.com/davidjerleke/embla-carousel
+   Location: docs/assets/vendor/embla-carousel-8.6.0.umd.js
+   License:  MIT -- Copyright (c) David Jerleke. The full licence text ships beside the
+             file as docs/assets/vendor/embla-carousel-LICENSE.
+   Unmodified. The UMD build of version 8.6.0, vendored rather than loaded from a CDN so the
+   project page acquires no third-party runtime dependency and keeps working offline. It
+   carries the pointer physics and the looping of the comparison deck on that page: looping
+   moves slides around the ends mid-drag, and momentum needs a real velocity integrator.
+
+   MIT permits use and redistribution provided the copyright and permission notice travel
+   with the file, which the licence copy beside it does. It is the only third-party code
+   the published site loads; the only other third-party material under docs/assets/ is the
+   typeface in item 7, and everything else there is HeyGen's own.
+
+
+7. Geist and Geist Mono (Vercel / Basement Studio)
+   Upstream: https://github.com/vercel/geist-font -- release v1.7.2, https://vercel.com/font
+   Location: docs/assets/fonts/geist-sans-var.woff2
+             docs/assets/fonts/geist-sans-italic-var.woff2
+             docs/assets/fonts/geist-mono-var.woff2
+   License:  SIL Open Font License, Version 1.1 -- Copyright 2024 The Geist Project Authors.
+             The full licence text ships beside the files as docs/assets/fonts/OFL.txt. No
+             Reserved Font Name is declared, and none of the three is renamed: the family
+             names in the files are still Geist and Geist Mono.
+   Unmodified. The three variable webfonts from the upstream release, byte for byte -- not
+   subset and not re-compressed, so the licence copy covers exactly what ships. Only the
+   filenames differ, from Geist[wght].woff2 and its two siblings, because the brackets need
+   percent-encoding in a CSS url(). The project page sets all of its type in these two
+   families.
+
+   Vendored rather than linked from fonts.googleapis.com for the same reason as item 6 --
+   the page acquires no third-party runtime dependency and keeps working offline -- and for
+   one more: that host does not resolve in mainland China, which is a readership this page
+   addresses directly.
+
+   OFL 1.1 permits redistribution, with or without modification, provided the copyright
+   notice and licence travel with the font files, which the copy beside them does. It also
+   forbids selling the fonts on their own; nothing here does that.
 
 
 FIRST-PARTY CODE COPIED FROM ANOTHER HEYGEN REPOSITORY

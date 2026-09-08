@@ -35,19 +35,20 @@ body { padding: 2.6rem 0 7rem; }
 .sm-chip b { color: var(--fg-2); font-weight: 500; }
 
 /* ----------------------------------------------------------------- index */
-/* Static, and it was meant to be sticky.
+/* Static, and it stays static on purpose now rather than by defect.
  *
- * position: sticky cannot work anywhere inside this site's body. site.css sets
- * `body { overflow-x: hidden }`, which makes body a scroll container -- computed
- * overflow-y goes from visible to auto -- so a sticky element's nearest
- * scrollport is body, and body never scrolls: the document scroller is html.
- * Measured, not assumed: at scrollY 1970 the sticky version sat at viewport
- * top -1507, exactly where a static block would be. Fixing it belongs in
- * site.css and affects every page, so it is reported rather than done here, and
- * this stays a plain block that wraps.
+ * What used to be here: position: sticky could not work anywhere inside this
+ * site's body, because `body { overflow-x: hidden }` made body a scroll
+ * container -- computed overflow-y went from visible to auto -- so a sticky
+ * element's scrollport was body, and body never scrolls: the document scroller
+ * is html. Measured at the time: at scrollY 1970 the sticky version sat at
+ * viewport top -1507, exactly where a static block would be. Fixed in site.css
+ * on 2026-09-07 by making that `overflow-x: clip`, which clips without becoming
+ * a scroll container. Sticky works site-wide again.
  *
- * Wrapping is then the right behaviour anyway: html's scroll-padding-top is 4rem
- * and a sticky index taller than that would hide the heading it just jumped to. */
+ * This one still does not take it, for the reason the old note ended on: html's
+ * scroll-padding-top is 4rem and a sticky index taller than that would hide the
+ * heading it just jumped to. Wrapping is the right behaviour here. */
 .sm-index {
   margin-top: 2.2rem;
   padding: .5rem 0;
