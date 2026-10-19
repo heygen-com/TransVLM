@@ -159,7 +159,8 @@ ffmpeg -i long.mp4 -c copy -f segment -segment_time 300 part_%03d.mp4
 ### Many pre-cut clips
 
 If your clips are already cut, `infer_clips.py` skips the windowing and infers each one directly.
-This is the route the published numbers were produced with, and its output feeds `../evaluation`.
+This implements the paper's pre-cut window flow, but it is not an exact reproduction of the original
+run: the settings below (optical-flow source and pixel budget) differ. Its output feeds `../evaluation`.
 
 ```bash
 python infer_clips.py \
@@ -173,8 +174,8 @@ python infer_clips.py \
 `--backend hf` (default), `vllm`, or `sglang`.
 
 **Use `hf` for anything you intend to report.** It is the default, it needs no extra install, and
-it is the only backend whose scores match or exceed the paper's. Measured over the same 872 clips
-with everything else identical:
+it is the backend whose scores match or exceed the paper's on AutoShot-test (200 videos, 872
+windows). Measured over the same 872 clips with everything else identical:
 
 | backend | tt0.00 cl_F1 | ttmean cl_F1 |
 |---|---|---|

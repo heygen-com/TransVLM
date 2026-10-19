@@ -41,12 +41,10 @@ Qualitative results and the comparison against baselines are on the [project pag
 - [x] Model weights
 - [x] Inference code
 - [x] Evaluation code
-- [ ] Data engine code
-- [ ] STD benchmark data
+- [x] Data engine code ([`data_engine/README.md`](data_engine/README.md))
 - [x] Re-annotated dataset labels ([`benchmark/README.md`](benchmark/README.md))
-- [ ] Leaderboard
 
-🚧 The remaining items are being prepared for release.
+All components are released.
 
 ## 🚀 Getting Started
 
@@ -90,6 +88,7 @@ Every option, the output format and the three backends are documented here:
 | `inference/` | Inference pipeline and its two entry points, plus the vendored NeuFlow v2 optical-flow code |
 | `evaluation/` | Evaluation code for the STD benchmark |
 | `benchmark/` | Frozen timestamp labels, version `eccv2026-paper` (v1), for the six public datasets of the STD benchmark; labels only, no videos |
+| `data_engine/` | Standalone FFmpeg-based transition-video synthesis for building training data; generates clips from clean shots and ships no media |
 | `docs/` | Project page sources (figures, videos, interactive comparison widgets) |
 | `blog/` | Blog write-ups of the method, with the figures they ship with |
 | `assets/` | Logos used by this README |
@@ -114,7 +113,7 @@ The STD benchmark is intended as a **living resource**. We are actively explorin
 
 ## Community Contributions
 
-We **welcome community submissions** of smaller-model baselines on the STD benchmark. If you have a more compact or more efficient method for STD, please open an issue or pull request with: (i) the model description and total parameter count; (ii) per-method evaluation results following the format on the [project page](https://heygen-com.github.io/TransVLM/); and (iii) reproduction instructions. Approved submissions will be added to the leaderboard on the project page.
+We **welcome community submissions** of smaller-model baselines on the STD benchmark. If you have a more compact or more efficient method for STD, please open an issue or pull request with: (i) the model description and total parameter count; (ii) per-method evaluation results following the format on the [project page](https://heygen-com.github.io/TransVLM/); and (iii) reproduction instructions. We welcome discussion of reproducible experiments and results through issues and pull requests.
 
 ## Acknowledgements
 

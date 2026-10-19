@@ -2,10 +2,10 @@
 title: "TransVLM: Detecting Any Shot Transition with Vision-Language Models"
 thumbnail: /blog/assets/transvlm/thumbnail.png
 authors:
-- user: YOUR_HF_USERNAME     # 换成你自己的 HF 用户名
+- user: YOUR_HF_USERNAME     # replace with your own HF username
   guest: true
   org: HeyGen
-- user: COAUTHOR_HF_USERNAME # 可删，或按需增列共同作者
+- user: COAUTHOR_HF_USERNAME # delete if not needed, or add co-authors as required
   guest: true
 ---
 
@@ -15,7 +15,7 @@ authors:
 
 📄 [Read the technical report](https://dynamic.heygen.ai/www/Paper%20Links/TransVLM_HeyGen.pdf) · 🌐 [Project page](https://heygen-com.github.io/TransVLM/) · 📝 [Original post](https://www.heygen.com/research/transvlm)
 
-We reformulate shot boundary detection as Shot Transition Detection (STD)—finding complete transition segments, not just cut points. TransVLM fuses optical flow with color frames in a vision-language model to detect all transition types: cuts, dissolves, and special effects. It achieves 78.3% segment F1 on public data and 89.5% on synthetic data, outperforming all existing methods.
+We reformulate shot boundary detection as Shot Transition Detection (STD)—finding complete transition segments, not just cut points. TransVLM fuses optical flow with color frames in a vision-language model to detect all transition types: cuts, dissolves, and special effects. It achieves 78.3% segment-level F1 on public evaluation data and 89.5% on synthetic evaluation data; on the same metric, AutoShot reaches 75.1% and 29.9%.
 
 ---
 
@@ -65,7 +65,7 @@ TransVLM is trained on short clips, but real videos can be hours long. Directly 
 
 ### Scalable Data Engine
 
-Annotated transition data is scarce, and public datasets have noisy, point-level labels that don't capture transition segments. We built a data engine that automatically synthesizes diverse training videos: given clean shots, it randomly applies one of 59 distinct transition effects (powered by FFmpeg), producing videos with precise segment-level labels. Combined with re-annotated public data and quality-aware sampling, this gives TransVLM a training set of 233,000 videos containing 690,000 transitions across four quality tiers.
+Annotated transition data is scarce, and public datasets have noisy, point-level labels that don't capture transition segments. We built a data engine that automatically synthesizes diverse training videos: given clean shots, it randomly applies one of 59 distinct transition effects (powered by FFmpeg), producing videos with precise segment-level labels. Combined with re-annotated public data and quality-aware sampling, this gives TransVLM a training set of 233,000 videos containing 690,000 transitions across three quality tiers.
 
 ## STD Benchmark
 
@@ -73,28 +73,28 @@ To standardize evaluation of the Shot Transition Detection task, we constructed 
 
 ## Results
 
-TransVLM establishes a new state of the art across the board, outperforming traditional SBD methods, specialized deep learning models, and general-purpose VLMs on both public and synthetic evaluation data.
+On the STD benchmark, TransVLM reaches higher segment-level F1 than AutoShot on both public evaluation data (78.3% vs. 75.1%) and synthetic evaluation data (89.5% vs. 29.9%).
 
-![Table comparing performance metrics for various scene detection methods, showing TransVLM (Ours) achieves the highest F1 scores on public and synthetic datasets, and the lowest ABE (s).](images/table1_results.png)
+![Table comparing segment-level and frame-level F1, Absolute Boundary Error, and Real-Time Factor for scene detection methods on public and synthetic evaluation data.](images/table1_results.png)
 
 *Table 1: Quantitative comparison on the STD benchmark. Segment-level and frame-level F1 on both public and synthetic evaluation data. ABE = Absolute Boundary Error (lower is better). RTF = Real-Time Factor (below 1.0 = faster than real-time).*
 
 On public data, TransVLM achieves 78.3% segment-level F1—surpassing specialized deep learning models like AutoShot (75.1%). On synthetic data containing complex gradual transitions, the gap widens dramatically: TransVLM reaches 89.5% segment F1 while AutoShot drops to 29.9%. The Absolute Boundary Error of just 0.11 seconds demonstrates precise temporal localization.
 
-Traditional SBD methods are faster (AutoShot at RTF 0.03) but fundamentally unable to handle gradual transitions. General-purpose VLMs like Gemini show reasonable performance on complex transitions but struggle with cuts. TransVLM is the only method that robustly handles all transition types at practical inference speeds (RTF 0.50).
+On speed, AutoShot runs at RTF 0.03, while TransVLM runs at RTF 0.50 for the VLM forward pass, or 0.72 end-to-end when optical-flow estimation is included.
 
 ## What Matters Most
 
 Ablation studies validate each design decision:
 
 - **Optical flow is critical.** Removing it drops public segment F1 from 78.3% to 69.4% and synthetic frame F1 from 93.8% to 89.2%—confirming that VLMs' inherent insensitivity to low-level temporal cues is a real bottleneck.
-- **Feature fusion beats separate encoders.** Processing color and flow as separate streams achieves similar accuracy (94.1% frame F1 on synthetic) but doubles the visual token count, inflating RTF from 0.50 to 1.29—no longer real-time.
+- **Feature fusion beats separate encoders.** Processing color and flow as separate streams achieves similar accuracy (94.1% frame F1 on synthetic) but doubles the visual token count, inflating the VLM-only RTF from 0.50 to 1.29 (end-to-end, including optical-flow estimation, from 0.72 to 1.51)—no longer real-time.
 - **Mixed data is essential.** Training on synthetic data alone collapses to 41.6% segment F1 on public data. Training on public data alone collapses on complex transitions. The quality-aware mixed strategy bridges the domain gap.
 - **Zero-padding initialization prevents catastrophic forgetting.** Naive weight duplication for the optical flow channels drops segment F1 from 78.3% to 65.5% by destabilizing the pre-trained spatial representations.
 
 ## Why This Matters
 
-Shot transition detection is infrastructure. Every downstream video understanding task—retrieval, captioning, action recognition—depends on accurate shot segmentation. For HeyGen's video generation pipeline, the quality of training data directly determines the quality of generated videos. Inaccurate transition labels in training data cause generative models to produce unintended cuts and artifacts. TransVLM provides the precise, segment-level annotations that clean this signal at the source.
+Shot transition detection is infrastructure. Every downstream video understanding task—retrieval, captioning, action recognition—depends on accurate shot segmentation. In video-generation training pipelines, the quality of training data directly determines the quality of generated videos. Inaccurate transition labels in training data cause generative models to produce unintended cuts and artifacts. TransVLM provides precise, segment-level annotations that can clean this signal at the source in a general data-cleaning step.
 
 ---
 

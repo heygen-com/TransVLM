@@ -446,26 +446,22 @@
     <h3 style="margin-top:2.6rem">How it was annotated</h3>
     <div class="measure">
       <p>
-        Expert annotators worked through a frame-precise tool, one primary
-        pass plus at least one reviewer, disagreements arbitrated to a single
-        consensus label. We will release the benchmark annotations after our
-        internal inspection process.
+        Eleven expert annotators worked through a frame-precise tool, one
+        primary pass plus at least one reviewer, disagreements arbitrated to a
+        single consensus label. The interval-level labels for the six
+        real-video evaluation subsets are released in the
+        <a href="https://github.com/heygen-com/TransVLM/tree/main/benchmark" target="_blank" rel="noopener">benchmark</a>
+        directory.
       </p>
-    </div>
-    <div class="stat-row">
-      <div class="stat"><div class="v">11</div><div class="k">expert<br>annotators</div></div>
-      <div class="stat"><div class="v">2,840</div><div class="k">transitions<br>added</div></div>
-      <div class="stat"><div class="v">2,467</div><div class="k">false positives<br>removed</div></div>
-      <div class="stat"><div class="v">2,641</div><div class="k">boundaries<br>shifted</div></div>
-      <div class="stat"><div class="v">37.3</div><div class="k">corrections<br>per video</div></div>
     </div>
 
     <h3 style="margin-top:2.6rem">Missed in the originals</h3>
     <div class="measure">
       <p>
-        Across four of the six datasets, the public annotations omit 14
-        transitions entirely. Most are gradual transitions, the very kind of
-        event that point-based labels cannot represent.
+        Representative examples of missed cuts and gradual transitions,
+        drawn from four of the six datasets. These are illustrative cases,
+        not a total count of missed transitions. Gradual events are the kind
+        of transition that point-based labels cannot represent.
       </p>
     </div>
 
@@ -552,7 +548,7 @@
     <p class="measure">
       The STD benchmark is meant as a living resource. We are working on smaller and
       more efficient VLM backbones for the task; checkpoints, recipes and results
-      will be released here as they land.
+      are released here as they become available.
     </p>
 
     <h3 style="margin-top:2.2rem">References</h3>

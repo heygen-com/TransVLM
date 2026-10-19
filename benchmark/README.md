@@ -37,9 +37,9 @@ The three count columns are reported separately:
 - **raw intervals**: the number of intervals stored in `ground_truth.json`.
 - **normalized intervals**: the number of ground-truth intervals the public scorer matches against at
   tolerance 0.00 s with eps = 0.02 s, after expansion and NMS merging.
-- **paper Table 1**: the count printed in the paper.
+- **paper benchmark table (Table 2)**: the count printed in the paper.
 
-| subset | split | videos | evaluation windows | videos with no transition | raw intervals | normalized intervals | paper Table 1 |
+| subset | split | videos | evaluation windows | videos with no transition | raw intervals | normalized intervals | paper benchmark table (Table 2) |
 |---|---|---:|---:|---:|---:|---:|---:|
 | `rai` | test | 10 | 660 | 0 | 1,036 | 1,018 | 1,036 |
 | `bbc` | test | 11 | 3,604 | 0 | 4,943 | 4,851 | 4,943 |
@@ -49,7 +49,7 @@ The three count columns are reported separately:
 | `sportsshot_val` | validation | 240 | 3,863 | 0 | 5,045 | 5,044 | 5,045 |
 | **total** | | **1,243** | **30,735** | **159** | **35,100** | **34,919** | **34,779** |
 
-The total in the paper Table 1 column above sums only these six public subsets; the paper's overall
+The total in the paper benchmark table (Table 2) column above sums only these six public subsets; the paper's overall
 total also includes a synthetic subset not included here.
 
 The dataset statistics reported in the paper contain discrepancies; the labels and counts released in this repository are authoritative.

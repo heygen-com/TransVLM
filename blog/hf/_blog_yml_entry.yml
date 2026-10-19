@@ -1,5 +1,5 @@
-# 追加到 huggingface/blog 仓库根目录的 _blog.yml 末尾
-# （title / thumbnail / authors 只写在文章 front matter 里，这里不重复）
+# Append to the end of `_blog.yml` at the root of the huggingface/blog repository
+# (title / thumbnail / authors are written only in the article front matter, not repeated here)
 - local: transvlm
   date: March 1, 2026
   tags:
