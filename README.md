@@ -43,7 +43,7 @@ Qualitative results and the comparison against baselines are on the [project pag
 - [x] Evaluation code
 - [ ] Data engine code
 - [ ] STD benchmark data
-- [ ] Re-annotated dataset labels
+- [x] Re-annotated dataset labels ([`benchmark/README.md`](benchmark/README.md))
 - [ ] Leaderboard
 
 🚧 The remaining items are being prepared for release.
@@ -89,6 +89,7 @@ Every option, the output format and the three backends are documented here:
 |---|---|
 | `inference/` | Inference pipeline and its two entry points, plus the vendored NeuFlow v2 optical-flow code |
 | `evaluation/` | Evaluation code for the STD benchmark |
+| `benchmark/` | Frozen timestamp labels, version `eccv2026-paper` (v1), for the six public datasets of the STD benchmark; labels only, no videos |
 | `docs/` | Project page sources (figures, videos, interactive comparison widgets) |
 | `blog/` | Blog write-ups of the method, with the figures they ship with |
 | `assets/` | Logos used by this README |
@@ -123,10 +124,17 @@ both teams for releasing their work.
 
 ## License
 
-Released under the [Apache License 2.0](LICENSE). Vendored third-party components and their
-upstream attribution are listed in [`NOTICE`](NOTICE). All of them are Apache-2.0, which is why
-this repository carries a single license. The released weights derive from Qwen3-VL-4B-Instruct
-and are distributed under Apache-2.0 as well.
+TransVLM's original code is released under the [Apache License 2.0](LICENSE). Third-party
+components retain their respective licenses; attribution and details are in [`NOTICE`](NOTICE).
+The released weights derive from Qwen3-VL-4B-Instruct and are distributed under Apache-2.0 as
+well.
+
+The annotation contributions released in [`benchmark/`](benchmark/README.md) -- the corrected
+re-annotations produced for this benchmark -- are licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). This does not extend to the original
+annotations or media of the six public datasets, which remain under their own original terms; see
+[`benchmark/README.md`](benchmark/README.md) for per-dataset provenance and licensing. The
+benchmark release contains labels only, not videos.
 
 TransVLM was developed as academic research and is published at ECCV 2026. It is not used in any
 HeyGen product; HeyGen's production system for this task is a different model. The training data behind these

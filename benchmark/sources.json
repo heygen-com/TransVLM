@@ -1,0 +1,150 @@
+{
+ "schema_version": 1,
+ "labels_license": "CC BY 4.0 (our contributions to the labels and metadata in this package only; does not cover videos or upstream annotations, does not replace or relax upstream terms, and does not lift the CC BY-NC 4.0 or gated-access restrictions of SportsShot)",
+ "terms_accessed": "2026-10-16",
+ "terms_note": "Upstream terms are quoted verbatim from each official page as accessed on the date above. They are not re-licensed by this package. A source with no license statement is listed as such and is not thereby permissive.",
+ "subsets": {
+  "rai": {
+   "source": "RAI Scene Detection (Rai Scuola programmes)",
+   "split": "test",
+   "entry_points": [
+    "https://aimagelab-legacy.ing.unimore.it/imagelab/researchActivity.asp?idActivity=19"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://aimagelab-legacy.ing.unimore.it/imagelab/researchActivity.asp?idActivity=19",
+     "quote": null,
+     "note": "no license statement found on this page"
+    }
+   ],
+   "video_id_rule": "upstream file-name stem (e.g. '1' for 1.mp4)",
+   "counts": {
+    "videos": 10,
+    "segments": 1036,
+    "empty_videos": 0,
+    "windows": 660
+   }
+  },
+  "bbc": {
+   "source": "BBC Planet Earth (shot/scene annotations from the same UniMoRe page; videos from a Zenodo mirror)",
+   "split": "test",
+   "entry_points": [
+    "https://aimagelab-legacy.ing.unimore.it/imagelab/researchActivity.asp?idActivity=19",
+    "https://zenodo.org/records/14865504"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://aimagelab-legacy.ing.unimore.it/imagelab/researchActivity.asp?idActivity=19",
+     "quote": null,
+     "note": "annotations: no license statement found on this page"
+    },
+    {
+     "url": "https://zenodo.org/records/14865504",
+     "quote": "Creative Commons Attribution 4.0 International",
+     "note": "license field of the Zenodo video record"
+    }
+   ],
+   "video_id_rule": "file-name stem bbc_01 ... bbc_11 (the 11 episodes)",
+   "counts": {
+    "videos": 11,
+    "segments": 4943,
+    "empty_videos": 0,
+    "windows": 3604
+   }
+  },
+  "autoshot_test": {
+   "source": "AutoShot (test split only)",
+   "split": "test",
+   "entry_points": [
+    "https://github.com/wentaozhu/AutoShot",
+    "https://drive.google.com/drive/folders/1xZN6tvefXXmpZlIZ6GoSUUxpDQQOSNfJ"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://github.com/wentaozhu/AutoShot",
+     "quote": "MIT License / Copyright (c) 2023 Wentao Zhu",
+     "note": "repository LICENSE file; the README does not state whether it applies to the dataset"
+    }
+   ],
+   "video_id_rule": "sha256(upstream file name incl. .mp4)[:16]",
+   "counts": {
+    "videos": 200,
+    "segments": 2100,
+    "empty_videos": 1,
+    "windows": 872
+   }
+  },
+  "clipshots_test": {
+   "source": "ClipShots (test split only)",
+   "split": "test",
+   "entry_points": [
+    "https://github.com/Tangshitao/ClipShots",
+    "https://drive.google.com/drive/folders/1AAhTbNroSFsygHBXa88emCU7f50MxI8t"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://github.com/Tangshitao/ClipShots",
+     "quote": "MIT License / Copyright (c) 2019 tangshitao",
+     "note": "repository LICENSE file; the README does not state whether it applies to the dataset"
+    }
+   ],
+   "video_id_rule": "sha256(upstream file name incl. .mp4)[:16]",
+   "counts": {
+    "videos": 500,
+    "segments": 7209,
+    "empty_videos": 158,
+    "windows": 13335
+   }
+  },
+  "movieshots2_test": {
+   "source": "MovieShots2 (test task clips)",
+   "split": "test",
+   "entry_points": [
+    "https://zweipa.github.io/TMM_SCTSNet/"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://zweipa.github.io/TMM_SCTSNet/",
+     "quote": null,
+     "note": "no license statement found on this page"
+    }
+   ],
+   "video_id_rule": "sha256(upstream task-clip file name incl. .mp4)[:16]",
+   "counts": {
+    "videos": 282,
+    "segments": 14767,
+    "empty_videos": 0,
+    "windows": 8401
+   }
+  },
+  "sportsshot_val": {
+   "source": "SportsShot (validation split only; basketball, football, volleyball, 80 each)",
+   "split": "validation",
+   "entry_points": [
+    "https://huggingface.co/datasets/MCG-NJU/SportsShot"
+   ],
+   "upstream_terms_verbatim": [
+    {
+     "url": "https://huggingface.co/datasets/MCG-NJU/SportsShot",
+     "quote": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.",
+     "note": "dataset card; license tag cc-by-nc-4.0"
+    },
+    {
+     "url": "https://huggingface.co/datasets/MCG-NJU/SportsShot",
+     "quote": "You need to agree to share your contact information to access this dataset",
+     "note": "gated access; full conditions are shown only after login and were not reviewed"
+    }
+   ],
+   "video_id_rule": "sha256(upstream file name incl. .mp4)[:16]",
+   "counts": {
+    "videos": 240,
+    "segments": 5045,
+    "empty_videos": 0,
+    "windows": 3863
+   }
+  }
+ },
+ "annotation": "Manual re-annotation covers rai, bbc and autoshot_test only, starting from the original labels; clipshots_test, movieshots2_test and sportsshot_val keep the original labels, converted to interval format, with no manual relabeling.",
+ "citation": "TransVLM: A Vision-Language Framework and Benchmark for Detecting Any Shot Transitions (ECCV 2026, arXiv:2604.27975)",
+ "contact": "Please open an issue on GitHub."
+}
