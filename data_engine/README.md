@@ -10,12 +10,17 @@ The engine supports **59 transition names**: one hard `cut` plus 58 FFmpeg
 does not contact any network service. You provide the clean shots; the engine
 samples windows, joins them, and records labels.
 
+This release provides the synthesis core and an explicit-list CLI, not the
+complete historical training-data pipeline or corpus.
+
 ## Requirements
 
 - Python 3.10+ with `numpy` (already a project dependency).
 - `ffmpeg` and `ffprobe` on `PATH`. Transition rendering uses the `xfade`,
   `acrossfade`, `concat`, `settb`, `setpts`, `fps`, `format` and `setsar`
   filters.
+- Each input must contain both a video stream and an audio stream. Audio-less
+  inputs are rejected by the historical filter graph.
 
 `tqdm` is not required by this engine.
 
