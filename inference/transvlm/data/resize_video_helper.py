@@ -27,6 +27,7 @@ distribution — otherwise the ``max_pixels`` penalty term shifts.
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import shutil
@@ -268,7 +269,12 @@ def probe_video_fps_exact(path: str | Path) -> Fraction:
 
 
 def probe_video_hw(path: str | Path) -> tuple[int, int]:
-    """Return ``(height, width)`` of the first video stream via ffprobe."""
+    """Return ``(height, width)`` of the first video stream via ffprobe.
+
+    Reads JSON rather than ``csv=p=0:s=x`` on purpose: the CSV line can carry trailing
+    side-data fields (an extra ``x``), which made ``split('x')`` raise ``ValueError``.
+    JSON only contributes ``streams[0].width`` / ``height``.
+    """
     if shutil.which('ffprobe') is None:
         raise FileNotFoundError('ffprobe is not on PATH (install ffmpeg and ensure it is on PATH).')
     cmd = [
@@ -280,9 +286,14 @@ def probe_video_hw(path: str | Path) -> tuple[int, int]:
         '-show_entries',
         'stream=width,height',
         '-of',
-        'csv=p=0:s=x',
+        'json',
         str(path),
     ]
     result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-    w_str, h_str = result.stdout.strip().split('x')
-    return int(h_str), int(w_str)
+    try:
+        stream = json.loads(result.stdout)['streams'][0]
+        width = int(stream['width'])
+        height = int(stream['height'])
+    except (ValueError, TypeError, KeyError, IndexError) as exc:
+        raise ValueError(f'{path}: cannot parse video dimensions from ffprobe output {result.stdout!r}') from exc
+    return height, width

@@ -9,9 +9,14 @@ pixel-budget sweep (paper Ours vs 4-point curve).
 
 from __future__ import annotations
 
+import json
+import shutil
+import subprocess
+
 import pytest
 
-from transvlm.data.resize_video_helper import smart_resize_for_qwen3vl
+from transvlm.data import resize_video_helper
+from transvlm.data.resize_video_helper import probe_video_hw, smart_resize_for_qwen3vl
 
 
 class TestMaxPixelsOverride:
@@ -86,6 +91,83 @@ class TestOverrideBelowFloorClamps:
         at_floor = smart_resize_for_qwen3vl(1080, 1920, max_pixels_override=floor)
         below = smart_resize_for_qwen3vl(1080, 1920, max_pixels_override=floor // 4)
         assert below == at_floor, f'clamped result {below} should equal the floor result {at_floor}'
+
+
+class TestProbeVideoHw:
+    """``probe_video_hw`` must survive the side-data tail ffprobe appends.
+
+    The legacy invocation was ``-of csv=p=0:s=x`` followed by ``split('x')``; when the
+    CSV line carries a trailing side-data field the split raises ``ValueError``.
+
+    ffprobe is faked in the unit tests below, so they pin the contract and the regression,
+    not the byte layout of any particular ffprobe build.
+    """
+
+    def test_normal_output(self, monkeypatch) -> None:
+        def fake_run(cmd, **kwargs):
+            assert 'json' in cmd, f'expected JSON output, got {cmd}'
+            return subprocess.CompletedProcess(cmd, 0, stdout=json.dumps({'streams': [{'width': 1920, 'height': 1080}]}))
+
+        monkeypatch.setattr(resize_video_helper.shutil, 'which', lambda _: '/usr/bin/ffprobe')
+        monkeypatch.setattr(resize_video_helper.subprocess, 'run', fake_run)
+        assert probe_video_hw('in.mp4') == (1080, 1920)
+
+    def test_icc_side_data_is_ignored(self, monkeypatch) -> None:
+        """JSON keeps side data in its own list, so width/height are read cleanly."""
+
+        def fake_run(cmd, **kwargs):
+            payload = {
+                'streams': [
+                    {
+                        'width': 64,
+                        'height': 48,
+                        'side_data_list': [{'side_data_type': 'ICC Profile', 'size': 132}],
+                    }
+                ]
+            }
+            return subprocess.CompletedProcess(cmd, 0, stdout=json.dumps(payload))
+
+        monkeypatch.setattr(resize_video_helper.shutil, 'which', lambda _: '/usr/bin/ffprobe')
+        monkeypatch.setattr(resize_video_helper.subprocess, 'run', fake_run)
+        assert probe_video_hw('icc.mp4') == (48, 64)
+
+    def test_missing_ffprobe(self, monkeypatch) -> None:
+        monkeypatch.setattr(resize_video_helper.shutil, 'which', lambda _: None)
+        with pytest.raises(FileNotFoundError, match='ffprobe is not on PATH'):
+            probe_video_hw('in.mp4')
+
+    def test_ffprobe_failure_propagates(self, monkeypatch) -> None:
+        def fake_run(cmd, **kwargs):
+            raise subprocess.CalledProcessError(1, cmd, stderr='moov atom not found')
+
+        monkeypatch.setattr(resize_video_helper.shutil, 'which', lambda _: '/usr/bin/ffprobe')
+        monkeypatch.setattr(resize_video_helper.subprocess, 'run', fake_run)
+        with pytest.raises(subprocess.CalledProcessError):
+            probe_video_hw('broken.mp4')
+
+    def test_unparseable_json_raises_value_error(self, monkeypatch) -> None:
+        def fake_run(cmd, **kwargs):
+            return subprocess.CompletedProcess(cmd, 0, stdout='{"streams": []}')
+
+        monkeypatch.setattr(resize_video_helper.shutil, 'which', lambda _: '/usr/bin/ffprobe')
+        monkeypatch.setattr(resize_video_helper.subprocess, 'run', fake_run)
+        with pytest.raises(ValueError, match='cannot parse video dimensions'):
+            probe_video_hw('in.mp4')
+
+
+@pytest.mark.skipif(
+    shutil.which('ffprobe') is None or shutil.which('ffmpeg') is None,
+    reason='ffprobe/ffmpeg not installed',
+)
+def test_probe_video_hw_on_real_media(tmp_path) -> None:
+    """Real ffprobe, real container -- the path the fakes above stand in for."""
+    src = tmp_path / 'in.mp4'
+    subprocess.run(
+        ['ffmpeg', '-nostdin', '-v', 'error', '-y', '-f', 'lavfi',
+         '-i', 'testsrc=size=128x64:rate=25:duration=1', str(src)],
+        check=True,
+    )  # fmt: skip
+    assert probe_video_hw(src) == (64, 128)
 
 
 class TestSiblingCacheTagging:
