@@ -28,7 +28,7 @@
 
 - *TransVLM* was accepted to **ECCV 2026** as a Poster.
 - Model weights, inference code and evaluation code are released. See [Release Progress](#-release-progress).
-- A write-up of the method for a general audience is in [`blog/hf/transvlm.md`](blog/hf/transvlm.md).
+- A write-up of the method for a general audience is on the [Hugging Face blog](https://huggingface.co/blog/HeyGenAI/transvlm).
 
 ## Abstract
 
@@ -90,7 +90,6 @@ Every option, the output format and the three backends are documented here:
 | `benchmark/` | Frozen timestamp labels, version `eccv2026-paper` (v1), for the six public datasets of the STD benchmark; labels only, no videos |
 | `data_engine/` | Standalone FFmpeg-based transition-video synthesis for building training data; generates clips from clean shots and ships no media |
 | `docs/` | Project page sources (figures, videos, interactive comparison widgets) |
-| `blog/` | Blog write-ups of the method, with the figures they ship with |
 | `assets/` | Logos used by this README |
 | `NOTICE` | Vendored third-party components and their upstream attribution |
 
